@@ -1,115 +1,120 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import api from "../../services/api";
-import { onSignOut } from "../../services/auth";
+import { useAxios } from "../../hooks/useAxios";
 
-import "./style.css";
-import "react-perfect-scrollbar/dist/css/styles.css";
-import Cart from "../Cart";
+import { onSignOut, isSignedIn } from "../../services/auth";
+import MenuDrop from "../MenuDrop";
 import cn from "classnames";
 
+import {
+  FaPhone,
+  FaSignOutAlt,
+  FaUserAlt,
+  FaBars,
+  FaTimes,
+  FaShoppingCart,
+  FaArrowRight,
+} from "react-icons/fa";
+
+import InputSearch from "../InputSearch";
+import { Container, Header, MenuDropDown, SubHeader } from "./styles";
+
 function Component() {
-  const [disabled, setDisabled] = useState("");
-  const [cart, setCart] = useState(false);
-  const [categories, setCategories] = useState([]);
+  const [showMenu, setShowMenu] = useState(false);
 
-  useEffect(() => {
-    const loadCategories = async () => {
-      setCategories(
-        await api
-          .get(`/categories?filial=${sessionStorage.getItem("filial")}`, {
-            headers: { "x-access-token": sessionStorage.getItem("token") },
-          })
-          .then((response) => {
-            return response.data;
-          })
-      );
-    };
-    loadCategories();
-  }, []);
+  const { data } = useAxios(
+    `/categories?filial=${sessionStorage.getItem("filial")}`,
+    {
+      headers: { "x-access-token": sessionStorage.getItem("token") },
+    }
+  );
 
-  const handleCartClick = () => {
-    setDisabled("disabled");
-    setCart(true);
-    document.body.classList.add("no-scroll");
-  };
-
-  const disableCart = () => {
-    setDisabled("");
-    setCart(false);
-    document.body.classList.remove("no-scroll");
-  };
+  const categories = data?.map((category) => {
+    return category.GRP_DESCRICAO;
+  });
 
   return (
     <>
-      <header>
-        <div className={`header`}>
-          <div className="headerContent clickable">
-            <div className="logo">
-              <Link to="/home">
-                <img
-                  className="logo"
-                  src={`${process.env.PUBLIC_URL}/images/vip_logo.png`}
-                  alt="Logo"
-                  width="120"
-                  height="120"
-                />
-              </Link>
-            </div>
-            <div className={`produtos clickable`}>
-              <Link to="/products?page=1">
-                <p>PRODUTOS</p>
-              </Link>
-              <div className="categories">
-                {categories.map((category, index) => {
-                  const subgrpQueryString = category.SUBGRUPO.map((subgrp) => {
-                    return `${subgrp.SUB_GRP_DESCRICAO.replace(
-                      /\s/g,
-                      "_"
-                    ).replace(/\//g, "-")}`;
-                  }).toString();
-                  return (
-                    <p key={index}>
-                      <strong>
-                        <Link to={`/products?category=${subgrpQueryString}`}>
-                          {category.GRP_DESCRICAO}
-                        </Link>
-                      </strong>
-                    </p>
-                  );
-                })}
-              </div>
-            </div>
-            <div className="contato clickable">CONTATO</div>
-            <div
-              className="carrinho clickable"
-              onClick={() => handleCartClick()}
-            >
-              CARRINHO
-            </div>
-            <div
-              className="logout clickable"
-              onClick={() => {
-                onSignOut();
-                window.location.href = "/";
-              }}
-            >
-              LOGOUT
-            </div>
+      <Container>
+        <SubHeader>
+          <div>
+            <FaPhone />
+            (81) 2103-7300
           </div>
-        </div>
-      </header>
-      {/*<div
-        className={`${categoryHidden}`}
-        onMouseOver={() => handleProdutoHoverUp()}
-        onMouseOut={() => handleProdutoHoverDown()}
-      >*/}
+          <div className="exit">
+            {isSignedIn() ? (
+              <div
+                onClick={() => {
+                  onSignOut();
+                  window.location.href = "/";
+                }}
+              >
+                <FaSignOutAlt></FaSignOutAlt>
+                Logout
+              </div>
+            ) : (
+              <div>
+                <FaUserAlt></FaUserAlt>
+                Entrar
+              </div>
+            )}
+          </div>
+        </SubHeader>
 
-      {/*</div>*/}
-      <div className={disabled}></div>
-      <div className={cn({ cart: true, active: cart })}>
-        <Cart disableCart={() => disableCart()} />
-      </div>
+        <Header>
+          <div className="logo">
+            <Link to="/home">
+              <img
+                className="logo"
+                src={`${process.env.PUBLIC_URL}/images/vip_logo.png`}
+                alt="Logo"
+                width="120"
+                height="120"
+              />
+            </Link>
+          </div>
+
+          <MenuDrop />
+
+          <InputSearch />
+
+          <Link to="/cart">
+            <FaShoppingCart size={32} className="shopping-cart" />
+          </Link>
+          <FaBars
+            size={32}
+            className="open-menu"
+            onClick={() => setShowMenu(!showMenu)}
+          />
+          <MenuDropDown className={cn({ active: showMenu })}>
+            <nav>
+              <div>
+                <h1>TODOS OS DEPARTAMENTOS</h1>
+              </div>
+              {categories?.map((category) => {
+                return (
+                  <div className="link-menu">
+                    <Link to={`/products?category=${category}`}>
+                      <span>
+                        <FaArrowRight />
+                        {category}
+                      </span>
+                    </Link>
+                  </div>
+                );
+              })}
+            </nav>
+
+            <div>
+              <FaTimes
+                className="close-button-menu"
+                size={24}
+                onClick={() => setShowMenu(false)}
+              />
+            </div>
+          </MenuDropDown>
+        </Header>
+      </Container>
     </>
   );
 }

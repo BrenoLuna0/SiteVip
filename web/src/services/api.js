@@ -2,7 +2,7 @@ import axios from "axios";
 import { getToken } from "./auth";
 
 const api = axios.create({
-  baseURL: "http://192.168.15.12:3333/api",
+  baseURL: "https://vip-site.herokuapp.com/api",
 });
 
 api.interceptors.request.use(async (config) => {

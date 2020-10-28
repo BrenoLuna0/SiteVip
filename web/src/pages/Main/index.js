@@ -1,121 +1,143 @@
-import React, { useState, useEffect } from "react";
-import "./style.css";
+import React from "react";
+import { Link } from "react-router-dom";
+
+import { Carousel } from "react-bootstrap";
+import { useAxios } from "../../hooks/useAxios";
 
 import Header from "../../components/Header";
-import Card from "../../components/Card";
+import CardGrid from "../../components/CardGrid";
 import Footer from "../../components/Footer";
-import SearchBox from "../../components/SearchBox";
-import api from "../../services/api";
-import CategoryBanner from "../../components/CategoryBanner";
-import WarningButton from "../../components/WarningButton";
-import SuccessButton from "../../components/SuccessButton";
+import CardLoading from "../../components/CardLoading";
+
+import {
+  Container,
+  GridContainerProducts,
+  EffectText,
+  ContainerBody,
+  ImgPropaganda,
+} from "./styles.js";
 
 function Main() {
-  const [products, setProducts] = useState([]);
-  const [buttonState, setButtonState] = useState([]);
-  const [cardButtonName, setCardButtonName] = useState([]);
+  const { data } = useAxios(
+    `/rand?filial=${sessionStorage.getItem("filial")}`,
+    {
+      headers: { "x-access-token": sessionStorage.getItem("token") },
+    },
+    { revalidateOnFocus: false }
+  );
 
-  const handleButtonclick = async (index, prodCodigo) => {
-    await api
-      .post("/cart", {
-        filial: sessionStorage.getItem("filial"),
-        codigo: sessionStorage.getItem("codigo"),
-        prodCodigo,
-        prodQtd: 1,
-      })
-      .then((response) => {
-        if (response.data) {
-          setButtonState((state) =>
-            state.map((item, i) => (index === i ? "success" : item))
-          );
-          setCardButtonName((state) =>
-            state.map((item, i) => (index === i ? <SuccessButton /> : item))
-          );
-        } else {
-          setButtonState((state) =>
-            state.map((item, i) => (index === i ? "warning" : item))
-          );
-          setCardButtonName((state) =>
-            state.map((item, i) => (index === i ? <WarningButton /> : item))
-          );
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setButtonState((state) =>
-          state.map((item, i) => (index === i ? "warning" : item))
-        );
-        setCardButtonName((state) =>
-          state.map((item, i) => (index === i ? <WarningButton /> : item))
-        );
-      });
-  };
+  if (!data) {
+    return (
+      <>
+        <Header />
+        <ContainerBody>
+          <Container>
+            <Carousel>
+              <Carousel.Item>
+                <img src="laptop.jpg" alt="Multilaser Xpad" />
+              </Carousel.Item>
+              <Carousel.Item>
+                <img src="tv.jpg" alt="Multilaser Escova Eletrica" />
+              </Carousel.Item>
+              <Carousel.Item>
+                <img src="mobile-phone.jpg" alt="Monitor Acer 23.6pol" />
+              </Carousel.Item>
+              <Carousel.Item>
+                <img src="acessories.jpg" alt="OEX Cooler fan" />
+              </Carousel.Item>
+            </Carousel>
+          </Container>
 
-  useEffect(() => {
-    const loadProducts = async () => {
-      await api
-        .get(`/rand?filial=${sessionStorage.getItem("filial")}`, {
-          headers: { "x-access-token": sessionStorage.getItem("token") },
-        })
-        .then((response) => {
-          setProducts(response.data);
-          setButtonState(response.data.map(() => ""));
-          setCardButtonName(response.data.map(() => "Adicionar no Carrinho"));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-    loadProducts();
-  }, []);
+          <ImgPropaganda>
+            <div>
+              <Link to="/home">
+                <img src="https://via.placeholder.com/500x220" alt="" />
+              </Link>
+            </div>
+
+            <div className="two-images">
+              <Link to="/home">
+                <img src="https://via.placeholder.com/250x140" alt="" />
+              </Link>
+              <Link to="/home">
+                <img src="https://via.placeholder.com/250x140" alt="" />
+              </Link>
+            </div>
+          </ImgPropaganda>
+          <EffectText className="effect-text">
+            <h1>As melhores ofertas</h1>
+          </EffectText>
+          <GridContainerProducts>
+            <CardLoading />
+            <CardLoading />
+            <CardLoading />
+            <CardLoading />
+            <CardLoading />
+            <CardLoading />
+            <CardLoading />
+            <CardLoading />
+          </GridContainerProducts>
+        </ContainerBody>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
       <Header />
-      <div className="banner">
-        <img
-          src={process.env.PUBLIC_URL + "/images/banner.jpg"}
-          alt="banner"
-          width="100%"
-          height="100%"
-        />
-        <div className="darker"></div>
-        <div className="main-form">
-          <SearchBox placeholder="Do que você está precisando hoje?" />
-        </div>
-        <div className="title">
-          <p>Tudo que você precisa em um só lugar</p>
-        </div>
-        <div className="textBody">
-          Oferecemos uma quantidade extremamente diversificada de produtos que
-          irão atender às suas necessidades e as da sua empresa. Venha conferir
-          todo o nosso catálogo e teremos o maior prazer em lhe atender
-        </div>
-      </div>
-      <div className="big-category">
-        <CategoryBanner image="mobile-phone.jpg" name="Celulares" />
-        <CategoryBanner image="laptop.jpg" name="Computadores" />
-        <CategoryBanner image="tv.jpg" name="Televisões" />
-        <CategoryBanner image="acessories.jpg" name="Acessórios" />
-      </div>
-      <div className="body-product-container">
-        {products.map((product, index) => {
-          return (
-            <Card
-              name={product.PROD_DESCRICAO}
-              price={product.PROD_PRECO_VENDA}
-              id={product.PROD_CODIGO}
-              key={product.PROD_CODIGO}
-              image={product.PROD_IMAG_NOME}
-              buttonClass={buttonState[index]}
-              buttonClick={() => {
-                handleButtonclick(index, product.PROD_CODIGO);
-              }}
-              buttonName={cardButtonName[index]}
-            />
-          );
-        })}
-      </div>
+      <ContainerBody>
+        <Container>
+          <Carousel>
+            <Carousel.Item>
+              <img src="laptop.jpg" alt="Multilaser Xpad" />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img src="tv.jpg" alt="Multilaser Escova Eletrica" />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img src="mobile-phone.jpg" alt="Monitor Acer 23.6pol" />
+            </Carousel.Item>
+            <Carousel.Item>
+              <img src="acessories.jpg" alt="OEX Cooler fan" />
+            </Carousel.Item>
+          </Carousel>
+        </Container>
+
+        <ImgPropaganda>
+          <div>
+            <Link to="/home">
+              <img src="https://via.placeholder.com/500x220" alt="" />
+            </Link>
+          </div>
+
+          <div className="two-images">
+            <Link to="/home">
+              <img src="https://via.placeholder.com/250x140" alt="" />
+            </Link>
+            <Link to="/home">
+              <img src="https://via.placeholder.com/250x140" alt="" />
+            </Link>
+          </div>
+        </ImgPropaganda>
+        <EffectText className="effect-text">
+          <h1>As melhores ofertas</h1>
+        </EffectText>
+        <GridContainerProducts>
+          {data?.map((product) => {
+            return (
+              <CardGrid
+                name={product.PROD_DESCRICAO}
+                price={product.PROD_PRECO_VENDA}
+                id={product.PROD_CODIGO}
+                key={product.PROD_CODIGO}
+                image={product.PROD_IMAG_NOME}
+                quantity={product.PROD_QTD_ATUAL}
+              />
+            );
+          })}
+        </GridContainerProducts>
+      </ContainerBody>
       <Footer />
     </>
   );

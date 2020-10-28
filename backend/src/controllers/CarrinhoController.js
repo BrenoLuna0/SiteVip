@@ -10,8 +10,10 @@ module.exports = {
         console.log(err);
         return false;
       });
+
     if (cartProducts === false) return res.status(500).json({ error: true });
-    if (cartProducts.length === 0) return res.status(404).json({ error: true });
+    if (cartProducts.length === 0)
+      return res.status(404).json({ error: "Nenhum produto encontrado." });
 
     const promiseProducts = cartProducts.map(async (product) => {
       const info = await connection("SIAC_TS.VW_PRODUTO")
@@ -36,6 +38,7 @@ module.exports = {
       const info = await connection("SIAC_TS.VW_PRODUTO_IMAGEM")
         .where("PROD_CODIGO", product.PROD_CODIGO)
         .select("PROD_IMAG_NOME");
+
       return {
         PROD_CODIGO: product.PROD_CODIGO,
         PROD_QTD: product.PROD_QTD,
@@ -47,6 +50,7 @@ module.exports = {
     });
 
     let imageProducts;
+
     await Promise.all(promisedImageProducts).then(function (results) {
       imageProducts = results;
     });

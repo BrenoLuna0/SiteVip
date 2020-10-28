@@ -1,5 +1,14 @@
 body {
-  background-color: #f2f2f2;
+  background-color: #171d4b;
   padding: 0;
   margin: 0;
+}
+
+.Toastify__toast-body {
+  width: 100%;
+  text-align: center;
+}
+
+.Toastify__close-button {
+  align-self: center;
 }

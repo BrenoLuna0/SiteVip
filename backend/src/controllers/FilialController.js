@@ -7,6 +7,7 @@ module.exports = {
       .select("FIL_CODIGO", "FIL_NOME")
       .orderBy("FIL_CODIGO", "asc")
       .catch((err) => {
+        console.log(err);
         return false;
       });
     if (filiais === false) return res.status(500).json({ error: true });

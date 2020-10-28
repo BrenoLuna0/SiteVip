@@ -13,10 +13,13 @@ routes.get("/", (req, res) => {
     message: "Meu alegre coração palpita por um universo de esperança",
   });
 });
+
 routes.post("/login", UsuarioController.login);
 
 routes.get("/products", auth, ProdutoController.index);
+
 routes.get("/products/:prodCodigo", auth, ProdutoController.show);
+
 routes.get("/rand", auth, ProdutoController.random);
 
 routes.get("/categories", auth, CategoriaController.index);
@@ -24,13 +27,19 @@ routes.get("/categories", auth, CategoriaController.index);
 routes.get("/filial", FilialController.index);
 
 routes.get("/cart", auth, CarrinhoController.index);
+
+routes.get("/search", ProdutoController.search);
+
 routes.get("/cart/:filial/:codigo/:prodCodigo", auth, CarrinhoController.show);
+
 routes.post("/cart", auth, CarrinhoController.insert);
+
 routes.put(
   "/cart/:filial/:codigo/:prodCodigo",
   auth,
   CarrinhoController.update
 );
+
 routes.delete(
   "/cart/:filial/:codigo/:prodCodigo",
   auth,

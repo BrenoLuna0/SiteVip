@@ -1,143 +1,122 @@
-import React, { useState, useEffect } from "react";
-import "./style.css";
+import React, { useState } from "react";
+import Pagination from "@material-ui/lab/Pagination";
+import { useForm } from "react-hook-form";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import Card from "../../components/Card";
-import SearchBox from "../../components/SearchBox";
-import DefaultButton from "../../components/DefaultButton";
-import WarningButton from "../../components/WarningButton";
-import SuccessButton from "../../components/SuccessButton";
-import useSWR from "swr";
-import { fetcher } from "../../services/api";
+import ProductResult from "../../components/ProductResult";
+import Loading from "../../components/Loading";
 
-import api from "../../services/api";
+import { Container, FormSelect, ContainerProducts } from "./styles";
 
-function Products({ history, location }) {
-  console.log(location);
+import { useAxios } from "../../hooks/useAxios";
+
+function Products({ location }) {
   const query = new URLSearchParams(location.search);
-  const description = query.get("description") || null;
+
   const categories = query.get("category") || "";
-  const [page, setPage] = useState(query.get("page") || "1");
-  const [buttonState, setButtonState] = useState([]);
-  const [cardButtonName, setCardButtonName] = useState([]);
-  const { data: products } = useSWR(
-    `products?page=${page}&description=${
-      description || ""
-    }&category=${categories}&filial=${sessionStorage.getItem("filial")}`,
-    { fetcher }
-  );
-  console.log(products);
+  const [page, setPage] = useState(1);
+  const [orderBy, setOrderBy] = useState("SIAC_TS.VW_PRODUTO.PROD_DESCRICAO");
+  const [orderType, setOrderType] = useState("asc");
+  const { register, handleSubmit } = useForm();
 
-  const handleButtonclick = async (index, prodCodigo) => {
-    await api
-      .post("/cart", {
-        filial: sessionStorage.getItem("filial"),
-        codigo: sessionStorage.getItem("codigo"),
-        prodCodigo,
-        prodQtd: 1,
-      })
-      .then((response) => {
-        if (response.data) {
-          setButtonState((state) =>
-            state.map((item, i) => (index === i ? "success" : item))
-          );
-          setCardButtonName((state) =>
-            state.map((item, i) => (index === i ? <SuccessButton /> : item))
-          );
-        } else {
-          setButtonState((state) =>
-            state.map((item, i) => (index === i ? "warning" : item))
-          );
-          setCardButtonName((state) =>
-            state.map((item, i) => (index === i ? <WarningButton /> : item))
-          );
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setButtonState((state) =>
-          state.map((item, i) => (index === i ? "warning" : item))
-        );
-        setCardButtonName((state) =>
-          state.map((item, i) => (index === i ? <WarningButton /> : item))
-        );
-      });
-  };
-
-  useEffect(() => {
-    setButtonState(products?.map(() => ""));
-    setCardButtonName(products?.map(() => "Adicionar no Carrinho"));
-
-    window.scrollTo(0, 0);
-  }, [products]);
-
-  const nextPage = () => {
-    let search;
-    description || categories
-      ? (search = `?page=${(
-          parseInt(page) + 1
-        ).toString()}&description=${description}&category=${categories}`)
-      : (search = `?page=${(parseInt(page) + 1).toString()}`);
-    console.log(search);
-    setPage((parseInt(page) + 1).toString());
-    history.push({
-      pathname: "/products",
-      search,
-    });
-  };
-
-  const previousPage = () => {
-    if (parseInt(page) === 1) {
-      //do nothing
+  const onSubmit = (data) => {
+    let test = data.orderProducts.split(" ");
+    if (test[0] === "valor") {
+      setOrderBy("SIAC_TS.VW_PRODUTO.PROD_PRECO_VENDA");
+      test[1] === "desc" ? setOrderType("desc") : setOrderType("asc");
     } else {
-      let search;
-      description
-        ? (search = `?page=${(
-            parseInt(page) - 1
-          ).toString()}&description=${description}&category=${categories}&filial=${sessionStorage.getItem(
-            "filial"
-          )}`)
-        : (search = `?page=${(parseInt(page) - 1).toString()}`);
-      history.push({
-        pathname: "/products",
-        search,
-      });
-      setPage((parseInt(page) - 1).toString());
+      setOrderBy("SIAC_TS.VW_PRODUTO.PROD_DESCRICAO");
+      setOrderType("asc");
     }
   };
+
+  const { data } = useAxios(
+    `/products/category?filial=${sessionStorage.getItem(
+      "filial"
+    )}&category=${categories}&page=${page}&order=${orderBy}&type=${orderType}`
+  );
+
+  function handleChange(event, value) {
+    setPage(value);
+  }
+
+  if (!data) {
+    return (
+      <>
+        <Header />
+        <Container>
+          <div className="title-results">
+            <div className="categorias">
+              <h1>{categories}</h1>
+              <p>({data?.count} items)</p>
+            </div>
+            <FormSelect onChange={handleSubmit(onSubmit)}>
+              <select name="order-products">
+                <option value="30">Ordem alfabética </option>
+                <option value="10">Maior valor</option>
+                <option value="15">Menor valor</option>
+              </select>
+              <select name="quantity-products">
+                <option value="10" selected>
+                  10 itens por página
+                </option>
+                <option value="15">15 itens por página</option>
+                <option value="30">30 itens por página</option>
+              </select>
+            </FormSelect>
+          </div>
+          <Loading />
+        </Container>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
       <Header />
-      <SearchBox />
-      <div className="bodyContent">
-        {products?.map((product, index) => {
-          return (
-            <Card
-              key={product.PROD_CODIGO}
-              id={product.PROD_CODIGO}
+      <Container>
+        <div className="title-results">
+          <div className="categorias">
+            <h1>{categories}</h1>
+            <p>({data?.count} items)</p>
+          </div>
+          <FormSelect onChange={handleSubmit(onSubmit)}>
+            <select name="orderProducts" ref={register}>
+              <option value="alfabeto asc" selected>
+                Ordem alfabética
+              </option>
+              <option value="valor desc">Maior valor</option>
+              <option value="valor asc">Menor valor</option>
+            </select>
+            <select name="quantityProducts" ref={register}>
+              <option value="10" selected>
+                10 itens por página
+              </option>
+              <option value="15">15 itens por página</option>
+              <option value="30">30 itens por página</option>
+            </select>
+          </FormSelect>
+        </div>
+        <ContainerProducts>
+          {data?.result.map((product) => (
+            <ProductResult
               name={product.PROD_DESCRICAO}
-              price={product.PROD_PRECO_VENDA}
-              image={product.PROD_IMAG_NOME}
-              buttonClass={buttonState?.[index]}
-              buttonClick={() => {
-                handleButtonclick(index, product.PROD_CODIGO);
-              }}
-              buttonName={cardButtonName?.[index]}
+              picture={product.PROD_IMAG_NOME}
+              quantity={product.PROD_QTD_ATUAL}
+              id={product.PROD_CODIGO}
+              price={product.PROD_PRECO_VENDA.toLocaleString("pt-br", {
+                style: "currency",
+                currency: "BRL",
+              })}
             />
-          );
-        })}
-      </div>
-      <div className="buttonBox">
-        <div className="prev">
-          <DefaultButton text="Anterior" onClick={() => previousPage()} />
+          ))}
+        </ContainerProducts>
+        <div className="root">
+          <Pagination count={data?.pages} page={page} onChange={handleChange} />
         </div>
-        <div className="prox">
-          <DefaultButton text="Próximo" onClick={() => nextPage()} />
-        </div>
-      </div>
-      <div className="space"></div>
+      </Container>
       <Footer />
     </>
   );

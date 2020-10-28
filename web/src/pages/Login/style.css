@@ -36,6 +36,9 @@
 }
 
 .input-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   position: absolute;
   width: 40%;
   height: 90%;
@@ -62,6 +65,11 @@
 }
 .block {
   margin-top: 1%;
+}
+
+.block input {
+  outline: none;
+  border: 1px solid black;
 }
 
 .login-button-container {
