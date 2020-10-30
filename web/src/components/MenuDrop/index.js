@@ -7,12 +7,7 @@ import { useAxios } from "../../hooks/useAxios";
 import { Dropdown } from "react-bootstrap";
 
 function MenuDrop() {
-  const { data } = useAxios(
-    `/categories?filial=${sessionStorage.getItem("filial")}`,
-    {
-      headers: { "x-access-token": sessionStorage.getItem("token") },
-    }
-  );
+  const { data } = useAxios(`/categories?filial=2`);
 
   const categories = data?.map((category) => {
     return category.GRP_DESCRICAO;

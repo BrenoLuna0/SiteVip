@@ -17,6 +17,8 @@ export const Container = styled.div`
       margin-left: 16px;
       text-align: center;
       line-height: 18px;
+      color: white;
+      font-weight: 500;
     }
     span {
       background-color: #008300;

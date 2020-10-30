@@ -18,13 +18,7 @@ import {
 } from "./styles.js";
 
 function Main() {
-  const { data } = useAxios(
-    `/rand?filial=${sessionStorage.getItem("filial")}`,
-    {
-      headers: { "x-access-token": sessionStorage.getItem("token") },
-    },
-    { revalidateOnFocus: false }
-  );
+  const { data } = useAxios(`/rand?filial=2`);
 
   if (!data) {
     return (

@@ -31,12 +31,7 @@ function SearchResult() {
   };
 
   const { data } = useAxios(
-    `/search?filial=${sessionStorage.getItem(
-      "filial"
-    )}&name=${name.toUpperCase()}&page=${page}&order=${orderBy}&type=${orderType}`,
-    {
-      headers: { "x-access-token": sessionStorage.getItem("token") },
-    }
+    `/search?filial=${2}&name=${name.toUpperCase()}&page=${page}&order=${orderBy}&type=${orderType}`
   );
 
   if (!data) {
@@ -57,13 +52,6 @@ function SearchResult() {
                 </option>
                 <option value="valor desc">Maior valor</option>
                 <option value="valor asc">Menor valor</option>
-              </select>
-              <select name="quantityProducts" ref={register}>
-                <option value="10" selected>
-                  10 itens por página
-                </option>
-                <option value="15">15 itens por página</option>
-                <option value="30">30 itens por página</option>
               </select>
             </FormSelect>
           </div>
@@ -104,13 +92,6 @@ function SearchResult() {
               </option>
               <option value="valor desc">Maior valor</option>
               <option value="valor asc">Menor valor</option>
-            </select>
-            <select name="quantityProducts" ref={register}>
-              <option value="10" selected>
-                10 itens por página
-              </option>
-              <option value="15">15 itens por página</option>
-              <option value="30">30 itens por página</option>
             </select>
           </FormSelect>
         </div>

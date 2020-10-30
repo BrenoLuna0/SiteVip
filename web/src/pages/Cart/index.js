@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { mutate as mutateGlobal } from "swr";
 import "react-toastify/dist/ReactToastify.css";
 
 import { FaWindowClose, FaShoppingCart, FaPlus, FaMinus } from "react-icons/fa";
@@ -23,10 +24,14 @@ import CartEmpty from "../../components/CartEmpty";
 import Loading from "../../components/Loading";
 
 function Cart() {
-  const { data, mutate, error } = useAxios(
+  const { data, error, mutate } = useAxios(
     `/cart?filial=${sessionStorage.getItem(
       "filial"
-    )}&codigo=${sessionStorage.getItem("codigo")}`
+    )}&codigo=${sessionStorage.getItem("codigo")}`,
+    { headers: { "x-access-token": sessionStorage.getItem("token") } },
+    {
+      revalidateOnFocus: false,
+    }
   );
   const toastId = React.useRef(null);
 
@@ -68,7 +73,7 @@ function Cart() {
       )
       .catch((err) => console.log(err));
 
-    const cartEdited = data?.map((product) => {
+    const cartEdited = data?.products?.map((product) => {
       if (product.PROD_CODIGO === prodCodigo) {
         return { ...product, PROD_QTD: value };
       }
@@ -76,6 +81,7 @@ function Cart() {
     });
     console.log(cartEdited);
     mutate(cartEdited, false);
+    mutateGlobal();
   }
 
   let sub = 0;
@@ -93,7 +99,7 @@ function Cart() {
       </>
     );
   }
-  if (error) {
+  if (error?.status === 404) {
     return <CartEmpty />;
   }
 
@@ -114,7 +120,7 @@ function Cart() {
             </thead>
 
             <tbody>
-              {data.products.map((data, index) => {
+              {data?.products?.map((data, index) => {
                 return (
                   <ContainerProducts>
                     <td width="50%" className="product-container">
@@ -160,7 +166,7 @@ function Cart() {
                             <FaMinus size={14} className="not-available" />
                           )}
                         </span>
-                        <input type="number" />
+                        <p>{data.PROD_QTD}</p>
 
                         <span>
                           {data.PROD_QTD + 1 > data.PROD_QTD_ATUAL && (
@@ -205,7 +211,7 @@ function Cart() {
             <div className="item-title">
               <h1>Item</h1>
             </div>
-            {data.products.map((data) => {
+            {data?.products?.map((data) => {
               return (
                 <div className="product">
                   <div className="img">
@@ -249,7 +255,7 @@ function Cart() {
                           <FaMinus size={14} className="not-available" />
                         )}
                       </span>
-                      <input type="number" />
+                      <p>{data.PROD_QTD}</p>
                       <span>
                         {data.PROD_QTD + 1 > data.PROD_QTD_ATUAL && (
                           <FaPlus size={14} className="not-available" />

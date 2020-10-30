@@ -11,10 +11,11 @@ import { Container, FormSelect, ContainerProducts } from "./styles";
 
 import { useAxios } from "../../hooks/useAxios";
 
-function Products({ location }) {
-  const query = new URLSearchParams(location.search);
+function Products(props) {
+  const query = props.location.search;
+  const categories = query.split("=");
+  const title = categories[1].replace("%20", " ");
 
-  const categories = query.get("category") || "";
   const [page, setPage] = useState(1);
   const [orderBy, setOrderBy] = useState("SIAC_TS.VW_PRODUTO.PROD_DESCRICAO");
   const [orderType, setOrderType] = useState("asc");
@@ -32,9 +33,9 @@ function Products({ location }) {
   };
 
   const { data } = useAxios(
-    `/products/category?filial=${sessionStorage.getItem(
-      "filial"
-    )}&category=${categories}&page=${page}&order=${orderBy}&type=${orderType}`
+    `/products/category?filial=${2}&category=${
+      categories[1]
+    }&page=${page}&order=${orderBy}&type=${orderType}`
   );
 
   function handleChange(event, value) {
@@ -48,7 +49,7 @@ function Products({ location }) {
         <Container>
           <div className="title-results">
             <div className="categorias">
-              <h1>{categories}</h1>
+              <h1>{title}</h1>
               <p>({data?.count} items)</p>
             </div>
             <FormSelect onChange={handleSubmit(onSubmit)}>
@@ -56,13 +57,6 @@ function Products({ location }) {
                 <option value="30">Ordem alfabética </option>
                 <option value="10">Maior valor</option>
                 <option value="15">Menor valor</option>
-              </select>
-              <select name="quantity-products">
-                <option value="10" selected>
-                  10 itens por página
-                </option>
-                <option value="15">15 itens por página</option>
-                <option value="30">30 itens por página</option>
               </select>
             </FormSelect>
           </div>
@@ -79,7 +73,7 @@ function Products({ location }) {
       <Container>
         <div className="title-results">
           <div className="categorias">
-            <h1>{categories}</h1>
+            <h1>{title}</h1>
             <p>({data?.count} items)</p>
           </div>
           <FormSelect onChange={handleSubmit(onSubmit)}>
@@ -89,13 +83,6 @@ function Products({ location }) {
               </option>
               <option value="valor desc">Maior valor</option>
               <option value="valor asc">Menor valor</option>
-            </select>
-            <select name="quantityProducts" ref={register}>
-              <option value="10" selected>
-                10 itens por página
-              </option>
-              <option value="15">15 itens por página</option>
-              <option value="30">30 itens por página</option>
             </select>
           </FormSelect>
         </div>

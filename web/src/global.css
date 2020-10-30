@@ -3,7 +3,11 @@ body {
   padding: 0;
   margin: 0;
 }
-
+button {
+  border: none;
+  border-radius: 8px;
+  outline: none;
+}
 .Toastify__toast-body {
   width: 100%;
   text-align: center;

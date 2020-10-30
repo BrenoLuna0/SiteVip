@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-
 import Skeleton from "@material-ui/lab/Skeleton";
 import CurrencyInput from "react-currency-input-field";
 
@@ -10,6 +9,7 @@ import { Container, SelectPayment, Payment, Finish } from "./styles";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+
 import { useAxios } from "../../hooks/useAxios";
 
 function FinishOrder() {
@@ -52,7 +52,7 @@ function FinishOrder() {
   function handleSend() {
     let formPagtCodigo, quantidadeParcelas, pagoEmCadaParcela;
 
-    if (qtdMetodoPagamento == 2) {
+    if (qtdMetodoPagamento === 2) {
       formPagtCodigo = { duplicata: 18, dinheiro: 11 };
       quantidadeParcelas = { diplicata: paymentInstallments, dinheiro: 1 };
       pagoEmCadaParcela = {
@@ -61,8 +61,7 @@ function FinishOrder() {
         total: sub,
       };
     }
-
-    if (qtdMetodoPagamento == 1) {
+    if (qtdMetodoPagamento === 1) {
       formPagtCodigo = payment === "DUPLICATA" ? 18 : 11;
       quantidadeParcelas = paymentInstallments;
       pagoEmCadaParcela = {
@@ -75,13 +74,12 @@ function FinishOrder() {
       filial: sessionStorage.getItem("filial"),
       codigo: sessionStorage.getItem("codigo"),
       quantidadeDePagamentos: qtdMetodoPagamento,
+      qtdMetodoPagamento,
       formPagtCodigo,
       parcelas: quantidadeParcelas,
       total: pagoEmCadaParcela,
       intervalo: "TESTE",
     };
-
-    console.log(object);
   }
 
   if (!data) {
@@ -148,11 +146,16 @@ function FinishOrder() {
         <div className="all-products">
           <h3>Resumo dos produtos</h3>
           <div>
-            {data?.products?.length > 1 ? (
-              <p>{data?.products?.length} produtos</p>
-            ) : (
-              <p>{data?.products?.length} produto</p>
-            )}
+            <div>
+              {data?.products?.length > 1 ? (
+                <p>{data?.products?.length} produtos</p>
+              ) : (
+                <p>{data?.products?.length} produto</p>
+              )}
+
+              <p>ver detalhes</p>
+            </div>
+
             <p>
               {sub.toLocaleString("pt-br", {
                 style: "currency",
@@ -223,7 +226,7 @@ function FinishOrder() {
                   onChange={handleSubmit(onSubmit)}
                   required
                 >
-                  <option value="1" selected disabled>
+                  <option selected disabled>
                     Selecione a quantidade das parcelas
                   </option>
                   {payment === "DINHEIRO" && (
@@ -273,6 +276,9 @@ function FinishOrder() {
                       const valueFloat = parseFloat(value);
                       let decimal = sub - valueFloat;
                       decimal = decimal.toFixed(2);
+                      if (valueFloat > duplicata) {
+                        setDuplicata(0);
+                      }
                       if (valueFloat < sub) {
                         setDinheiro(valueFloat);
                         setDuplicata(decimal);
@@ -367,6 +373,7 @@ function FinishOrder() {
           </Link>
         </div>
       </Container>
+
       <Footer />
     </>
   );

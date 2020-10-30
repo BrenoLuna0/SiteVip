@@ -26,13 +26,14 @@ export const CarEmpty = styled.div`
   }
 
   div a span {
-    color: white !important;
+    color: black;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 18px;
 
     svg {
+      color: white;
       margin-right: 10px;
     }
   }

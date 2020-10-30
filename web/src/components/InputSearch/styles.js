@@ -16,6 +16,8 @@ export const Container = styled.div`
   .button-input {
     border-radius: 0%;
     padding: 6px;
+    height: 100%;
+    color: white;
     background-color: #22314a;
   }
   .bg-hover :hover {

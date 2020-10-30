@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAxios } from "../../hooks/useAxios";
-
+import { toast } from "react-toastify";
 import { onSignOut, isSignedIn } from "../../services/auth";
 import MenuDrop from "../MenuDrop";
 import cn from "classnames";
@@ -22,12 +22,7 @@ import { Container, Header, MenuDropDown, SubHeader } from "./styles";
 function Component() {
   const [showMenu, setShowMenu] = useState(false);
 
-  const { data } = useAxios(
-    `/categories?filial=${sessionStorage.getItem("filial")}`,
-    {
-      headers: { "x-access-token": sessionStorage.getItem("token") },
-    }
-  );
+  const { data } = useAxios(`/categories?filial=2`);
 
   const categories = data?.map((category) => {
     return category.GRP_DESCRICAO;
@@ -53,7 +48,7 @@ function Component() {
                 Logout
               </div>
             ) : (
-              <div>
+              <div onClick={() => (window.location.href = "/login")}>
                 <FaUserAlt></FaUserAlt>
                 Entrar
               </div>
@@ -63,7 +58,7 @@ function Component() {
 
         <Header>
           <div className="logo">
-            <Link to="/home">
+            <Link to="/">
               <img
                 className="logo"
                 src={`${process.env.PUBLIC_URL}/images/vip_logo.png`}
@@ -77,10 +72,26 @@ function Component() {
           <MenuDrop />
 
           <InputSearch />
+          {isSignedIn() ? (
+            <Link to="/cart">
+              <FaShoppingCart size={32} className="shopping-cart" />
+            </Link>
+          ) : (
+            <Link
+              onClick={() =>
+                toast.error("Você primeiro deve fazer login.", {
+                  position: "top-center",
+                  autoClose: 5000,
+                  closeOnClick: true,
+                  draggable: true,
+                  progress: undefined,
+                })
+              }
+            >
+              <FaShoppingCart size={32} className="shopping-cart" />
+            </Link>
+          )}
 
-          <Link to="/cart">
-            <FaShoppingCart size={32} className="shopping-cart" />
-          </Link>
           <FaBars
             size={32}
             className="open-menu"

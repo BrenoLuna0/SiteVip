@@ -16,37 +16,18 @@ const Routes = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/" component={Login} />
-        <Route
-          exact
-          path="/home"
-          render={(props) =>
-            isSignedIn() ? <Main /> : <Redirect to={{ pathname: "/" }} />
-          }
-        />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/" render={(props) => <Main />} />
         <Route
           exact
           path="/products"
-          render={(props) =>
-            isSignedIn() ? (
-              <Products {...props} />
-            ) : (
-              <Redirect to={{ pathname: "/" }} />
-            )
-          }
+          render={(props) => <Products {...props} />}
         />
         <Route
           exact
           path="/products/:prodCodigo"
-          render={(props) =>
-            isSignedIn() ? (
-              <DetailsProduct {...props} />
-            ) : (
-              <Redirect to={{ pathname: "/" }} />
-            )
-          }
+          render={(props) => <DetailsProduct />}
         />
-
         <Route
           exact
           path="/finalizar-pedido"
@@ -54,7 +35,6 @@ const Routes = () => {
             isSignedIn() ? <FinishOrder /> : <Redirect to={{ pathname: "/" }} />
           }
         />
-
         <Route
           exact
           path="/cart"
@@ -65,13 +45,7 @@ const Routes = () => {
         <Route
           exact
           path="/pesquisar/:name"
-          render={(props) =>
-            isSignedIn() ? (
-              <SearchResult />
-            ) : (
-              <Redirect to={{ pathname: "/" }} />
-            )
-          }
+          render={(props) => <SearchResult />}
         />
       </Switch>
     </BrowserRouter>

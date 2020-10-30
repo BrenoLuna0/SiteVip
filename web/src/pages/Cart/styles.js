@@ -52,7 +52,11 @@ export const ContainerProducts = styled.tr`
     padding: 0 8px;
     border: 2px solid #e3e3e3;
     width: 150px !important;
-    input {
+    p {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 0;
       width: 80px !important;
       text-align: center;
       border: none;
@@ -122,7 +126,7 @@ export const Finish = styled.button`
   padding: 0;
   align-items: center;
   justify-content: space-between;
-
+  color: white;
   p {
     font-size: 16px;
     margin-top: 12px;
