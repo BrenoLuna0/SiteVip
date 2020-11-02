@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { mutate as mutateGlobal } from "swr";
+import RemoveArrayItem from "../../utils/RemoveArrayItem";
 import "react-toastify/dist/ReactToastify.css";
 
 import { FaWindowClose, FaShoppingCart, FaPlus, FaMinus } from "react-icons/fa";
@@ -36,6 +36,16 @@ function Cart() {
   const toastId = React.useRef(null);
 
   async function handleDelete(prodCodigo) {
+    const cartDeleted = RemoveArrayItem(
+      data?.products,
+      {
+        PROD_CODIGO: prodCodigo,
+      },
+      "PROD_CODIGO"
+    );
+
+    mutate(cartDeleted, false);
+
     await api
       .delete(
         `/cart/${sessionStorage.getItem("filial")}/${sessionStorage.getItem(
@@ -53,16 +63,26 @@ function Cart() {
             progress: undefined,
           });
         }
-        mutate();
       })
       .catch((err) => {
         console.log(err);
         alert("Erro ao remover produto!");
       });
+      
+    mutate();
   }
 
   async function handleEdit(prodCodigo, value) {
-    api
+    const cartEdited = data?.products?.map((product) => {
+      if (product.PROD_CODIGO === prodCodigo) {
+        return { ...product, PROD_QTD: value };
+      }
+      return product;
+    });
+
+    mutate({ ...data, products: cartEdited }, false);
+
+    await api
       .put(
         `/cart/${sessionStorage.getItem("filial")}/${sessionStorage.getItem(
           "codigo"
@@ -73,15 +93,7 @@ function Cart() {
       )
       .catch((err) => console.log(err));
 
-    const cartEdited = data?.products?.map((product) => {
-      if (product.PROD_CODIGO === prodCodigo) {
-        return { ...product, PROD_QTD: value };
-      }
-      return product;
-    });
-    console.log(cartEdited);
-    mutate(cartEdited, false);
-    mutateGlobal();
+    mutate();
   }
 
   let sub = 0;

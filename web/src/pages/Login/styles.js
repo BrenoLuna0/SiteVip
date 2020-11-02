@@ -14,8 +14,8 @@ export const Container = styled.div`
 export const ContainerBody = styled.div`
   width: 60%;
   background-color: white;
-  margin: 15vh auto;
-  height: 70vh;
+  margin: 10vh auto;
+  height: 80vh;
   border-radius: 8px;
   display: flex;
   flex-direction: column;

@@ -9,6 +9,7 @@ import { Container, SelectPayment, Payment, Finish } from "./styles";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import ModalDetails from "../../components/ModalDetails";
 
 import { useAxios } from "../../hooks/useAxios";
 
@@ -153,7 +154,7 @@ function FinishOrder() {
                 <p>{data?.products?.length} produto</p>
               )}
 
-              <p>ver detalhes</p>
+              <ModalDetails produtos={data?.products} />
             </div>
 
             <p>
