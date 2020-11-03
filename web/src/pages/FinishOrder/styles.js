@@ -50,74 +50,6 @@ export const Container = styled.div`
   }
 `;
 
-export const SelectPayment = styled.div`
-  width: 60%;
-  margin: 20px auto;
-  display: flex;
-  justify-content: center;
-  div {
-    background-color: white;
-    border: 1px solid #efefef;
-    padding: 1em;
-    text-align: center;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-  }
-
-  .active {
-    background-color: #364f6b;
-    color: white;
-  }
-`;
-
-export const Payment = styled.div`
-  width: 60%;
-  margin: 14px auto;
-  h3 {
-    font-size: 24px;
-  }
-  padding-bottom: 14px;
-
-  section {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .multipayment {
-    h3 {
-      font-size: 20px;
-      margin-top: 5px;
-    }
-    select {
-      text-align: center;
-      width: 80%;
-    }
-    input {
-      width: 80%;
-      padding: 3px;
-    }
-  }
-
-  @media (max-width: 800px) {
-    .multipayment {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
-    }
-    .onepayment {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      h3 {
-        margin-bottom: 12px;
-        margin-top: 12px;
-      }
-    }
-  }
-`;
-
 export const Finish = styled.button`
   width: 40%;
   margin: 30px auto;
@@ -155,5 +87,43 @@ export const Finish = styled.button`
     span {
       background-color: #027a02;
     }
+  }
+`;
+
+export const Payments = styled.div`
+  width: 90%;
+  margin: 0 auto;
+
+  .formas-de-pagamento {
+    display: flex;
+    justify-content: space-between;
+    button {
+      border: none;
+      padding: 8px 16px;
+      font-size: 18px;
+      font-weight: 400;
+      border-radius: 8px;
+      color: white;
+      background-color: #364f6b;
+
+      margin: 0 auto;
+    }
+    button:hover {
+      transition: 0.2s ease-out;
+      background-color: #263c54;
+    }
+  }
+`;
+
+export const SelectPayment = styled.div`
+  font-size: 18px;
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 24px;
+  display: flex;
+  justify-content: space-between;
+
+  option {
+    padding: 12px 12px;
   }
 `;
