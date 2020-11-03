@@ -4,7 +4,7 @@ import { Container, ContainerProducts, Table } from "./styles";
 
 function ModalDetails({ produtos }) {
   const [show, setShow] = useState(false);
-  console.log(produtos);
+
   return (
     <Container>
       <p onClick={() => setShow(true)}>ver datalhes</p>

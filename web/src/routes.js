@@ -5,6 +5,7 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { isSignedIn } from "./services/auth";
 
 import Login from "./pages/Login";
+import LoginEnterprise from "./pages/LoginEnterprise";
 import Main from "./pages/Main";
 import Products from "./pages/Products";
 import DetailsProduct from "./pages/DetailsProduct";
@@ -18,6 +19,8 @@ const Routes = () => {
     <BrowserRouter>
       <Switch>
         <Route exact path="/login" component={Login} />
+        <Route exact path="/login-empresa" component={LoginEnterprise} />
+
         <Route exact path="/" render={(props) => <Main />} />
         <Route
           exact

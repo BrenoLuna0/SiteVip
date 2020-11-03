@@ -14,8 +14,8 @@ export const Container = styled.div`
 export const ContainerBody = styled.div`
   width: 60%;
   background-color: white;
-  margin: 10vh auto;
-  height: 80vh;
+  margin: 20vh auto;
+  height: 60vh;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -27,7 +27,7 @@ export const ContainerBody = styled.div`
     align-items: center;
     justify-content: center;
     img {
-      margin-top: 50px;
+      margin-top: 30px;
       margin-bottom: 30px;
       width: 80px;
       height: 80px;
@@ -49,6 +49,24 @@ export const ContainerBody = styled.div`
     .bold {
       font-weight: 600;
     }
+  }
+
+  .return {
+    margin-left: 24px;
+    padding-top: 18px;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    span {
+      font-size: 18px;
+      margin-left: 5px;
+      font-weight: 500;
+    }
+  }
+  .return:hover {
+    text-decoration: underline;
+    color: #364f6b;
+    transition: 0.3s ease-in-out;
   }
 `;
 
@@ -92,43 +110,6 @@ export const InputPassword = styled.div`
 
   .w-filial {
     margin-bottom: 10px;
-  }
-`;
-
-export const SelectTypeUser = styled.div`
-  width: 60%;
-  margin: 20px auto;
-  display: flex;
-  justify-content: center;
-  div {
-    background-color: white;
-    border: 1px solid #efefef;
-    padding: 1em;
-    text-align: center;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-  }
-
-  .active {
-    background-color: #364f6b;
-    color: white;
-  }
-`;
-
-export const FilialOption = styled.div`
-  width: 80%;
-  margin: 30px auto;
-
-  label {
-    margin-right: 10px;
-    font-size: 18px;
-    font-weight: 500;
-  }
-  select {
-    border-radius: 8px;
-    padding: 2px;
-    border: 1px solid #d3d3d3;
   }
 `;
 
