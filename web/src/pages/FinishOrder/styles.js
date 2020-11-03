@@ -72,7 +72,7 @@ export const SelectPayment = styled.div`
 `;
 
 export const Payment = styled.div`
-  width: 90%;
+  width: 60%;
   margin: 14px auto;
   h3 {
     font-size: 24px;

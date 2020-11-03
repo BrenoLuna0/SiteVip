@@ -12,6 +12,7 @@ import Footer from "../../components/Footer";
 import ModalDetails from "../../components/ModalDetails";
 
 import { useAxios } from "../../hooks/useAxios";
+import api from "../../services/api";
 
 function FinishOrder() {
   const { register, handleSubmit } = useForm();
@@ -50,7 +51,8 @@ function FinishOrder() {
     }
   };
 
-  function handleSend() {
+  async function handleSend(e) {
+    e.preventDefault();
     let formPagtCodigo, quantidadeParcelas, pagoEmCadaParcela;
 
     if (qtdMetodoPagamento === 2) {
@@ -79,8 +81,11 @@ function FinishOrder() {
       formPagtCodigo,
       parcelas: quantidadeParcelas,
       total: pagoEmCadaParcela,
-      intervalo: "TESTE",
+      intervalo: "TESTE NAO FATURAR!",
+      itens: data.products,
     };
+    const returning = await api.post("/checkout", object);
+    window.location.href = `/order/${returning.data.davCode}`;
   }
 
   if (!data) {
@@ -364,7 +369,7 @@ function FinishOrder() {
           )}
         </Payment>
         <div className="button-buy-footer">
-          <Link to="/finalizar-pedido" onClick={handleSend}>
+          <Link to="/finalizar-pedido" onClick={(e) => handleSend(e)}>
             <Finish>
               <p>Finalizar Pedido</p>
               <span>
@@ -374,7 +379,6 @@ function FinishOrder() {
           </Link>
         </div>
       </Container>
-
       <Footer />
     </>
   );

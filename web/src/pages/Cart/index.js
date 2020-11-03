@@ -43,8 +43,7 @@ function Cart() {
       },
       "PROD_CODIGO"
     );
-
-    mutate(cartDeleted, false);
+    mutate({ ...data, products: cartDeleted }, false);
 
     await api
       .delete(
@@ -68,7 +67,7 @@ function Cart() {
         console.log(err);
         alert("Erro ao remover produto!");
       });
-      
+
     mutate();
   }
 

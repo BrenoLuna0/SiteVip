@@ -11,6 +11,7 @@ import DetailsProduct from "./pages/DetailsProduct";
 import Cart from "./pages/Cart";
 import SearchResult from "./pages/SearchResult";
 import FinishOrder from "./pages/FinishOrder";
+import NumberOrder from "./pages/NumberOrder";
 
 const Routes = () => {
   return (
@@ -40,6 +41,17 @@ const Routes = () => {
           path="/cart"
           render={(props) =>
             isSignedIn() ? <Cart /> : <Redirect to={{ pathname: "/" }} />
+          }
+        />
+        <Route
+          exact
+          path="/order/:idPedido"
+          render={(props) =>
+            isSignedIn() ? (
+              <NumberOrder {...props} />
+            ) : (
+              <Redirect to={{ pathname: "/" }} />
+            )
           }
         />
         <Route
