@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+omeco import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Skeleton from "@material-ui/lab/Skeleton";
@@ -20,7 +20,7 @@ function FinishOrder() {
   const [paymentInstallments, setPaymentInstallments] = useState(1);
   const [dinheiro, setDinheiro] = useState();
   const [duplicata, setDuplicata] = useState();
-  const [qtdMetodoPagamento, setQtdMetodoPagamento] = useState([1]);
+  const [qtdMetodoPagamento, setQtdMetodoPagamento] = useState(["DINHEIRO"]);
 
   const { data } = useAxios(
     `/cart?filial=${sessionStorage.getItem(
@@ -39,7 +39,9 @@ function FinishOrder() {
     totalParcelasDuplicata.push(i + 1);
   }
 
-  const onSubmit = (data) => {};
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
   async function handleSend(e) {
     e.preventDefault();
@@ -142,7 +144,9 @@ function FinishOrder() {
               className="add-payment"
               onClick={() => {
                 if (qtdMetodoPagamento[1] === undefined) {
-                  setQtdMetodoPagamento(qtdMetodoPagamento.concat(2));
+                  setQtdMetodoPagamento(
+                    qtdMetodoPagamento.concat(["DUPLICATA"])
+                  );
                 }
               }}
             >
@@ -153,14 +157,18 @@ function FinishOrder() {
           {qtdMetodoPagamento?.map((method, index) => (
             <>
               <SelectPayment>
-                <select name="payment" id="">
+                <select name="payment" onChange={() => onSubmit()}>
                   <option value="" selected disabled>
                     Selecione uma forma de pagamento
                   </option>
-                  <option value="DINHEIRO">DINHEIRO</option>
-                  <option value="DUPLICATA">DUPLICATA</option>
+                  <option value="DINHEIRO" ref={register}>
+                    DINHEIRO
+                  </option>
+                  <option value="DUPLICATA" ref={register}>
+                    DUPLICATA
+                  </option>
                 </select>
-                {index === 1 && (
+                {qtdMetodoPagamento[index] === "DUPLICATA" && (
                   <select>
                     <option value="" selected disabled>
                       Parcelas
@@ -170,7 +178,7 @@ function FinishOrder() {
                     ))}
                   </select>
                 )}
-                {index === 1 && (
+                {qtdMetodoPagamento[index] === "DUPLICATA" && (
                   <select>
                     <option value="" selected disabled>
                       Intervalo dias
