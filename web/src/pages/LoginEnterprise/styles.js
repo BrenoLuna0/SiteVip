@@ -12,7 +12,7 @@ export const Container = styled.div`
 `;
 
 export const ContainerBody = styled.div`
-  width: 60%;
+  width: 40%;
   background-color: white;
   margin: 18vh auto;
   height: 60vh;

@@ -11,7 +11,7 @@ import Products from "./pages/Products";
 import DetailsProduct from "./pages/DetailsProduct";
 import Cart from "./pages/Cart";
 import SearchResult from "./pages/SearchResult";
-import FinishOrder from "./pages/FinishOrder";
+import OrderFinish from "./pages/OrderFinish";
 import NumberOrder from "./pages/NumberOrder";
 
 const Routes = () => {
@@ -36,7 +36,7 @@ const Routes = () => {
           exact
           path="/finalizar-pedido"
           render={(props) =>
-            isSignedIn() ? <FinishOrder /> : <Redirect to={{ pathname: "/" }} />
+            isSignedIn() ? <OrderFinish /> : <Redirect to={{ pathname: "/" }} />
           }
         />
         <Route

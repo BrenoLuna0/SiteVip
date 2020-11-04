@@ -1,4 +1,4 @@
-omeco import React, { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Skeleton from "@material-ui/lab/Skeleton";
@@ -18,8 +18,8 @@ function FinishOrder() {
   const { register, handleSubmit } = useForm();
   const [payment, setPayment] = useState("");
   const [paymentInstallments, setPaymentInstallments] = useState(1);
-  const [dinheiro, setDinheiro] = useState();
-  const [duplicata, setDuplicata] = useState();
+  const [dinheiro, setDinheiro] = useState(false);
+  const [duplicata, setDuplicata] = useState(false);
   const [qtdMetodoPagamento, setQtdMetodoPagamento] = useState(["DINHEIRO"]);
 
   const { data } = useAxios(
