@@ -11,7 +11,6 @@ function CartEmpty() {
       <Header />
       <CarEmpty>
         <h1>
-          {" "}
           <FaCartPlus size={20} color="white" />
           Produtos adicionados ao carrinho
         </h1>

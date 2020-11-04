@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Skeleton from "@material-ui/lab/Skeleton";
+import IntlCurrencyInput from "react-intl-currency-input";
 
 //estilos
 import { FaShoppingCart, FaWindowClose } from "react-icons/fa";
@@ -15,12 +16,26 @@ import InputMask from "../../components/InputMask";
 import { useAxios } from "../../hooks/useAxios";
 import api from "../../services/api";
 
+const currencyConfig = {
+  locale: "pt-BR",
+  formats: {
+    number: {
+      BRL: {
+        style: "currency",
+        currency: "BRL",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      },
+    },
+  },
+};
+
 function OrderFinish() {
   const { register, handleSubmit } = useForm();
   const [dinheiro, setDinheiro] = useState(false);
   const [duplicata, setDuplicata] = useState(false);
-  const [dinheiroValor, setDinheiroValor] = useState();
-  const [duplicataValor, setDuplicataValor] = useState();
+  const [dinheiroValor, setDinheiroValor] = useState(0.0);
+  const [duplicataValor, setDuplicataValor] = useState(0.0);
   const [quantityPayment, setQuantityPayment] = useState([1]);
   const { data } = useAxios(
     `/cart?filial=${sessionStorage.getItem(
@@ -47,7 +62,11 @@ function OrderFinish() {
       setDuplicata(true);
       setDinheiro(false);
     }
-    console.log(data);
+  };
+
+  const handleChange = (event, value, maskedValue) => {
+    event.preventDefault();
+    console.log(value);
   };
 
   if (!data) {
@@ -160,10 +179,27 @@ function OrderFinish() {
                       Intervalo dias
                     </option>
                   </select>
+                  <IntlCurrencyInput
+                    currency="BRL"
+                    config={currencyConfig}
+                    onBlur={handleChange}
+                    max={sub}
+                    value={duplicata}
+                  />
                 </>
               )}
-
-              <InputMask maxValue={sub} />
+              {dinheiro && (
+                <IntlCurrencyInput
+                  currency="BRL"
+                  config={currencyConfig}
+                  onBlur={(event, value, maskedValue) => {
+                    event.preventDefault();
+                    console.log(value);
+                  }}
+                  max={sub}
+                  value={dinheiro}
+                />
+              )}
             </SelectPayment>
           )}
           {quantityPayment.length === 2 && (
@@ -184,19 +220,26 @@ function OrderFinish() {
                     DUPLICATA
                   </option>
                 </select>
-                <div className="display-flex">
-                  <InputMask maxValue={sub} />
-                  <FaWindowClose
-                    size={18}
-                    color="red"
-                    onClick={() => {
-                      let array = quantityPayment;
-                      array.splice(quantityPayment.length - 1, 1);
-                      setDinheiro(false);
-                      setQuantityPayment(array);
-                    }}
-                  />
-                </div>
+                <div style={{ width: `88px` }} />
+                <div style={{ width: `133px` }} />
+
+                <IntlCurrencyInput
+                  currency="BRL"
+                  config={currencyConfig}
+                  onBlur={handleChange}
+                  max={sub}
+                />
+                <FaWindowClose
+                  className="display-flex"
+                  size={18}
+                  color="red"
+                  onClick={() => {
+                    let array = quantityPayment;
+                    array.splice(quantityPayment.length - 1, 1);
+                    setDinheiro(false);
+                    setQuantityPayment(array);
+                  }}
+                />
               </SelectPayment>
               <SelectPayment>
                 <select
@@ -231,7 +274,12 @@ function OrderFinish() {
                     Intervalo dias
                   </option>
                 </select>
-                <InputMask maxValue={sub} />
+                <IntlCurrencyInput
+                  currency="BRL"
+                  config={currencyConfig}
+                  onBlur={handleChange}
+                  max={sub}
+                />
                 <FaWindowClose
                   size={18}
                   color="red"

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 80%;
-  min-height: 50vh;
+  min-height: 60vh;
   height: 100%;
   background-color: white;
   margin: 15px auto;
@@ -133,14 +133,5 @@ export const SelectPayment = styled.div`
     align-items: center;
     justify-content: center;
     margin-top: 8px;
-  }
-
-  .display-flex {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    svg {
-      margin-left: 20px;
-    }
   }
 `;
