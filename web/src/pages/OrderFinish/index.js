@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Skeleton from "@material-ui/lab/Skeleton";
+import { toast } from "react-toastify";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield";
 
 //estilos
@@ -56,8 +57,22 @@ function OrderFinish() {
     }
   };
 
-  function handleSendOrder() {
+  function handleSendOrder(e) {
+    e.preventDefault();
     let formPagtCodigo, quantidadeParcelas, pagoEmCadaParcela;
+    if (
+      dinheiroValor + duplicataValor < sub ||
+      dinheiroValor + duplicataValor > sub
+    ) {
+      toast.error("Confira os valores antes de continuar.", {
+        position: "top-center",
+        autoClose: 5000,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
 
     if (quantityPayment.length === 2) {
       formPagtCodigo = { duplicata: 18, dinheiro: 11 };
@@ -323,7 +338,7 @@ function OrderFinish() {
         </Payments>
         <div className="button-buy-footer">
           <Link to="/finalizar-pedido">
-            <Finish>
+            <Finish onClick={(e) => handleSendOrder(e)}>
               <p>Finalizar Pedido</p>
               <span>
                 <FaShoppingCart />
