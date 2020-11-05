@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Skeleton from "@material-ui/lab/Skeleton";
-import IntlCurrencyInput from "react-intl-currency-input";
+import CurrencyTextField from "@unicef/material-ui-currency-textfield";
 
 //estilos
 import { FaShoppingCart, FaWindowClose } from "react-icons/fa";
@@ -12,22 +12,9 @@ import { Container, Finish, Payments, SelectPayment } from "./styles";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import ModalDetails from "../../components/ModalDetails";
+
 import { useAxios } from "../../hooks/useAxios";
 import api from "../../services/api";
-
-const currencyConfig = {
-  locale: "pt-BR",
-  formats: {
-    number: {
-      BRL: {
-        style: "currency",
-        currency: "BRL",
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      },
-    },
-  },
-};
 
 function OrderFinish() {
   const { register, handleSubmit } = useForm();
@@ -35,6 +22,7 @@ function OrderFinish() {
   const [duplicata, setDuplicata] = useState(false);
   const [dinheiroValor, setDinheiroValor] = useState(0.0);
   const [duplicataValor, setDuplicataValor] = useState(0.0);
+  const [paymentInstallments, setPaymentInstallments] = useState(1);
   const [quantityPayment, setQuantityPayment] = useState([1]);
 
   const { data } = useAxios(
@@ -55,6 +43,7 @@ function OrderFinish() {
   }
 
   const onSubmit = (data) => {
+    console.log(data);
     if (data.firstPayment === "DINHEIRO") {
       setDinheiro(true);
       setDuplicata(false);
@@ -62,11 +51,44 @@ function OrderFinish() {
       setDuplicata(true);
       setDinheiro(false);
     }
+    if (data.duplicataParcelas !== "") {
+      setPaymentInstallments(parseInt(data.duplicataParcelas));
+    }
   };
 
-  const handleChange = (event, value, maskedValue, name) => {
-    console.log(value, maskedValue, name);
-  };
+  function handleSendOrder() {
+    let formPagtCodigo, quantidadeParcelas, pagoEmCadaParcela;
+
+    if (quantityPayment.length === 2) {
+      formPagtCodigo = { duplicata: 18, dinheiro: 11 };
+      quantidadeParcelas = { diplicata: paymentInstallments, dinheiro: 1 };
+      pagoEmCadaParcela = {
+        duplicata: parseFloat(duplicataValor),
+        dinheiro: parseFloat(dinheiroValor),
+        total: sub,
+      };
+    }
+    if (quantityPayment.length === 1) {
+      formPagtCodigo = duplicata ? 18 : 11;
+      quantidadeParcelas = paymentInstallments;
+      pagoEmCadaParcela = {
+        total: sub,
+      };
+    }
+
+    const object = {
+      clieCpfCnpj: sessionStorage.getItem("cpfCnpj"),
+      filial: sessionStorage.getItem("filial"),
+      codigo: sessionStorage.getItem("codigo"),
+      quantidadeDePagamentos: quantityPayment.length,
+      qtdMetodoPagamento: quantityPayment.length,
+      formPagtCodigo,
+      parcelas: quantidadeParcelas,
+      total: pagoEmCadaParcela,
+      intervalo: "TESTE NAO FATURAR!",
+      itens: data.products,
+    };
+  }
 
   if (!data) {
     return (
@@ -170,7 +192,7 @@ function OrderFinish() {
                       Parcelas
                     </option>
                     {totalParcelasDuplicata.map((parcela) => (
-                      <option value="">{parcela}</option>
+                      <option value={parcela}>{parcela}</option>
                     ))}
                   </select>
                   <select>
@@ -178,25 +200,24 @@ function OrderFinish() {
                       Intervalo dias
                     </option>
                   </select>
-                  <IntlCurrencyInput
-                    currency="BRL"
-                    config={currencyConfig}
-                    onBlur={handleChange}
-                    max={sub}
-                    value={duplicata}
+                  <CurrencyTextField
+                    currencySymbol="R$"
+                    outputFormat="number"
+                    decimalCharacter=","
+                    digitGroupSeparator="."
+                    decimalPlaces={2}
+                    value={sub}
                   />
                 </>
               )}
               {dinheiro && (
-                <IntlCurrencyInput
-                  currency="BRL"
-                  config={currencyConfig}
-                  onBlur={(event, value, maskedValue) => {
-                    event.preventDefault();
-                    console.log(value);
-                  }}
-                  max={sub}
-                  value={dinheiro}
+                <CurrencyTextField
+                  currencySymbol="R$"
+                  outputFormat="number"
+                  decimalCharacter=","
+                  digitGroupSeparator="."
+                  decimalPlaces={2}
+                  value={sub}
                 />
               )}
             </SelectPayment>
@@ -221,12 +242,15 @@ function OrderFinish() {
                 </select>
                 <div style={{ width: `88px` }} />
                 <div style={{ width: `133px` }} />
-
-                <IntlCurrencyInput
-                  currency="BRL"
-                  config={currencyConfig}
-                  onBlur={handleChange}
-                  max={sub}
+                <CurrencyTextField
+                  currencySymbol="R$"
+                  outputFormat="number"
+                  decimalCharacter=","
+                  digitGroupSeparator="."
+                  decimalPlaces={2}
+                  onBlur={(event, value) => setDinheiroValor(value)}
+                  minimumValue={0}
+                  maximumValue={`${sub}`}
                 />
                 <FaWindowClose
                   className="display-flex"
@@ -273,12 +297,15 @@ function OrderFinish() {
                     Intervalo dias
                   </option>
                 </select>
-                <IntlCurrencyInput
-                  currency="BRL"
-                  config={currencyConfig}
-                  onBlur={handleChange}
-                  max={sub}
-                  ref={register}
+                <CurrencyTextField
+                  currencySymbol="R$"
+                  outputFormat="number"
+                  decimalCharacter=","
+                  digitGroupSeparator="."
+                  decimalPlaces={2}
+                  onBlur={(event, value) => setDuplicataValor(value)}
+                  minimumValue={0}
+                  maximumValue={`${sub}`}
                 />
                 <FaWindowClose
                   size={18}
