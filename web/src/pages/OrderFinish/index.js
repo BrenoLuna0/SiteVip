@@ -12,7 +12,6 @@ import { Container, Finish, Payments, SelectPayment } from "./styles";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import ModalDetails from "../../components/ModalDetails";
-import InputMask from "../../components/InputMask";
 import { useAxios } from "../../hooks/useAxios";
 import api from "../../services/api";
 
@@ -37,6 +36,7 @@ function OrderFinish() {
   const [dinheiroValor, setDinheiroValor] = useState(0.0);
   const [duplicataValor, setDuplicataValor] = useState(0.0);
   const [quantityPayment, setQuantityPayment] = useState([1]);
+
   const { data } = useAxios(
     `/cart?filial=${sessionStorage.getItem(
       "filial"
@@ -64,9 +64,8 @@ function OrderFinish() {
     }
   };
 
-  const handleChange = (event, value, maskedValue) => {
-    event.preventDefault();
-    console.log(value);
+  const handleChange = (event, value, maskedValue, name) => {
+    console.log(value, maskedValue, name);
   };
 
   if (!data) {
@@ -279,6 +278,7 @@ function OrderFinish() {
                   config={currencyConfig}
                   onBlur={handleChange}
                   max={sub}
+                  ref={register}
                 />
                 <FaWindowClose
                   size={18}
