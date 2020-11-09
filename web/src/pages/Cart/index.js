@@ -21,7 +21,8 @@ import api from "../../services/api";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import CartEmpty from "../../components/CartEmpty";
-import Loading from "../../components/Loading";
+import RowCartLoading from "../../components/RowCartLoading";
+import RowCartMobileLoading from "../../components/RowCartLoading";
 
 function Cart() {
   const { data, error, mutate } = useAxios(
@@ -105,7 +106,39 @@ function Cart() {
     return (
       <>
         <Header />
-        <Loading />
+        <ContainerAll>
+          <Container>
+            <Grid width="100%">
+              <thead>
+                <tr>
+                  <th width="50%">Produtos</th>
+                  <th>Valor Unitário</th>
+                  <th className="quantity-name">Quantidade</th>
+                  <th>Subtotal</th>
+                  <th>Excluir</th>
+                </tr>
+              </thead>
+              <tbody>
+                <RowCartLoading />
+                <RowCartLoading />
+                <RowCartLoading />
+                <RowCartLoading />
+              </tbody>
+            </Grid>
+
+            <CartMobile>
+              <div className="item-title">
+                <h1>Item</h1>
+                <div className="product">
+                  <RowCartMobileLoading />
+                  <RowCartMobileLoading />
+                  <RowCartMobileLoading />
+                  <RowCartMobileLoading />
+                </div>
+              </div>
+            </CartMobile>
+          </Container>
+        </ContainerAll>
         <Footer />
       </>
     );

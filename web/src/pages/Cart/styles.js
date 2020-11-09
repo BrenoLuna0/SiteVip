@@ -215,6 +215,12 @@ export const CartMobile = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    p {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px;
+    }
     padding: 0 8px;
     border: 2px solid #e3e3e3;
     width: 150px !important;
@@ -236,6 +242,9 @@ export const CartMobile = styled.div`
   .remove {
     button {
       background-color: #b53737;
+      color: white;
+      padding: 0.5em;
+      font-weight: 500;
     }
     button:hover {
       background-color: #8c2a32;
