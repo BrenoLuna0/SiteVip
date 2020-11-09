@@ -27,6 +27,9 @@ export const ImgDiv = styled.div`
 `;
 
 export const ProductName = styled.div`
+  a {
+    color: black !important;
+  }
   @media (max-width: 480px) {
     font-size: 14px;
   }
@@ -35,6 +38,8 @@ export const ProductName = styled.div`
 export const BuyContainer = styled.div`
   p {
     font-size: 18px;
+    color: red;
+    font-weight: 600;
   }
 
   button {

@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-
 import { useParams } from "react-router-dom";
+import ReactPaginate from "react-paginate";
+
+import { Container, NoResult, FormSelect, Wrapper } from "./styles";
+
 import { useAxios } from "../../hooks/useAxios";
-
-import { Container, NoResult, FormSelect } from "./styles";
-
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import Loading from "../../components/Loading";
-import Pagination from "../../components/Pagination";
 import ProductResult from "../../components/ProductResult";
+import ProductResultLoading from "../../components/ProductResultLoading";
 
 function SearchResult() {
   const [page, setPage] = useState(1);
@@ -56,7 +55,14 @@ function SearchResult() {
             </FormSelect>
           </div>
 
-          <Loading />
+          <div>
+            <ProductResultLoading />
+            <ProductResultLoading />
+            <ProductResultLoading />
+            <ProductResultLoading />
+            <ProductResultLoading />
+            <ProductResultLoading />
+          </div>
         </Container>
         <Footer />
       </>
@@ -109,7 +115,23 @@ function SearchResult() {
             />
           ))}
         </div>
-        <Pagination pages={data?.pages} activePage={page} onChange={setPage} />
+        <Wrapper>
+          <ReactPaginate
+            containerClassName="pagination-container"
+            pageCount={data?.pages}
+            initialPage={page - 1}
+            previousLabel="<"
+            nextLabel=">"
+            pageRangeDisplayed={2}
+            marginPagesDisplayed={2}
+            disableInitialCallback={true}
+            onPageChange={(value, event) => {
+              console.log(event);
+              const pageValue = value.selected + 1;
+              setPage(pageValue);
+            }}
+          />
+        </Wrapper>
       </Container>
       <Footer />
     </>

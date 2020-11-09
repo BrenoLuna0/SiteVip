@@ -6,7 +6,7 @@ export const Container = styled.div`
   width: 90%;
   border-radius: 8px;
   background-color: white;
-
+  padding-bottom: 40px;
   .title-results {
     width: 95%;
     margin: 0 auto;
@@ -29,7 +29,7 @@ export const Container = styled.div`
 
   @media (max-width: 720px) {
     .title-results {
-      height: 110px;
+      height: 86px;
     }
     .title-results div {
       display: grid;
@@ -74,5 +74,46 @@ export const FormSelect = styled.form`
       font-size: 14px;
       width: 90%;
     }
+  }
+`;
+
+export const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .pagination-container {
+    list-style: none;
+    display: inline-flex;
+  }
+  li {
+    cursor: pointer;
+    background-color: transparent;
+    border-radius: 99px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    border: none;
+    color: #3b3b3b;
+    margin: 16px 4px;
+    outline: none;
+    transition: all 0.1s;
+    user-select: none;
+    a {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  li:hover {
+    background-color: #0003;
+  }
+  .selected {
+    background-color: #0002;
   }
 `;

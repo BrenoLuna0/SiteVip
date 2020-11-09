@@ -22,6 +22,7 @@ export const Button = styled.button`
   outline: none;
   transition: all 0.1s;
   user-select: none;
+
   &.active {
     background-color: #0002;
   }

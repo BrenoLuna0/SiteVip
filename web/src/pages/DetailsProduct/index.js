@@ -131,7 +131,7 @@ function Detail() {
                         style: "currency",
                         currency: "BRL",
                       }
-                    )}
+                    )}{" "}
                     no cartão
                   </p>
                 )}

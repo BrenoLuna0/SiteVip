@@ -34,7 +34,9 @@ function ProductResult({ name, picture, quantity, id, price }) {
         </ImgDiv>
 
         <ProductName>
-          <p>{name}</p>
+          <Link to={`/products/${id}`}>
+            <p>{name}</p>
+          </Link>
         </ProductName>
 
         <BuyContainer>

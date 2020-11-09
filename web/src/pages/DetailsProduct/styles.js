@@ -80,7 +80,7 @@ export const ContainerProduct = styled.div`
       height: 200px !important;
     }
     grid-template-columns: 1fr;
-    height: 800px;
+    height: 620px;
     .loading-img-responsive {
       width: 200px !important;
       height: 200px !important;
@@ -89,7 +89,7 @@ export const ContainerProduct = styled.div`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    height: 800px;
+    height: 610px;
   }
 
   @media (max-width: 420px) {
