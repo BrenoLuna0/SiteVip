@@ -13,6 +13,7 @@ import Cart from "./pages/Cart";
 import SearchResult from "./pages/SearchResult";
 import OrderFinish from "./pages/OrderFinish";
 import NumberOrder from "./pages/NumberOrder";
+import MyAccount from "./pages/MyAccount";
 
 const Routes = () => {
   return (
@@ -22,6 +23,7 @@ const Routes = () => {
         <Route exact path="/login-empresa" component={LoginEnterprise} />
 
         <Route exact path="/" render={(props) => <Main />} />
+        <Route exact path="/minha-conta" render={(props) => <MyAccount />} />
         <Route
           exact
           path="/products"

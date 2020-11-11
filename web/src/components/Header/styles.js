@@ -23,11 +23,9 @@ export const SubHeader = styled.div`
     margin-right: 5px;
   }
 
-  .exit div {
-    cursor: pointer;
-  }
-
-  .exit div:hover {
+  #login:hover,
+  #logout:hover,
+  #my-account:hover {
     color: #212529;
     text-decoration: underline;
     transition: 0.2s;

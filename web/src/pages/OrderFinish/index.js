@@ -15,7 +15,6 @@ import Footer from "../../components/Footer";
 import ModalDetails from "../../components/ModalDetails";
 
 import { useAxios } from "../../hooks/useAxios";
-import api from "../../services/api";
 
 function OrderFinish() {
   const { register, handleSubmit } = useForm();
@@ -25,11 +24,16 @@ function OrderFinish() {
   const [duplicataValor, setDuplicataValor] = useState(0.0);
   const [paymentInstallments, setPaymentInstallments] = useState(1);
   const [quantityPayment, setQuantityPayment] = useState([1]);
+  const [codDayPaymentInstallment, setCodDayPaymentInstallment] = useState();
 
   const { data } = useAxios(
     `/cart?filial=${sessionStorage.getItem(
       "filial"
     )}&codigo=${sessionStorage.getItem("codigo")}`
+  );
+
+  const { data: allInstallments } = useAxios(
+    `/showparcelas?diaParcelas=${paymentInstallments}`
   );
 
   let sub = 0;
@@ -43,8 +47,14 @@ function OrderFinish() {
     totalParcelasDuplicata.push(i + 1);
   }
 
+  let stringParcelas = [];
+  let codParcelasDias = [];
+  for (let i = 0; i < allInstallments?.length; i++) {
+    stringParcelas.push(Object.values(allInstallments[i].dias).toString());
+    codParcelasDias.push(allInstallments[i].parcelas.PARC_DIA_CODIGO);
+  }
+
   const onSubmit = (data) => {
-    console.log(data);
     if (data.firstPayment === "DINHEIRO") {
       setDinheiro(true);
       setDuplicata(false);
@@ -55,6 +65,7 @@ function OrderFinish() {
     if (data.duplicataParcelas !== "") {
       setPaymentInstallments(parseInt(data.duplicataParcelas));
     }
+    setCodDayPaymentInstallment(data.intarvaloDiasParcelas);
   };
 
   function handleSendOrder(e) {
@@ -102,6 +113,7 @@ function OrderFinish() {
       total: pagoEmCadaParcela,
       intervalo: "TESTE NAO FATURAR!",
       itens: data.products,
+      codIntervaloDias: codDayPaymentInstallment,
     };
   }
 
@@ -210,10 +222,19 @@ function OrderFinish() {
                       <option value={parcela}>{parcela}</option>
                     ))}
                   </select>
-                  <select>
+                  <select
+                    name="intarvaloDiasParcelas"
+                    ref={register}
+                    onChange={handleSubmit(onSubmit)}
+                  >
                     <option value="" selected disabled>
                       Intervalo dias
                     </option>
+                    {stringParcelas?.map((intervaloDias, index) => (
+                      <option value={codParcelasDias[index]}>
+                        {intervaloDias}
+                      </option>
+                    ))}
                   </select>
                   <CurrencyTextField
                     currencySymbol="R$"
@@ -307,10 +328,19 @@ function OrderFinish() {
                     <option value={parcela}>{parcela}</option>
                   ))}
                 </select>
-                <select>
+                <select
+                  name="intarvaloDiasParcelas"
+                  ref={register}
+                  onChange={handleSubmit(onSubmit)}
+                >
                   <option value="" selected disabled>
                     Intervalo dias
                   </option>
+                  {stringParcelas?.map((intervaloDias, index) => (
+                    <option value={codParcelasDias[index]}>
+                      {intervaloDias}
+                    </option>
+                  ))}
                 </select>
                 <CurrencyTextField
                   currencySymbol="R$"

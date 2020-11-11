@@ -1,15 +1,17 @@
 import api from "../services/api";
 import useSWR from "swr";
 
-export function useAxios(url, options, optionsSWR) {
+export function useAxios(url, options) {
   const { data, error, mutate } = useSWR(
     url,
-    async (url, options) => {
-      const response = await api.get(url, options);
+    async (url) => {
+      const response = await api.get(url);
 
       return response.data;
     },
-    optionsSWR
+    {
+      revalidateOnFocus: false,
+    }
   );
   return { data, error, mutate };
 }

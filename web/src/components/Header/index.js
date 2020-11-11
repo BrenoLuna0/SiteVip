@@ -14,6 +14,7 @@ import {
   FaTimes,
   FaShoppingCart,
   FaArrowRight,
+  FaUser,
 } from "react-icons/fa";
 
 import InputSearch from "../InputSearch";
@@ -38,17 +39,31 @@ function Component() {
           </div>
           <div className="exit">
             {isSignedIn() ? (
-              <div
-                onClick={() => {
-                  onSignOut();
-                  window.location.href = "/";
-                }}
-              >
-                <FaSignOutAlt></FaSignOutAlt>
-                Logout
+              <div className="d-flex justify-content-between">
+                <div id="my-account" style={{ marginRight: "12px" }}>
+                  <Link to="/minha-conta" style={{ color: "#171d4b" }}>
+                    <FaUser />
+                    Minha conta
+                  </Link>
+                </div>
+                <div
+                  onClick={() => {
+                    onSignOut();
+                    window.location.href = "/";
+                  }}
+                  id="logout"
+                  style={{ cursor: "pointer" }}
+                >
+                  <FaSignOutAlt></FaSignOutAlt>
+                  Logout
+                </div>
               </div>
             ) : (
-              <div onClick={() => (window.location.href = "/login")}>
+              <div
+                style={{ cursor: "pointer" }}
+                onClick={() => (window.location.href = "/login")}
+                id="login"
+              >
                 <FaUserAlt></FaUserAlt>
                 Entrar
               </div>

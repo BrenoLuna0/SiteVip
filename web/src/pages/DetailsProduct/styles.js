@@ -9,7 +9,7 @@ export const Container = styled.div`
 
 export const ContainerProduct = styled.div`
   box-sizing: border-box;
-  width: 80%;
+  width: 70%;
   margin: 0 auto;
   height: 450px;
   display: grid;
@@ -20,7 +20,8 @@ export const ContainerProduct = styled.div`
   background-color: #22314a;
   overflow: none;
   box-sizing: border-box;
-
+  -webkit-box-shadow: 5px 5px 20px -6px rgba(0, 0, 0, 0.35);
+  box-shadow: 5px 5px 20px -6px rgba(0, 0, 0, 0.35);
   .buy-button {
     margin-top: 20px;
   }
@@ -36,8 +37,10 @@ export const ContainerProduct = styled.div`
     margin: auto auto;
     width: 350px;
     height: 350px;
-
+    -webkit-box-shadow: 5px 5px 20px -6px rgba(0, 0, 0, 0.56);
+    box-shadow: 5px 5px 20px -6px rgba(0, 0, 0, 0.56);
     img {
+      border-radius: 3px;
       width: 100%;
       height: 100%;
       object-fit: cover;
