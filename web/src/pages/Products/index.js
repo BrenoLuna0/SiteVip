@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import Pagination from "@material-ui/lab/Pagination";
+
 import { useForm } from "react-hook-form";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import ProductResult from "../../components/ProductResult";
-import Loading from "../../components/Loading";
+import ProductResultLoading from "../../components/ProductResultLoading";
 
 import { Container, FormSelect, ContainerProducts } from "./styles";
 
@@ -50,7 +51,6 @@ function Products(props) {
           <div className="title-results">
             <div className="categorias">
               <h1>{title}</h1>
-              <p>({data?.count} items)</p>
             </div>
             <FormSelect onChange={handleSubmit(onSubmit)}>
               <select name="order-products">
@@ -60,7 +60,14 @@ function Products(props) {
               </select>
             </FormSelect>
           </div>
-          <Loading />
+          <ContainerProducts>
+            <ProductResultLoading />
+            <ProductResultLoading />
+            <ProductResultLoading />
+            <ProductResultLoading />
+            <ProductResultLoading />
+            <ProductResultLoading />
+          </ContainerProducts>
         </Container>
         <Footer />
       </>

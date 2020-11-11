@@ -115,6 +115,7 @@ function OrderFinish() {
       itens: data.products,
       codIntervaloDias: codDayPaymentInstallment,
     };
+    console.log(object);
   }
 
   if (!data) {

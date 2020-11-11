@@ -15,6 +15,7 @@ import Footer from "../../components/Footer";
 import ButtonBuy from "../../components/ButtonBuy";
 import ButtonUnavailable from "../../components/ButtonUnavailable";
 import CardLoading from "../../components/CardLoading";
+import ProductNotFound from "../../components/ProductNotFound";
 
 import CardGrid from "../../components/CardGrid";
 
@@ -23,10 +24,19 @@ import { useAxios } from "../../hooks/useAxios";
 function Detail() {
   const { prodCodigo } = useParams();
 
-  const { data } = useAxios(`/products/${prodCodigo}?filial=${2}`, {
+  const { data, error } = useAxios(`/products/${prodCodigo}?filial=${2}`, {
     revalidateOnFocus: false,
   });
 
+  if (error) {
+    return (
+      <>
+        <Header />
+        <ProductNotFound />
+        <Footer />
+      </>
+    );
+  }
   if (!data) {
     return (
       <>

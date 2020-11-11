@@ -23,10 +23,12 @@ function Footer() {
                 <Link to="/">Perifericos</Link>
               </li>
               <li>
-                <Link to="/">Acessórios</Link>
+                <Link to="/products?category=ACESSORIOS">Acessórios</Link>
               </li>
               <li>
-                <Link to="/">Smartphones</Link>
+                <Link to="/products?category=TELEFONE/CELULAR">
+                  Smartphones
+                </Link>
               </li>
             </ul>
           </div>
