@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { toast } from "react-toastify";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield";
+import IntlCurrencyInput from "react-intl-currency-input";
 
 //estilos
 import { FaShoppingCart, FaWindowClose } from "react-icons/fa";
-import { Container, Finish, Payments, SelectPayment } from "./styles";
+import {
+  Container,
+  Finish,
+  Payments,
+  SelectPayment,
+  TwoPayment,
+  OnePayment,
+} from "./styles";
 
 //componentes
 import Header from "../../components/Header";
@@ -15,6 +23,20 @@ import Footer from "../../components/Footer";
 import ModalDetails from "../../components/ModalDetails";
 
 import { useAxios } from "../../hooks/useAxios";
+
+const currencyConfig = {
+  locale: "pt-BR",
+  formats: {
+    number: {
+      BRL: {
+        style: "currency",
+        currency: "BRL",
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      },
+    },
+  },
+};
 
 function OrderFinish() {
   const { register, handleSubmit } = useForm();
@@ -25,6 +47,7 @@ function OrderFinish() {
   const [paymentInstallments, setPaymentInstallments] = useState(1);
   const [quantityPayment, setQuantityPayment] = useState([1]);
   const [codDayPaymentInstallment, setCodDayPaymentInstallment] = useState();
+  const inputEl = useRef(0);
 
   const { data } = useAxios(
     `/cart?filial=${sessionStorage.getItem(
@@ -58,9 +81,13 @@ function OrderFinish() {
     if (data.firstPayment === "DINHEIRO") {
       setDinheiro(true);
       setDuplicata(false);
+      setDinheiroValor(sub);
+      setDuplicataValor(0);
     } else if (data.firstPayment === "DUPLICATA") {
       setDuplicata(true);
       setDinheiro(false);
+      setDuplicataValor(sub);
+      setDinheiroValor(0);
     }
     if (data.duplicataParcelas !== "") {
       setPaymentInstallments(parseInt(data.duplicataParcelas));
@@ -70,6 +97,7 @@ function OrderFinish() {
 
   function handleSendOrder(e) {
     e.preventDefault();
+    console.log(duplicataValor, dinheiroValor);
     let formPagtCodigo, quantidadeParcelas, pagoEmCadaParcela;
     if (
       dinheiroValor + duplicataValor < sub ||
@@ -197,20 +225,132 @@ function OrderFinish() {
 
           {quantityPayment.length === 1 && (
             <SelectPayment>
-              <select
-                name="firstPayment"
-                ref={register}
-                onChange={handleSubmit(onSubmit)}
-              >
-                <option value="" selected disabled>
-                  Selecione uma forma de pagamento
-                </option>
-                <option value="DINHEIRO">DINHEIRO</option>
-                <option value="DUPLICATA">DUPLICATA</option>
-              </select>
+              <OnePayment>
+                <select
+                  name="firstPayment"
+                  ref={register}
+                  onChange={handleSubmit(onSubmit)}
+                >
+                  <option value="" selected disabled>
+                    Selecione uma forma de pagamento
+                  </option>
+                  <option value="DINHEIRO">DINHEIRO</option>
+                  <option value="DUPLICATA">DUPLICATA</option>
+                </select>
 
-              {duplicata && (
-                <>
+                {duplicata && (
+                  <>
+                    <select
+                      name="duplicataParcelas"
+                      ref={register}
+                      onChange={handleSubmit(onSubmit)}
+                    >
+                      <option value="" selected disabled>
+                        Parcelas
+                      </option>
+                      {totalParcelasDuplicata.map((parcela) => (
+                        <option value={parcela}>{parcela}</option>
+                      ))}
+                    </select>
+                    <select
+                      name="intarvaloDiasParcelas"
+                      ref={register}
+                      onChange={handleSubmit(onSubmit)}
+                    >
+                      <option value="" selected disabled>
+                        Intervalo dias
+                      </option>
+                      {stringParcelas?.map((intervaloDias, index) => (
+                        <option value={codParcelasDias[index]}>
+                          {intervaloDias}
+                        </option>
+                      ))}
+                    </select>
+                    <IntlCurrencyInput
+                      currency="BRL"
+                      config={currencyConfig}
+                      ref={inputEl}
+                      max={sub}
+                      onChange={(event, value, maskedValue) => {
+                        setDuplicata(value);
+                      }}
+                    />
+                  </>
+                )}
+                {dinheiro && (
+                  <IntlCurrencyInput
+                    currency="BRL"
+                    config={currencyConfig}
+                    ref={inputEl}
+                    max={sub}
+                    onChange={(event, value, maskedValue) => {
+                      setDinheiroValor(value);
+                    }}
+                  />
+                )}
+              </OnePayment>
+            </SelectPayment>
+          )}
+          {quantityPayment.length === 2 && (
+            <>
+              <TwoPayment>
+                <h5>Primeira forma de pagamento</h5>
+                <SelectPayment>
+                  <select
+                    name="secondPaymet"
+                    ref={register}
+                    onSubmit={handleSubmit(onSubmit)}
+                  >
+                    <option value="" selected disabled>
+                      Selecione uma forma de pagamento
+                    </option>
+                    <option value="DINHEIRO" selected>
+                      DINHEIRO
+                    </option>
+                    <option value="DUPLICATA" disabled>
+                      DUPLICATA
+                    </option>
+                  </select>
+                  <div style={{ width: `88px` }} />
+                  <div style={{ width: `133px` }} />
+                  <IntlCurrencyInput
+                    currency="BRL"
+                    config={currencyConfig}
+                    ref={inputEl}
+                    max={sub}
+                    onChange={(event, value, maskedValue) => {
+                      setDinheiroValor(value);
+                    }}
+                  />
+                  <FaWindowClose
+                    className="display-flex"
+                    size={18}
+                    color="red"
+                    onClick={() => {
+                      let array = quantityPayment;
+                      array.splice(quantityPayment.length - 1, 1);
+                      setDinheiro(false);
+                      setQuantityPayment(array);
+                    }}
+                  />
+                </SelectPayment>
+                <h5>Segunda forma de pagamento</h5>
+                <SelectPayment>
+                  <select
+                    name="secondPaymet"
+                    ref={register}
+                    onChange={handleSubmit(onSubmit)}
+                  >
+                    <option value="" selected disabled>
+                      Selecione uma forma de pagamento
+                    </option>
+                    <option value="DINHEIRO" disabled>
+                      DINHEIRO
+                    </option>
+                    <option value="DUPLICATA" selected>
+                      DUPLICATA
+                    </option>
+                  </select>
                   <select
                     name="duplicataParcelas"
                     ref={register}
@@ -237,133 +377,27 @@ function OrderFinish() {
                       </option>
                     ))}
                   </select>
-                  <CurrencyTextField
-                    currencySymbol="R$"
-                    outputFormat="number"
-                    decimalCharacter=","
-                    digitGroupSeparator="."
-                    decimalPlaces={2}
-                    value={sub}
+                  <IntlCurrencyInput
+                    currency="BRL"
+                    config={currencyConfig}
+                    ref={inputEl}
+                    max={sub}
+                    onChange={(event, value, maskedValue) => {
+                      setDuplicataValor(value);
+                    }}
                   />
-                </>
-              )}
-              {dinheiro && (
-                <CurrencyTextField
-                  currencySymbol="R$"
-                  outputFormat="number"
-                  decimalCharacter=","
-                  digitGroupSeparator="."
-                  decimalPlaces={2}
-                  value={sub}
-                />
-              )}
-            </SelectPayment>
-          )}
-          {quantityPayment.length === 2 && (
-            <>
-              <SelectPayment>
-                <select
-                  name="secondPaymet"
-                  ref={register}
-                  onSubmit={handleSubmit(onSubmit)}
-                >
-                  <option value="" selected disabled>
-                    Selecione uma forma de pagamento
-                  </option>
-                  <option value="DINHEIRO" selected>
-                    DINHEIRO
-                  </option>
-                  <option value="DUPLICATA" disabled>
-                    DUPLICATA
-                  </option>
-                </select>
-                <div style={{ width: `88px` }} />
-                <div style={{ width: `133px` }} />
-                <CurrencyTextField
-                  currencySymbol="R$"
-                  outputFormat="number"
-                  decimalCharacter=","
-                  digitGroupSeparator="."
-                  decimalPlaces={2}
-                  onBlur={(event, value) => setDinheiroValor(value)}
-                  minimumValue={0}
-                  maximumValue={`${sub}`}
-                />
-                <FaWindowClose
-                  className="display-flex"
-                  size={18}
-                  color="red"
-                  onClick={() => {
-                    let array = quantityPayment;
-                    array.splice(quantityPayment.length - 1, 1);
-                    setDinheiro(false);
-                    setQuantityPayment(array);
-                  }}
-                />
-              </SelectPayment>
-              <SelectPayment>
-                <select
-                  name="secondPaymet"
-                  ref={register}
-                  onChange={handleSubmit(onSubmit)}
-                >
-                  <option value="" selected disabled>
-                    Selecione uma forma de pagamento
-                  </option>
-                  <option value="DINHEIRO" disabled>
-                    DINHEIRO
-                  </option>
-                  <option value="DUPLICATA" selected>
-                    DUPLICATA
-                  </option>
-                </select>
-                <select
-                  name="duplicataParcelas"
-                  ref={register}
-                  onChange={handleSubmit(onSubmit)}
-                >
-                  <option value="" selected disabled>
-                    Parcelas
-                  </option>
-                  {totalParcelasDuplicata.map((parcela) => (
-                    <option value={parcela}>{parcela}</option>
-                  ))}
-                </select>
-                <select
-                  name="intarvaloDiasParcelas"
-                  ref={register}
-                  onChange={handleSubmit(onSubmit)}
-                >
-                  <option value="" selected disabled>
-                    Intervalo dias
-                  </option>
-                  {stringParcelas?.map((intervaloDias, index) => (
-                    <option value={codParcelasDias[index]}>
-                      {intervaloDias}
-                    </option>
-                  ))}
-                </select>
-                <CurrencyTextField
-                  currencySymbol="R$"
-                  outputFormat="number"
-                  decimalCharacter=","
-                  digitGroupSeparator="."
-                  decimalPlaces={2}
-                  onBlur={(event, value) => setDuplicataValor(value)}
-                  minimumValue={0}
-                  maximumValue={`${sub}`}
-                />
-                <FaWindowClose
-                  size={18}
-                  color="red"
-                  onClick={() => {
-                    let array = quantityPayment;
-                    array.splice(quantityPayment.length - 1, 1);
-                    setDuplicata(false);
-                    setQuantityPayment(array);
-                  }}
-                />
-              </SelectPayment>
+                  <FaWindowClose
+                    size={18}
+                    color="red"
+                    onClick={() => {
+                      let array = quantityPayment;
+                      array.splice(quantityPayment.length - 1, 1);
+                      setDuplicata(false);
+                      setQuantityPayment(array);
+                    }}
+                  />
+                </SelectPayment>
+              </TwoPayment>
             </>
           )}
         </Payments>

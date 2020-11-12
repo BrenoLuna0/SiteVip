@@ -93,10 +93,10 @@ export const Finish = styled.button`
 export const Payments = styled.div`
   width: 90%;
   margin: 0 auto;
-
   .formas-de-pagamento {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     button {
       border: none;
       padding: 8px 16px;
@@ -105,12 +105,21 @@ export const Payments = styled.div`
       border-radius: 8px;
       color: white;
       background-color: #364f6b;
-
       margin: 0 auto;
     }
     button:hover {
       transition: 0.2s ease-out;
       background-color: #263c54;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    h2 {
+      font-size: 22px;
+    }
+    button {
+      font-size: 16px;
+      padding: 4px 8px;
     }
   }
 `;
@@ -133,5 +142,42 @@ export const SelectPayment = styled.div`
     align-items: center;
     justify-content: center;
     margin-top: 8px;
+  }
+`;
+
+export const TwoPayment = styled.div`
+  h5 {
+    text-align: center;
+    margin-top: 6px;
+  }
+
+  @media (max-width: 1300px) {
+    div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      select {
+        width: 100%;
+        margin-bottom: 6px;
+      }
+      input {
+        width: 100%;
+      }
+    }
+  }
+`;
+
+export const OnePayment = styled.div`
+  width: 90%;
+  margin: 20px auto;
+  display: flex;
+  justify-content: space-between;
+
+  @media (max-width: 1000px) {
+    flex-direction: column;
+    select {
+      margin-bottom: 10px;
+    }
   }
 `;
