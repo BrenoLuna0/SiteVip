@@ -14,6 +14,7 @@ import SearchResult from "./pages/SearchResult";
 import OrderFinish from "./pages/OrderFinish";
 import NumberOrder from "./pages/NumberOrder";
 import MyAccount from "./pages/MyAccount";
+import NotFound from "./pages/NotFound";
 
 const Routes = () => {
   return (
@@ -64,6 +65,7 @@ const Routes = () => {
           path="/pesquisar/:name"
           render={(props) => <SearchResult />}
         />
+        <Route component={NotFound} />
       </Switch>
     </BrowserRouter>
   );

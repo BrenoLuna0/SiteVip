@@ -162,7 +162,29 @@ function OrderFinish() {
               </p>
             </div>
           </div>
-
+          <Payments>
+            <div className="formas-de-pagamento">
+              <h2>Formas de Pagamento</h2>
+              <button className="add-payment">
+                Adicionar outra forma de pagamento
+              </button>
+            </div>
+            <SelectPayment>
+              <OnePayment>
+                <select
+                  name="firstPayment"
+                  ref={register}
+                  onChange={handleSubmit(onSubmit)}
+                >
+                  <option value="" selected disabled>
+                    Selecione uma forma de pagamento
+                  </option>
+                  <option value="DINHEIRO">DINHEIRO</option>
+                  <option value="DUPLICATA">DUPLICATA</option>
+                </select>
+              </OnePayment>
+            </SelectPayment>
+          </Payments>
           <div className="button-buy-footer">
             <Link to="/finalizar-pedido">
               <Finish>

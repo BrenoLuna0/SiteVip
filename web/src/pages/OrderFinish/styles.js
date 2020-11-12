@@ -2,13 +2,13 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   width: 80%;
-  min-height: 60vh;
+  min-height: 70vh;
   height: 100%;
   background-color: white;
   margin: 15px auto;
   box-shadow: 14px 15px 20px -20px rgba(0, 0, 0, 0.75);
   border-radius: 8px;
-
+  position: relative;
   a:hover {
     text-decoration: none;
   }
@@ -52,7 +52,10 @@ export const Container = styled.div`
 
 export const Finish = styled.button`
   width: 40%;
-  margin: 30px auto;
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translate(-50%, -50%);
   height: 50px;
   text-transform: uppercase;
   text-align: center;

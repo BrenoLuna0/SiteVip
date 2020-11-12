@@ -102,6 +102,10 @@ function Cart() {
     return sub;
   });
 
+  if (error) {
+    return <CartEmpty />;
+  }
+
   if (!data) {
     return (
       <>
@@ -142,9 +146,6 @@ function Cart() {
         <Footer />
       </>
     );
-  }
-  if (error?.status === 404) {
-    return <CartEmpty />;
   }
 
   return (

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const ContainerAll = styled.div`
+  position: relative;
   width: 90%;
   min-height: 70vh;
   background-color: white;
@@ -105,6 +106,10 @@ export const Grid = styled.table`
 `;
 
 export const ContainerSub = styled.div`
+  position: absolute;
+  bottom: 5px;
+  left: 30%;
+  padding: 24px 36px;
   margin-top: 15px;
   margin-right: 20px;
   background-color: #fcf8e3;
@@ -115,7 +120,6 @@ export const ContainerSub = styled.div`
 `;
 
 export const Finish = styled.button`
-  margin-top: 20px;
   height: 50px;
   text-transform: uppercase;
   text-align: center;
@@ -124,6 +128,9 @@ export const Finish = styled.button`
   background-color: #009e2a;
   display: flex;
   padding: 0;
+  position: absolute;
+  bottom: 36px;
+  left: 60%;
   align-items: center;
   justify-content: space-between;
   color: white;
