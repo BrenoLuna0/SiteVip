@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import api from "../../services/api";
 
-function ButtonBuy({ id }) {
+function ButtonBuy({ id, title }) {
   const toastId = React.useRef(null);
 
   async function insertItems(prodCodigo, value) {
@@ -50,7 +50,7 @@ function ButtonBuy({ id }) {
   return (
     <Container>
       <button onClick={() => insertItems(id, 1)}>
-        <p>Adicionar ao carrinho </p>
+        <p>{title}</p>
         <span>
           <FaCartPlus color="white" size={24} />
         </span>

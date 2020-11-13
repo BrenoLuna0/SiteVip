@@ -41,7 +41,7 @@ function ProductResult({ name, picture, quantity, id, price }) {
 
         <BuyContainer>
           <p>{price}</p>
-          <ButtonBuy id={id} />
+          <ButtonBuy id={id} title="Adicionar ao carrinho" />
         </BuyContainer>
       </Container>
     </ContainerBody>

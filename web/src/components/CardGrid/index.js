@@ -6,13 +6,6 @@ import ButtonBuy from "../ButtonBuy/index";
 import ButtonUnavailable from "../ButtonUnavailable";
 
 function CardGrid({ name, price, image, id, quantity }) {
-  let button;
-  if (quantity > 0) {
-    button = <ButtonBuy id={id} />;
-  } else {
-    button = <ButtonUnavailable />;
-  }
-
   return (
     <Container>
       <ImageDiv>
@@ -42,7 +35,11 @@ function CardGrid({ name, price, image, id, quantity }) {
       <Link to={`/products/${id}`} className="details">
         Ver detalhes do produto
       </Link>
-      {button}
+      {quantity > 0 ? (
+        <ButtonBuy id={id} title="Adicionar ao carrinho" />
+      ) : (
+        <ButtonUnavailable />
+      )}
     </Container>
   );
 }

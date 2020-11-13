@@ -35,6 +35,10 @@ function NotFound() {
             <CardLoading />
             <CardLoading />
             <CardLoading />
+            <CardLoading />
+            <CardLoading />
+            <CardLoading />
+            <CardLoading />
           </div>
         </Suggestion>
         <Footer />

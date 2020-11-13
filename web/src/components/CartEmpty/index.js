@@ -19,7 +19,7 @@ function CartEmpty() {
           <p> Deseja olhar outros produtos?</p>
           <Link to="/">
             <span>
-              <FaCartPlus size={20} color="white" /> Continuar comprando
+              <FaCartPlus size={20} color="#666" /> Continuar comprando
             </span>
           </Link>
         </div>
