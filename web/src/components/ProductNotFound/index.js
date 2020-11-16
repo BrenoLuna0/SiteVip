@@ -14,7 +14,7 @@ function ProductNotFound() {
           <span>Voltar para a home</span>
         </Link>
       </div>
-      <div className="content">
+      <div className="content align-middle">
         <div>
           <CgSmileSad size={128} color="#666" />
         </div>

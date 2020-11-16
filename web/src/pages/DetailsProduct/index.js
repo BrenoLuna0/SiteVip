@@ -149,7 +149,10 @@ function Detail() {
 
               <div className="buy-button">
                 {data?.product?.PROD_QTD_ATUAL > 0 && (
-                  <ButtonBuy id={data?.PROD_CODIGO} />
+                  <ButtonBuy
+                    id={data?.PROD_CODIGO}
+                    title="Adicionar ao carrinho"
+                  />
                 )}
 
                 {data?.product?.PROD_QTD_ATUAL === 0 && <ButtonUnavailable />}
