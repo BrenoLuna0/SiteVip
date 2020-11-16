@@ -4,17 +4,22 @@ export const Container = styled.div`
   min-height: 100vh;
   width: 60%;
   padding-top: 35px;
+  padding-bottom: 20px;
   margin: auto;
   background-color: white;
   border-top: 2px solid #666;
   box-shadow: 14px 15px 20px -20px rgba(0, 0, 0, 0.75);
+  position: relative;
 `;
 
 export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translate(-50%, -50%);
   .pagination-container {
     list-style: none;
     display: inline-flex;
