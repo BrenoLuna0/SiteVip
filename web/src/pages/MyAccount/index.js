@@ -1,11 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
+import ReactPaginate from "react-paginate";
+import Skeleton from "@material-ui/lab/Skeleton";
 
-import { Container, LeftSide, RightSide } from "./styles";
+import { useAxios } from "../../hooks/useAxios";
+import { AiOutlineArrowDown } from "react-icons/ai";
+import { Container, Wrapper, ContainerProduct, InfoDAV } from "./styles";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 
 function MyAccount() {
+  const [page, setPage] = useState(1);
+  const { data: pedidos, error } = useAxios(
+    `/getAllPurchases?clieCod=${sessionStorage.getItem("codigo")}&page=${page}`
+  );
+  console.log(pedidos);
+
+  if (!pedidos) {
+    return (
+      <>
+        <Header />
+        <Container>
+          <div>
+            <h1 style={{ textAlign: "center", marginTop: "12px" }}>
+              Meus pedidos
+            </h1>
+            <div className="container-produtos">
+              <ContainerProduct>
+                <Skeleton variant="rect" width={"80%"} height={50} />
+              </ContainerProduct>
+              <ContainerProduct>
+                <Skeleton variant="rect" width={"80%"} height={50} />
+              </ContainerProduct>
+              <ContainerProduct>
+                <Skeleton variant="rect" width={"80%"} height={50} />
+              </ContainerProduct>
+              <ContainerProduct>
+                <Skeleton variant="rect" width={"80%"} height={50} />
+              </ContainerProduct>
+              <ContainerProduct>
+                <Skeleton variant="rect" width={"80%"} height={50} />
+              </ContainerProduct>
+              <ContainerProduct>
+                <Skeleton variant="rect" width={"80%"} height={50} />
+              </ContainerProduct>
+              <ContainerProduct>
+                <Skeleton variant="rect" width={"80%"} height={50} />
+              </ContainerProduct>
+            </div>
+          </div>
+        </Container>
+        <Footer />
+      </>
+    );
+  }
+
   return (
     <>
       <Header />
@@ -14,7 +63,39 @@ function MyAccount() {
           <h1 style={{ textAlign: "center", marginTop: "12px" }}>
             Meus pedidos
           </h1>
+          <div className="container-produtos">
+            {pedidos?.dav.davPaginate.map((item) => {
+              return (
+                <>
+                  <ContainerProduct>
+                    <h3>Pedido {item.DAV_CODIGO}</h3>
+                    <span>
+                      <h4>Ver detalhes</h4>
+                      <AiOutlineArrowDown size={20} />
+                    </span>
+                  </ContainerProduct>
+                  <InfoDAV></InfoDAV>
+                </>
+              );
+            })}
+          </div>
         </div>
+        <Wrapper>
+          <ReactPaginate
+            containerClassName="pagination-container"
+            pageCount={pedidos?.dav.davTotalPages}
+            initialPage={page - 1}
+            previousLabel="<"
+            nextLabel=">"
+            pageRangeDisplayed={2}
+            marginPagesDisplayed={2}
+            disableInitialCallback={true}
+            onPageChange={(value, event) => {
+              const pageValue = value.selected + 1;
+              setPage(pageValue);
+            }}
+          />
+        </Wrapper>
       </Container>
       <Footer />
     </>
