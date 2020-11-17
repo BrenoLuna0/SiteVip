@@ -3,9 +3,10 @@ import { AiOutlineArrowDown } from "react-icons/ai";
 
 import { ContainerProduct, ContainerDetails } from "./styles";
 import SlideDown from "../../components/SlideDown";
-
+import { useAxios } from "../../hooks/useAxios";
 function ContainerDAV({ id }) {
   const [isVisible, setIsVisible] = useState(false);
+  const { data: products } = useAxios(`/getProductsDav?davCode=${id}`);
 
   return (
     <>
@@ -19,7 +20,10 @@ function ContainerDAV({ id }) {
       <SlideDown isVisible={isVisible}>
         <ContainerDetails>
           <div className="flex">
-            <p>2 produtos</p>
+            {products?.totalProducts > 1 && (
+              <p>{products.totalProducts} produtos</p>
+            )}
+            {products?.totalProducts === 1 && <p>1 produto</p>}
             <p className="link-details">ver detalhes</p>
           </div>
           <div className="subtotal">

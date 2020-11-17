@@ -11,12 +11,12 @@ import ContainerDAV from "../../components/ContainerDAV";
 
 function MyAccount() {
   const [page, setPage] = useState(1);
-  const { data: pedidos, error } = useAxios(
-    `/getAllPurchases?clieCod=${sessionStorage.getItem("codigo")}&page=${page}`
+  const { data: dav, error } = useAxios(
+    `/allDavs?clieCod=${sessionStorage.getItem("codigo")}&page=${page}`
   );
-  console.log(pedidos);
+  console.log(dav);
 
-  if (!pedidos) {
+  if (!dav) {
     return (
       <>
         <Header />
@@ -64,7 +64,7 @@ function MyAccount() {
             Meus pedidos
           </h1>
           <div className="container-produtos">
-            {pedidos?.dav.davPaginate.map((item, index) => (
+            {dav?.davPaginate.map((item, index) => (
               <ContainerDAV id={item.DAV_CODIGO} key={index} />
             ))}
           </div>
@@ -72,7 +72,7 @@ function MyAccount() {
         <Wrapper>
           <ReactPaginate
             containerClassName="pagination-container"
-            pageCount={pedidos?.dav.davTotalPages}
+            pageCount={dav?.davTotalPages}
             initialPage={page - 1}
             previousLabel="<"
             nextLabel=">"
