@@ -1,37 +1,48 @@
-import React, { useRef } from "react";
-import { bool, node } from "prop-types";
-import { useTransition, animated } from "react-spring";
-import { Container, Inner } from "./styles";
+import React, { useRef } from 'react';
+import { bool, node } from 'prop-types';
+import { useTransition, animated } from 'react-spring';
+import styled from 'styled-components';
 
-const visibleStyle = { height: "auto", opacity: 1, overflow: "visible" };
-const hiddenStyle = { opacity: 0, height: 0, overflow: "hidden" };
+const Inner = styled.div`
+  &:before,
+  &:after {
+    content: '';
+    display: table;
+  }
+`;
+
+const visibleStyle = { height: 'auto', opacity: 1, overflow: 'visible' };
+const hiddenStyle = { opacity: 0, height: 0, overflow: 'hidden' };
 
 function getElementHeight(ref) {
-  return ref.current ? ref.current.getBoundingClientReact().height : 0;
+  return ref.current ? ref.current.getBoundingClientRect().height : 0;
 }
 
 function SlideDown({ isVisible, children, forceSlideIn }) {
+  const isVisibleOnMount = useRef(isVisible && !forceSlideIn);
   const containerRef = useRef(null);
-  const innerRef = useRef();
+  const innerRef = useRef(null);
 
   const transitions = useTransition(isVisible, null, {
-    enter: () => async (next) => {
+    enter: () => async (next, cancel) => {
       const height = getElementHeight(innerRef);
 
-      if (height) {
-        await next({ height, opacity: 1, overflow: "hidden" });
-        await next(visibleStyle);
-      }
+      cancel();
+
+      await next({ height, opacity: 1, overflow: 'hidden' });
+      await next(visibleStyle);
     },
-    leave: () => async (next) => {
+    leave: () => async (next, cancel) => {
       const height = getElementHeight(containerRef);
 
-      if (height) {
-        await next({ height, overflow: "hidden" });
-        await next(hiddenStyle);
-      }
+      cancel();
+
+      await next({ height, overflow: 'hidden' });
+      await next(hiddenStyle);
+
+      isVisibleOnMount.current = false;
     },
-    from: hiddenStyle,
+    from: isVisibleOnMount.current ? visibleStyle : hiddenStyle,
     unique: true,
   });
 
@@ -43,6 +54,7 @@ function SlideDown({ isVisible, children, forceSlideIn }) {
         </animated.div>
       );
     }
+
     return null;
   });
 }

@@ -4,7 +4,7 @@ export const Container = styled.div`
   min-height: 100vh;
   width: 60%;
   padding-top: 35px;
-  padding-bottom: 20px;
+  padding-bottom: 52px;
   margin: auto;
   background-color: white;
   border-top: 2px solid #666;
@@ -17,7 +17,7 @@ export const Wrapper = styled.div`
   align-items: center;
   justify-content: center;
   position: absolute;
-  bottom: -50px;
+  bottom: -55px;
   left: 50%;
   transform: translate(-50%, -50%);
   .pagination-container {
@@ -87,5 +87,3 @@ export const ContainerProduct = styled.div`
     transition: 0.2s ease-out;
   }
 `;
-
-export const InfoDAV = styled.div``;

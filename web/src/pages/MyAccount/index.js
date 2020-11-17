@@ -3,16 +3,14 @@ import ReactPaginate from "react-paginate";
 import Skeleton from "@material-ui/lab/Skeleton";
 
 import { useAxios } from "../../hooks/useAxios";
-import { AiOutlineArrowDown } from "react-icons/ai";
-import { Container, Wrapper, ContainerProduct, InfoDAV } from "./styles";
+import { Container, Wrapper, ContainerProduct } from "./styles";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import SlideDown from "../../components/SlideDown";
+import ContainerDAV from "../../components/ContainerDAV";
 
 function MyAccount() {
   const [page, setPage] = useState(1);
-  const [isVisible, setIsVisible] = useState(false);
   const { data: pedidos, error } = useAxios(
     `/getAllPurchases?clieCod=${sessionStorage.getItem("codigo")}&page=${page}`
   );
@@ -66,22 +64,9 @@ function MyAccount() {
             Meus pedidos
           </h1>
           <div className="container-produtos">
-            {pedidos?.dav.davPaginate.map((item) => {
-              return (
-                <>
-                  <ContainerProduct>
-                    <h3>Pedido {item.DAV_CODIGO}</h3>
-                    <span onClick={() => setIsVisible(!isVisible)}>
-                      <h4>Ver detalhes</h4>
-                      <AiOutlineArrowDown size={20} />
-                    </span>
-                  </ContainerProduct>
-                  <SlideDown isVisible={isVisible}>
-                    <h2>Agora vai!!</h2>
-                  </SlideDown>
-                </>
-              );
-            })}
+            {pedidos?.dav.davPaginate.map((item, index) => (
+              <ContainerDAV id={item.DAV_CODIGO} key={index} />
+            ))}
           </div>
         </div>
         <Wrapper>
