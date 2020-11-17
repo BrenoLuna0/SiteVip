@@ -8,9 +8,11 @@ import { Container, Wrapper, ContainerProduct, InfoDAV } from "./styles";
 
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import SlideDown from "../../components/SlideDown";
 
 function MyAccount() {
   const [page, setPage] = useState(1);
+  const [isVisible, setIsVisible] = useState(false);
   const { data: pedidos, error } = useAxios(
     `/getAllPurchases?clieCod=${sessionStorage.getItem("codigo")}&page=${page}`
   );
@@ -69,12 +71,14 @@ function MyAccount() {
                 <>
                   <ContainerProduct>
                     <h3>Pedido {item.DAV_CODIGO}</h3>
-                    <span>
+                    <span onClick={() => setIsVisible(!isVisible)}>
                       <h4>Ver detalhes</h4>
                       <AiOutlineArrowDown size={20} />
                     </span>
                   </ContainerProduct>
-                  <InfoDAV></InfoDAV>
+                  <SlideDown isVisible={isVisible}>
+                    <h2>Agora vai!!</h2>
+                  </SlideDown>
                 </>
               );
             })}
