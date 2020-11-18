@@ -65,7 +65,11 @@ function MyAccount() {
           </h1>
           <div className="container-produtos">
             {dav?.davPaginate.map((item, index) => (
-              <ContainerDAV id={item.DAV_CODIGO} key={index} />
+              <ContainerDAV
+                id={item.DAV_CODIGO}
+                subtotal={parseFloat(item.DAV_SUB_TOTAL)}
+                key={index}
+              />
             ))}
           </div>
         </div>

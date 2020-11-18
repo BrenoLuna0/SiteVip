@@ -4,10 +4,11 @@ import { AiOutlineArrowDown } from "react-icons/ai";
 import { ContainerProduct, ContainerDetails } from "./styles";
 import SlideDown from "../../components/SlideDown";
 import { useAxios } from "../../hooks/useAxios";
-function ContainerDAV({ id }) {
+import { numberFormat } from "../../utils/currency";
+
+function ContainerDAV({ id, subtotal }) {
   const [isVisible, setIsVisible] = useState(false);
   const { data: products } = useAxios(`/getProductsDav?davCode=${id}`);
-
   return (
     <>
       <ContainerProduct>
@@ -27,7 +28,7 @@ function ContainerDAV({ id }) {
             <p className="link-details">ver detalhes</p>
           </div>
           <div className="subtotal">
-            <p>Subtotal: R$ 125,00</p>
+            <p>Subtotal: {numberFormat(subtotal)}</p>
           </div>
         </ContainerDetails>
       </SlideDown>

@@ -33,7 +33,7 @@ export const ContainerProduct = styled.div`
 `;
 
 export const ContainerDetails = styled.div`
-  width: 80%;
+  width: 70%;
   margin: 4px auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
