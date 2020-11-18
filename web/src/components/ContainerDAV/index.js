@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { AiOutlineArrowDown } from "react-icons/ai";
 
 import { ContainerProduct, ContainerDetails } from "./styles";
@@ -25,7 +26,9 @@ function ContainerDAV({ id, subtotal }) {
               <p>{products.totalProducts} produtos</p>
             )}
             {products?.totalProducts === 1 && <p>1 produto</p>}
-            <p className="link-details">ver detalhes</p>
+            <Link to={`/meus-pedidos/${id}`}>
+              <p className="link-details">ver detalhes</p>
+            </Link>
           </div>
           <div className="subtotal">
             <p>Subtotal: {numberFormat(subtotal)}</p>

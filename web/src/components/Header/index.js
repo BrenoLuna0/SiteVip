@@ -9,13 +9,14 @@ import cn from "classnames";
 import {
   FaPhone,
   FaSignOutAlt,
-  FaUserAlt,
   FaBars,
   FaTimes,
   FaShoppingCart,
   FaArrowRight,
-  FaUser,
+  FaUserAlt,
 } from "react-icons/fa";
+
+import { AiOutlineCodeSandbox } from "react-icons/ai";
 
 import InputSearch from "../InputSearch";
 import { Container, Header, MenuDropDown, SubHeader } from "./styles";
@@ -41,9 +42,9 @@ function Component() {
             {isSignedIn() ? (
               <div className="d-flex justify-content-between">
                 <div id="my-account" style={{ marginRight: "12px" }}>
-                  <Link to="/minha-conta" style={{ color: "#171d4b" }}>
-                    <FaUser />
-                    Minha conta
+                  <Link to="/meus-pedidos" style={{ color: "#171d4b" }}>
+                    <AiOutlineCodeSandbox />
+                    Meus Pedidos
                   </Link>
                 </div>
                 <div
@@ -64,7 +65,7 @@ function Component() {
                 onClick={() => (window.location.href = "/login")}
                 id="login"
               >
-                <FaUserAlt></FaUserAlt>
+                <FaUserAlt />
                 Entrar
               </div>
             )}

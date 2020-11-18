@@ -15,6 +15,7 @@ import OrderFinish from "./pages/OrderFinish";
 import NumberOrder from "./pages/NumberOrder";
 import MyAccount from "./pages/MyAccount";
 import NotFound from "./pages/NotFound";
+import DetailsOrder from "./pages/DetailsOrder";
 
 const Routes = () => {
   return (
@@ -24,17 +25,25 @@ const Routes = () => {
         <Route exact path="/login-empresa" component={LoginEnterprise} />
 
         <Route exact path="/" render={(props) => <Main />} />
-        <Route exact path="/minha-conta" render={(props) => <MyAccount />} />
+
+        <Route exact path="/meus-pedidos" render={(props) => <MyAccount />} />
+        <Route
+          exact
+          path="/meus-pedidos/:id"
+          render={(props) => <DetailsOrder {...props} />}
+        />
         <Route
           exact
           path="/products"
           render={(props) => <Products {...props} />}
         />
+
         <Route
           exact
           path="/products/:prodCodigo"
           render={(props) => <DetailsProduct />}
         />
+
         <Route
           exact
           path="/finalizar-pedido"
@@ -60,6 +69,7 @@ const Routes = () => {
             )
           }
         />
+
         <Route
           exact
           path="/pesquisar/:name"
