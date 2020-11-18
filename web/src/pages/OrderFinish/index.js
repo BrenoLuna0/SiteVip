@@ -100,12 +100,9 @@ function OrderFinish() {
     e.preventDefault();
     let formPagtCodigo, quantidadeParcelas, pagoEmCadaParcela;
     if (
-      dinheiroValor + duplicataValor < sub ||
-      dinheiroValor + duplicataValor > sub ||
-      dinheiroValor > sub ||
-      duplicataValor > sub ||
-      duplicataValor < sub ||
-      dinheiroValor < sub
+      dinheiroValor + duplicataValor !== sub ||
+      dinheiroValor !== sub ||
+      duplicataValor !== sub
     ) {
       toast.error("Confira os valores antes de continuar.", {
         position: "top-center",
@@ -148,8 +145,8 @@ function OrderFinish() {
       codIntervaloDias: codDayPaymentInstallment, //adicionar ao backend depois
     };
 
-    const returning = await api.post("/checkout", object);
-    window.location.href = `/order/${returning.data.davCode}`;
+    //const returning = await api.post("/checkout", object);
+    //window.location.href = `/order/${returning.data.davCode}`;
   }
 
   if (!data) {
