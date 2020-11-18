@@ -101,7 +101,11 @@ function OrderFinish() {
     let formPagtCodigo, quantidadeParcelas, pagoEmCadaParcela;
     if (
       dinheiroValor + duplicataValor < sub ||
-      dinheiroValor + duplicataValor > sub
+      dinheiroValor + duplicataValor > sub ||
+      dinheiroValor > sub ||
+      duplicataValor > sub ||
+      duplicataValor < sub ||
+      dinheiroValor < sub
     ) {
       toast.error("Confira os valores antes de continuar.", {
         position: "top-center",
