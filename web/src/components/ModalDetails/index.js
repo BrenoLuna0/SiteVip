@@ -31,17 +31,10 @@ function ModalDetails({ produtos }) {
             return (
               <ContainerProducts>
                 <div>
-                  {product.PROD_IMAG[0] === undefined ? (
-                    <img
-                      src={process.env.PUBLIC_URL + "/images/no-image.png"}
-                      alt={product.PROD_DESCRICAO.slice(0, 18)}
-                    />
-                  ) : (
-                    <img
-                      src={`http://187.84.80.162:8082/imagens/${product.PROD_IMAG[0].PROD_IMAG_NOME}`}
-                      alt={product.PROD_DESCRICAO.slice(0, 18)}
-                    />
-                  )}
+                  <img
+                    src={process.env.PUBLIC_URL + "/images/no-image.png"}
+                    alt={product.PROD_DESCRICAO.slice(0, 18)}
+                  />
                 </div>
                 <div>{product.PROD_DESCRICAO}</div>
                 <div>{product.PROD_QTD}</div>

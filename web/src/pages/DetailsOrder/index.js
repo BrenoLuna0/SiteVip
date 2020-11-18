@@ -52,22 +52,12 @@ function DetailsOrder(props) {
           {itens?.products.map((product) => (
             <Card>
               <div className="title">
-                {" "}
-                {product.PROD_IMAG_DESCRICAO ? (
-                  <img
-                    id="img"
-                    src={`http://187.84.80.162:8082/imagens/${product.PROD_IMAG_DESCRICAO}`}
-                    alt="produto"
-                    className="image"
-                  />
-                ) : (
-                  <img
-                    id="img"
-                    src={`${process.env.PUBLIC_URL}/images/no-image.png`}
-                    alt="produto"
-                    className="image"
-                  />
-                )}
+                <img
+                  id="img"
+                  src={`${process.env.PUBLIC_URL}/images/no-image.png`}
+                  alt="produto"
+                  className="image"
+                />
               </div>
               <div className="quantity">
                 <h1>{product.PROD_DESCRICAO}</h1>

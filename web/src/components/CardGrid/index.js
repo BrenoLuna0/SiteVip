@@ -10,21 +10,12 @@ function CardGrid({ name, price, image, id, quantity }) {
     <Container>
       <ImageDiv>
         <Link to={`/products/${id}`}>
-          {image ? (
-            <img
-              id="img"
-              src={"http://187.84.80.162:8082/imagens/" + image}
-              alt="produto"
-              className="image"
-            />
-          ) : (
-            <img
-              id="img"
-              src={process.env.PUBLIC_URL + "/images/no-image.png"}
-              alt="produto"
-              className="image"
-            />
-          )}
+          <img
+            id="img"
+            src={process.env.PUBLIC_URL + "/images/no-image.png"}
+            alt="produto"
+            className="image"
+          />
         </Link>
       </ImageDiv>
 

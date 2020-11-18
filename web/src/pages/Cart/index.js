@@ -170,19 +170,11 @@ function Cart() {
                   <ContainerProducts>
                     <td width="50%" className="product-container">
                       <Link to={`/products/${data.PROD_CODIGO}`}>
-                        {data.PROD_IMAG[0] === undefined ? (
-                          <img
-                            src={
-                              process.env.PUBLIC_URL + "/images/no-image.png"
-                            }
-                            alt={data.PROD_DESCRICAO.slice(0, 18)}
-                          />
-                        ) : (
-                          <img
-                            src={`http://187.84.80.162:8082/imagens/${data.PROD_IMAG[0].PROD_IMAG_NOME}`}
-                            alt={data.PROD_DESCRICAO.slice(0, 18)}
-                          />
-                        )}
+                        <img
+                          src={process.env.PUBLIC_URL + "/images/no-image.png"}
+                          alt={data.PROD_DESCRICAO.slice(0, 18)}
+                        />
+
                         <p className="name-product">{data.PROD_DESCRICAO}</p>
                       </Link>
                       <Link to={`/products/${data.PROD_CODIGO}`}></Link>
@@ -261,17 +253,11 @@ function Cart() {
                 <div className="product">
                   <div className="img">
                     <Link to={`/products/${data.PROD_CODIGO}`}>
-                      {data.PROD_IMAG[0] === undefined ? (
-                        <img
-                          src={process.env.PUBLIC_URL + "/images/no-image.png"}
-                          alt={data.PROD_DESCRICAO.slice(0, 18)}
-                        />
-                      ) : (
-                        <img
-                          src={`http://187.84.80.162:8082/imagens/${data.PROD_IMAG[0].PROD_IMAG_NOME}`}
-                          alt={data.PROD_DESCRICAO.slice(0, 18)}
-                        />
-                      )}
+                      <img
+                        src={process.env.PUBLIC_URL + "/images/no-image.png"}
+                        alt={data.PROD_DESCRICAO.slice(0, 18)}
+                      />
+
                       <p className="name-product">{data.PROD_DESCRICAO}</p>
                     </Link>
                   </div>

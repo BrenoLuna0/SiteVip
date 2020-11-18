@@ -105,19 +105,11 @@ function Detail() {
       <Container>
         <ContainerProduct>
           <div className="img-container">
-            {data?.product?.PROD_IMAG[0] === undefined ? (
-              <img
-                src={process.env.PUBLIC_URL + "/images/no-image.png"}
-                alt="Sem Imagem"
-                className="image"
-              />
-            ) : (
-              <img
-                src={`http://187.84.80.162:8082/imagens/${data?.product?.PROD_IMAG[0].PROD_IMAG_NOME}`}
-                alt="Imagem produto"
-                className="image"
-              />
-            )}
+            <img
+              src={process.env.PUBLIC_URL + "/images/no-image.png"}
+              alt="Sem Imagem"
+              className="image"
+            />
           </div>
 
           <DetailsProducts>

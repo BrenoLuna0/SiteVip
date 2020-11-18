@@ -7,10 +7,8 @@ import { FaArrowLeft } from "react-icons/fa";
 import {
   Container,
   ContainerBody,
-  Inputs,
   InputPassword,
   InputCnpj,
-  SelectTypeUser,
   FilialOption,
   LoginButton,
   ContainerLogin,
