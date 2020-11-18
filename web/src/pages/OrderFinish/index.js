@@ -23,6 +23,7 @@ import Footer from "../../components/Footer";
 import ModalDetails from "../../components/ModalDetails";
 
 import { useAxios } from "../../hooks/useAxios";
+import api from "../../services/api";
 
 const currencyConfig = {
   locale: "pt-BR",
@@ -95,9 +96,8 @@ function OrderFinish() {
     setCodDayPaymentInstallment(data.intarvaloDiasParcelas);
   };
 
-  function handleSendOrder(e) {
+  async function handleSendOrder(e) {
     e.preventDefault();
-    console.log(duplicataValor, dinheiroValor);
     let formPagtCodigo, quantidadeParcelas, pagoEmCadaParcela;
     if (
       dinheiroValor + duplicataValor < sub ||
@@ -124,26 +124,28 @@ function OrderFinish() {
     }
     if (quantityPayment.length === 1) {
       formPagtCodigo = duplicata ? 18 : 11;
-      quantidadeParcelas = paymentInstallments;
+      quantidadeParcelas = paymentInstallments ? paymentInstallments : 1;
       pagoEmCadaParcela = {
         total: sub,
       };
     }
 
     const object = {
-      clieCpfCnpj: sessionStorage.getItem("cpfCnpj"),
-      filial: sessionStorage.getItem("filial"),
-      codigo: sessionStorage.getItem("codigo"),
-      quantidadeDePagamentos: quantityPayment.length,
-      qtdMetodoPagamento: quantityPayment.length,
-      formPagtCodigo,
-      parcelas: quantidadeParcelas,
-      total: pagoEmCadaParcela,
-      intervalo: "TESTE NAO FATURAR!",
-      itens: data.products,
-      codIntervaloDias: codDayPaymentInstallment,
+      clieCpfCnpj: sessionStorage.getItem("cpfCnpj"), //ok
+      codigo: sessionStorage.getItem("codigo"), //ok
+      filial: sessionStorage.getItem("filial"), //ok
+      formPagtCodigo, //ok
+      intervalo: "TESTE NAO FATURAR!", //ok
+      quantidadeDePagamentos: quantityPayment.length, //ok
+      qtdMetodoPagamento: quantityPayment.length, //ok duplicado
+      parcelas: quantidadeParcelas, // ok
+      total: pagoEmCadaParcela, //ok
+      itens: data.products, //ok
+      codIntervaloDias: codDayPaymentInstallment, //adicionar ao backend depois
     };
-    console.log(object);
+
+    const returning = await api.post("/checkout", object);
+    window.location.href = `/order/${returning.data.davCode}`;
   }
 
   if (!data) {

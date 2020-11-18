@@ -19,8 +19,8 @@ function NumberOrder(props) {
           </span>
         </div>
         <div className="text">
-          <h1>Seu pedido {orderNumber} esta sendo processado.</h1>
-          <h3>Obrigado por comprar conosco</h3>
+          <h1>Seu pedido {orderNumber} está sendo processado.</h1>
+          <h3>Obrigado por comprar conosco!</h3>
         </div>
       </Container>
       <Footer />
