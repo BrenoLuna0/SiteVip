@@ -14,7 +14,6 @@ function MyAccount() {
   const { data: dav, error } = useAxios(
     `/allDavs?clieCod=${sessionStorage.getItem("codigo")}&page=${page}`
   );
-  console.log(dav);
 
   if (!dav) {
     return (
