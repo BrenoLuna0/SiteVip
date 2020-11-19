@@ -27,7 +27,6 @@ function Detail() {
   const { data, error } = useAxios(`/products/${prodCodigo}?filial=${2}`, {
     revalidateOnFocus: false,
   });
-
   if (error) {
     return (
       <>
@@ -105,11 +104,21 @@ function Detail() {
       <Container>
         <ContainerProduct>
           <div className="img-container">
-            <img
-              src={process.env.PUBLIC_URL + "/images/no-image.png"}
-              alt="Sem Imagem"
-              className="image"
-            />
+            {data?.product?.PROD_IMAG[0].PROD_IMAG_NOME ? (
+              <img
+                id="img"
+                src={`http://192.168.15.10/imagens//${data?.product?.PROD_IMAG[0].PROD_IMAG_NOME}`}
+                alt="produto"
+                className="image"
+              />
+            ) : (
+              <img
+                id="img"
+                src={process.env.PUBLIC_URL + "/images/no-image.png"}
+                alt="produto"
+                className="image"
+              />
+            )}
           </div>
 
           <DetailsProducts>

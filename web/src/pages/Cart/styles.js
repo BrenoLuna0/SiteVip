@@ -3,11 +3,12 @@ import styled from "styled-components";
 export const ContainerAll = styled.div`
   position: relative;
   width: 90%;
-  min-height: 70vh;
+  min-height: 80vh;
   background-color: white;
   margin: 5px auto;
   box-shadow: 14px 15px 20px -20px rgba(0, 0, 0, 0.75);
   border-radius: 8px;
+  padding-bottom: 120px;
   a:hover {
     outline: none !important;
     text-decoration: none !important;

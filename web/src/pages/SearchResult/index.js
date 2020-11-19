@@ -126,7 +126,6 @@ function SearchResult() {
             marginPagesDisplayed={2}
             disableInitialCallback={true}
             onPageChange={(value, event) => {
-              console.log(event);
               const pageValue = value.selected + 1;
               setPage(pageValue);
             }}

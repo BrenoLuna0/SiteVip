@@ -22,7 +22,7 @@ function DetailsOrder(props) {
     `/methodPaymentDav?davCode=${idDav}`
   );
   const { data: itens } = useAxios(`/getProductsDav?davCode=${idDav}`);
-  console.log(itens);
+
   const methodPaymentFiltred = paymentMethod?.methodPaymentDav.map((item) => {
     if (item.FORM_PAGT_CODIGO === 18) {
       return "Duplicata";
@@ -115,36 +115,47 @@ function DetailsOrder(props) {
           </div>
         </DetailsPayment>
         <DetailsProducts>
-          {itens?.products.map((product) => (
-            <Card>
-              <div className="title">
-                <img
-                  id="img"
-                  src={`${process.env.PUBLIC_URL}/images/no-image.png`}
-                  alt="produto"
-                  className="image"
-                />
-              </div>
-              <div className="quantity">
-                <h1>{product.PROD_DESCRICAO}</h1>
+          {itens?.products.map((product) => {
+            return (
+              <Card>
+                <div className="title">
+                  {product.PROD_IMAG_NOME ? (
+                    <img
+                      id="img"
+                      src={`http://192.168.15.10/imagens//${product.PROD_IMAG_NOME}`}
+                      alt="produto"
+                      className="image"
+                    />
+                  ) : (
+                    <img
+                      id="img"
+                      src={process.env.PUBLIC_URL + "/images/no-image.png"}
+                      alt="produto"
+                      className="image"
+                    />
+                  )}
+                </div>
+                <div className="quantity">
+                  <h1>{product.PROD_DESCRICAO}</h1>
 
-                <div className="grid-template">
-                  <div>
-                    <h5>Quantidade:</h5>
-                    <p>{product.QTD_ITEM}</p>
-                  </div>
-                  <div>
-                    <h5>Preço unitário:</h5>
-                    <p>{numberFormat(product.PRECO_DAV_UN)}</p>
-                  </div>
-                  <div>
-                    <h5>Total:</h5>
-                    {numberFormat(product.TOTAL)}
+                  <div className="grid-template">
+                    <div>
+                      <h5>Quantidade:</h5>
+                      <p>{product.QTD_ITEM}</p>
+                    </div>
+                    <div>
+                      <h5>Preço unitário:</h5>
+                      <p>{numberFormat(product.PRECO_DAV_UN)}</p>
+                    </div>
+                    <div>
+                      <h5>Total:</h5>
+                      {numberFormat(product.TOTAL)}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Card>
-          ))}
+              </Card>
+            );
+          })}
         </DetailsProducts>
       </Container>
       <Footer />

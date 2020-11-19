@@ -15,12 +15,21 @@ function ProductResult({ name, picture, quantity, id, price }) {
       <Container>
         <ImgDiv>
           <Link to={`/products/${id}`}>
-            <img
-              id="img"
-              src={process.env.PUBLIC_URL + "/images/no-image.png"}
-              alt="produto"
-              className="image"
-            />
+            {picture ? (
+              <img
+                id="img"
+                src={`http://192.168.15.10/imagens//${picture}`}
+                alt="produto"
+                className="image"
+              />
+            ) : (
+              <img
+                id="img"
+                src={process.env.PUBLIC_URL + "/images/no-image.png"}
+                alt="produto"
+                className="image"
+              />
+            )}
           </Link>
         </ImgDiv>
 

@@ -65,7 +65,6 @@ function Cart() {
         }
       })
       .catch((err) => {
-        console.log(err);
         alert("Erro ao remover produto!");
       });
 
@@ -82,16 +81,14 @@ function Cart() {
 
     mutate({ ...data, products: cartEdited }, false);
 
-    await api
-      .put(
-        `/cart/${sessionStorage.getItem("filial")}/${sessionStorage.getItem(
-          "codigo"
-        )}/${prodCodigo}`,
-        {
-          prodQtd: value,
-        }
-      )
-      .catch((err) => console.log(err));
+    await api.put(
+      `/cart/${sessionStorage.getItem("filial")}/${sessionStorage.getItem(
+        "codigo"
+      )}/${prodCodigo}`,
+      {
+        prodQtd: value,
+      }
+    );
 
     mutate();
   }
@@ -253,12 +250,21 @@ function Cart() {
                 <div className="product">
                   <div className="img">
                     <Link to={`/products/${data.PROD_CODIGO}`}>
-                      <img
-                        src={process.env.PUBLIC_URL + "/images/no-image.png"}
-                        alt={data.PROD_DESCRICAO.slice(0, 18)}
-                      />
-
-                      <p className="name-product">{data.PROD_DESCRICAO}</p>
+                      {data.PROD_IMAG_NOME ? (
+                        <img
+                          id="img"
+                          src={`http://192.168.15.10/imagens//${data.PROD_IMAG_NOME}`}
+                          alt="produto"
+                          className="image"
+                        />
+                      ) : (
+                        <img
+                          id="img"
+                          src={process.env.PUBLIC_URL + "/images/no-image.png"}
+                          alt="produto"
+                          className="image"
+                        />
+                      )}
                     </Link>
                   </div>
                   <div className="center">

@@ -18,4 +18,25 @@ export const Container = styled.div`
     margin-top: 40px;
     text-align: center;
   }
+
+  .see-details {
+    width: 60%;
+    margin: 50px auto;
+    padding: 6px 12px;
+    background-color: #171d4b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 400;
+    text-decoration: none;
+    color: white !important;
+  }
+
+  .see-details:hover {
+    background-color: #38507a;
+    transition: 0.2s ease-out;
+  }
 `;

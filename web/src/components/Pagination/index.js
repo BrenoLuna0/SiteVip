@@ -21,7 +21,6 @@ const Pagination = ({ activePage, pages, onChange, className }) => {
   function paginate(selectedPage, totalPages) {
     let pages = [],
       oldPage = selectedPage === 1 ? 1 : selectedPage - 1;
-    console.log(`Pagina anterior: ${oldPage}`);
 
     for (let currentPage = 1; currentPage <= totalPages; currentPage++) {
       const firstAndLastPage = currentPage === 1 || currentPage === totalPages;
@@ -33,11 +32,9 @@ const Pagination = ({ activePage, pages, onChange, className }) => {
         (pagesBeforeSelectedpage && pagesAfterSelectedpage)
       ) {
         if (oldPage && currentPage - oldPage > 2) {
-          console.log("primeiro if " + oldPage, currentPage);
           pages.push("...");
         }
         if (oldPage && currentPage - oldPage == 2) {
-          console.log("segundo if " + oldPage, currentPage);
           pages.push(currentPage - 1);
         }
         pages.push(currentPage);
