@@ -11,6 +11,8 @@ import ContainerDAV from "../../components/ContainerDAV";
 
 function MyAccount() {
   const [page, setPage] = useState(1);
+  const [active, setActive] = useState(false);
+
   const { data: dav, error } = useAxios(
     `/allDavs?clieCod=${sessionStorage.getItem("codigo")}&page=${page}`
   );

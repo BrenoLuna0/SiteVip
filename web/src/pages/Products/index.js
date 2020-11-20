@@ -35,7 +35,6 @@ function Products(props) {
   const { data } = useAxios(
     `/products/category?filial=${2}&category=${categories}&page=${page}&order=${orderBy}&type=${orderType}`
   );
-  console.log(data);
 
   if (!data) {
     return (

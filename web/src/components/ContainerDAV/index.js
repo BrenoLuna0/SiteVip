@@ -9,14 +9,20 @@ import { numberFormat } from "../../utils/currency";
 
 function ContainerDAV({ id, subtotal }) {
   const [isVisible, setIsVisible] = useState(false);
+  const [active, setActive] = useState(false);
   const { data: products } = useAxios(`/getProductsDav?davCode=${id}`);
   return (
     <>
       <ContainerProduct>
         <h3>Pedido {id}</h3>
-        <span onClick={() => setIsVisible(!isVisible)}>
+        <span
+          onClick={() => {
+            setIsVisible(!isVisible);
+            setActive(!active);
+          }}
+        >
           <h4>Ver detalhes</h4>
-          <AiOutlineArrowDown size={20} />
+          <AiOutlineArrowDown size={20} className={active ? "active" : ""} />
         </span>
       </ContainerProduct>
       <SlideDown isVisible={isVisible}>

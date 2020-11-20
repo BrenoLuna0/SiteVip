@@ -1,4 +1,15 @@
 import styled from "styled-components";
+import { keyframes } from "styled-components";
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(180deg);
+  }
+`;
 
 export const ContainerProduct = styled.div`
   width: 80%;
@@ -29,6 +40,10 @@ export const ContainerProduct = styled.div`
   span:hover {
     color: #6666;
     transition: 0.2s ease-out;
+  }
+
+  .active {
+    animation: ${rotate} 0.2s linear;
   }
 `;
 

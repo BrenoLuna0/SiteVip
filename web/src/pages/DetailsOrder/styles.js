@@ -118,6 +118,7 @@ export const Button = styled.div`
     background-color: #38507a;
     transition: 0.2s ease-out;
   }
+
   @media (max-width: 600px) {
     width: 50%;
   }

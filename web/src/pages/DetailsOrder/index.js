@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import Skeleton from "@material-ui/lab/Skeleton";
 import { useAxios } from "../../hooks/useAxios";
 import { numberFormat } from "../../utils/currency";
 
@@ -39,7 +40,77 @@ function DetailsOrder(props) {
     }
   }
 
-  if (verify) {
+  if (verify && !itens) {
+    return (
+      <>
+        <Header />
+        <Container>
+          <h3>Detalhamento do pedido {idDav}</h3>
+          <DetailsPayment>
+            <div className="payment-method">
+              <h4>Método de pagamento</h4>
+              <Skeleton
+                variant="text"
+                width={"50%"}
+                height={30}
+                animation="wave"
+              />
+            </div>
+            <div className="payment-total">
+              <h4>Total pago: </h4>
+              <h5>
+                Subtotal:{" "}
+                <Skeleton
+                  variant="text"
+                  width={"50%"}
+                  height={30}
+                  animation="wave"
+                />
+              </h5>
+              <div className="last-field">
+                <h5>
+                  Desconto:{" "}
+                  <Skeleton
+                    variant="text"
+                    width={"50%"}
+                    height={30}
+                    animation="wave"
+                  />
+                </h5>
+              </div>
+              <h5 style={{ marginTop: "6px" }}>
+                Total:{" "}
+                <Skeleton
+                  variant="text"
+                  width={"50%"}
+                  height={30}
+                  animation="wave"
+                />
+              </h5>
+            </div>
+          </DetailsPayment>
+          <ErrorContainer>
+            <div>
+              <Error404 />
+            </div>
+            <div className="flex">
+              <p>Opss, aconteceu algo de errado.</p>
+              <p>
+                Verifique sua conexão com a internet e/ou tente novamente mais
+                tarde
+              </p>
+            </div>
+          </ErrorContainer>
+          <Button>
+            <Link to="/meus-pedidos">Voltar para o início</Link>
+          </Button>
+        </Container>
+        <Footer />
+      </>
+    );
+  }
+
+  if (verify && itens) {
     return (
       <>
         <Header />
@@ -87,7 +158,75 @@ function DetailsOrder(props) {
       </>
     );
   }
-
+  if (!itens) {
+    return (
+      <>
+        <Header />
+        <Container>
+          <h3>Detalhamento do pedido {idDav}</h3>
+          <DetailsPayment>
+            <div className="payment-method">
+              <h4>Método de pagamento</h4>
+              <Skeleton
+                variant="text"
+                width={"50%"}
+                height={30}
+                animation="wave"
+              />
+            </div>
+            <div className="payment-total">
+              <h4>Total pago: </h4>
+              <h5>
+                Subtotal:{" "}
+                <Skeleton
+                  variant="text"
+                  width={"50%"}
+                  height={30}
+                  animation="wave"
+                />
+              </h5>
+              <div className="last-field">
+                <h5>
+                  Desconto:{" "}
+                  <Skeleton
+                    variant="text"
+                    width={"50%"}
+                    height={30}
+                    animation="wave"
+                  />
+                </h5>
+              </div>
+              <h5 style={{ marginTop: "6px" }}>
+                Total:{" "}
+                <Skeleton
+                  variant="text"
+                  width={"50%"}
+                  height={30}
+                  animation="wave"
+                />
+              </h5>
+            </div>
+          </DetailsPayment>
+          <ErrorContainer>
+            <div>
+              <Error404 />
+            </div>
+            <div className="flex">
+              <p>Opss, aconteceu algo de errado.</p>
+              <p>
+                Verifique sua conexão com a internet e/ou tente novamente mais
+                tarde
+              </p>
+            </div>
+          </ErrorContainer>
+          <Button>
+            <Link to="/meus-pedidos">Voltar para o início</Link>
+          </Button>
+        </Container>
+        <Footer />
+      </>
+    );
+  }
   return (
     <>
       <Header />
