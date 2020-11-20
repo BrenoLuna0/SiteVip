@@ -39,7 +39,10 @@ function Main() {
                 </Link>
               </Carousel.Item>
               <Carousel.Item>
-                <Link to="/pesquisar/IMPRESSORA%20EPSON" className="img-flex">
+                <Link
+                  to="/pesquisar?name=IMPRESSORA%20EPSON"
+                  className="img-flex"
+                >
                   <img src="/images/impressora-epson.png" alt="" />
                 </Link>
               </Carousel.Item>
@@ -106,7 +109,10 @@ function Main() {
               </Link>
             </Carousel.Item>
             <Carousel.Item>
-              <Link to="/pesquisar/IMPRESSORA%20EPSON" className="img-flex">
+              <Link
+                to="/pesquisar?name=IMPRESSORA%20EPSON"
+                className="img-flex"
+              >
                 <img src="/images/impressora-epson.png" alt="" />
               </Link>
             </Carousel.Item>

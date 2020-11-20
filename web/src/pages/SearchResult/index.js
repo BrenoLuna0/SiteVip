@@ -11,9 +11,12 @@ import Footer from "../../components/Footer";
 import ProductResult from "../../components/ProductResult";
 import ProductResultLoading from "../../components/ProductResultLoading";
 
-function SearchResult() {
-  const [page, setPage] = useState(1);
-  const { name } = useParams();
+function SearchResult(props) {
+  const params = new URLSearchParams(props.location.search);
+  let pages = params.get("page");
+  const name = params.get("name");
+
+  const [page, setPage] = useState(pages === null ? 1 : pages);
   const [orderBy, setOrderBy] = useState("SIAC_TS.VW_PRODUTO.PROD_DESCRICAO");
   const [orderType, setOrderType] = useState("asc");
   const { register, handleSubmit } = useForm();
@@ -127,6 +130,8 @@ function SearchResult() {
             disableInitialCallback={true}
             onPageChange={(value, event) => {
               const pageValue = value.selected + 1;
+              pages = pageValue;
+              window.location.href = `pesquisar?name=${name}&page=${pages}`;
               setPage(pageValue);
             }}
           />

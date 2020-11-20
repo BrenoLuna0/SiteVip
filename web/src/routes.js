@@ -72,8 +72,8 @@ const Routes = () => {
 
         <Route
           exact
-          path="/pesquisar/:name"
-          render={(props) => <SearchResult />}
+          path="/pesquisar"
+          render={(props) => <SearchResult {...props} />}
         />
         <Route component={NotFound} />
       </Switch>

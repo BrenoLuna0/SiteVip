@@ -7,7 +7,8 @@ export const Container = styled.div`
   border-radius: 8px;
   background-color: white;
   position: relative;
-
+  min-height: 90vh;
+  padding-bottom: 74px;
   .title-results {
     width: 95%;
     margin: 0 auto;
@@ -84,3 +85,47 @@ export const FormSelect = styled.form`
 `;
 
 export const ContainerProducts = styled.div``;
+
+export const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: -55px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  .pagination-container {
+    list-style: none;
+    display: inline-flex;
+  }
+  li {
+    cursor: pointer;
+    background-color: transparent;
+    border-radius: 99px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    border: none;
+    color: #3b3b3b;
+    margin: 16px 4px;
+    outline: none;
+    transition: all 0.1s;
+    user-select: none;
+    a {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  li:hover {
+    background-color: #0003;
+  }
+  .selected {
+    background-color: #0002;
+  }
+`;

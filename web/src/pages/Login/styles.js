@@ -9,6 +9,11 @@ export const Container = styled.div`
   width: 100%;
   overflow: auto;
   height: 100vh;
+  .copy {
+    color: #666 !important;
+    position: absolute;
+    bottom: 5px;
+  }
 `;
 
 export const ContainerBody = styled.div`

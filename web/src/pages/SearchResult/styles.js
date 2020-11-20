@@ -2,11 +2,13 @@ import styled from "styled-components";
 
 export const Container = styled.div`
   margin: 20px auto;
-  
+  position: relative;
+  min-height: 90vh;
   width: 80%;
   border-radius: 8px;
   background-color: white;
-  padding-bottom: 40px;
+  padding-bottom: 74px;
+
   .title-results {
     width: 95%;
     margin: 0 auto;
@@ -81,7 +83,10 @@ export const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
+  position: absolute;
+  bottom: -55px;
+  left: 50%;
+  transform: translate(-50%, -50%);
   .pagination-container {
     list-style: none;
     display: inline-flex;

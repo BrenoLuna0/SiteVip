@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Pagination from "@material-ui/lab/Pagination";
+import ReactPaginate from "react-paginate";
 
 import { useForm } from "react-hook-form";
 
@@ -8,16 +8,15 @@ import Footer from "../../components/Footer";
 import ProductResult from "../../components/ProductResult";
 import ProductResultLoading from "../../components/ProductResultLoading";
 
-import { Container, FormSelect, ContainerProducts } from "./styles";
+import { Container, FormSelect, ContainerProducts, Wrapper } from "./styles";
 
 import { useAxios } from "../../hooks/useAxios";
 
 function Products(props) {
-  const query = props.location.search;
-  const categories = query.split("=");
-  const title = categories[1].replace("%20", " ");
-
-  const [page, setPage] = useState(1);
+  const params = new URLSearchParams(props.location.search);
+  let pages = params.get("page");
+  const categories = params.get("category");
+  const [page, setPage] = useState(pages === null ? 1 : pages);
   const [orderBy, setOrderBy] = useState("SIAC_TS.VW_PRODUTO.PROD_DESCRICAO");
   const [orderType, setOrderType] = useState("asc");
   const { register, handleSubmit } = useForm();
@@ -34,14 +33,9 @@ function Products(props) {
   };
 
   const { data } = useAxios(
-    `/products/category?filial=${2}&category=${
-      categories[1]
-    }&page=${page}&order=${orderBy}&type=${orderType}`
+    `/products/category?filial=${2}&category=${categories}&page=${page}&order=${orderBy}&type=${orderType}`
   );
-
-  function handleChange(event, value) {
-    setPage(value);
-  }
+  console.log(data);
 
   if (!data) {
     return (
@@ -50,7 +44,7 @@ function Products(props) {
         <Container>
           <div className="title-results">
             <div className="categorias">
-              <h1>{title}</h1>
+              <h1>{categories}</h1>
             </div>
             <FormSelect onChange={handleSubmit(onSubmit)}>
               <select name="order-products">
@@ -80,7 +74,7 @@ function Products(props) {
       <Container>
         <div className="title-results">
           <div className="categorias">
-            <h1>{title}</h1>
+            <h1>{categories}</h1>
             <p>({data?.count} items)</p>
           </div>
           <FormSelect onChange={handleSubmit(onSubmit)}>
@@ -107,9 +101,24 @@ function Products(props) {
             />
           ))}
         </ContainerProducts>
-        <div className="root">
-          <Pagination count={data?.pages} page={page} onChange={handleChange} />
-        </div>
+        <Wrapper>
+          <ReactPaginate
+            containerClassName="pagination-container"
+            pageCount={data.pages}
+            initialPage={page - 1}
+            previousLabel="<"
+            nextLabel=">"
+            pageRangeDisplayed={2}
+            marginPagesDisplayed={2}
+            disableInitialCallback={true}
+            onPageChange={(value, event) => {
+              const pageValue = value.selected + 1;
+              pages = pageValue;
+              window.location.href = `/products?category=${categories}&page=${pages}`;
+              setPage(pageValue);
+            }}
+          />
+        </Wrapper>
       </Container>
       <Footer />
     </>
