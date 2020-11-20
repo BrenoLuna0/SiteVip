@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FaCreditCard, FaCalendarAlt, FaClock } from "react-icons/fa";
 
 import { Carousel } from "react-bootstrap";
 import { useAxios } from "../../hooks/useAxios";
@@ -14,7 +15,7 @@ import {
   GridContainerProducts,
   EffectText,
   ContainerBody,
-  ImgPropaganda,
+  ContainerDetailsVip,
 } from "./styles.js";
 
 function Main() {
@@ -28,36 +29,47 @@ function Main() {
           <Container>
             <Carousel>
               <Carousel.Item>
-                <img src="laptop.jpg" alt="Multilaser Xpad" />
+                <Link to="/products/22957">
+                  <img src="/images/headset-fortrek.png" alt="" />
+                </Link>
               </Carousel.Item>
               <Carousel.Item>
-                <img src="tv.jpg" alt="Multilaser Escova Eletrica" />
+                <Link to="/products/22932">
+                  <img src="/images/banner-cadeiras.png" alt="" />
+                </Link>
               </Carousel.Item>
               <Carousel.Item>
-                <img src="mobile-phone.jpg" alt="Monitor Acer 23.6pol" />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img src="acessories.jpg" alt="OEX Cooler fan" />
+                <Link to="/pesquisar/IMPRESSORA%20EPSON" className="img-flex">
+                  <img src="/images/impressora-epson.png" alt="" />
+                </Link>
               </Carousel.Item>
             </Carousel>
           </Container>
-
-          <ImgPropaganda>
+          <ContainerDetailsVip>
             <div>
-              <Link to="/home">
-                <img src="https://via.placeholder.com/500x220" alt="" />
-              </Link>
+              <FaCalendarAlt size={48} color="#171d4b" />
+              <span>
+                <h4>Desde 2012</h4>
+                <p>no mercado</p>
+              </span>
             </div>
 
-            <div className="two-images">
-              <Link to="/home">
-                <img src="https://via.placeholder.com/250x140" alt="" />
-              </Link>
-              <Link to="/home">
-                <img src="https://via.placeholder.com/250x140" alt="" />
-              </Link>
+            <div>
+              <FaCreditCard size={48} color="#171d4b" />
+              <span>
+                <h4>Dividimos em até 10x</h4>
+                <p>em cartões</p>
+              </span>
             </div>
-          </ImgPropaganda>
+            <div>
+              <FaClock size={48} color="#171d4b" />
+              <span>
+                <h4>Atendimento</h4>
+                <p>Seg. a Sex. das 8h às 18h</p>
+                <p>Sáb. das 8h às 12h</p>
+              </span>
+            </div>
+          </ContainerDetailsVip>
           <EffectText className="effect-text">
             <h1>As melhores ofertas</h1>
           </EffectText>
@@ -84,36 +96,48 @@ function Main() {
         <Container>
           <Carousel>
             <Carousel.Item>
-              <img src="laptop.jpg" alt="Multilaser Xpad" />
+              <Link to="/products/22957" className="img-flex">
+                <img src="/images/headset-fortrek.png" alt="" />
+              </Link>
             </Carousel.Item>
             <Carousel.Item>
-              <img src="tv.jpg" alt="Multilaser Escova Eletrica" />
+              <Link to="/products/22932" className="img-flex">
+                <img src="/images/banner-cadeiras.png" alt="" />
+              </Link>
             </Carousel.Item>
             <Carousel.Item>
-              <img src="mobile-phone.jpg" alt="Monitor Acer 23.6pol" />
-            </Carousel.Item>
-            <Carousel.Item>
-              <img src="acessories.jpg" alt="OEX Cooler fan" />
+              <Link to="/pesquisar/IMPRESSORA%20EPSON" className="img-flex">
+                <img src="/images/impressora-epson.png" alt="" />
+              </Link>
             </Carousel.Item>
           </Carousel>
         </Container>
 
-        <ImgPropaganda>
+        <ContainerDetailsVip>
           <div>
-            <Link to="/home">
-              <img src="https://via.placeholder.com/500x220" alt="" />
-            </Link>
+            <FaCalendarAlt size={48} color="#171d4b" />
+            <span>
+              <h4>Desde 2012</h4>
+              <p>no mercado</p>
+            </span>
           </div>
+          <div>
+            <FaCreditCard size={48} color="#171d4b" />
+            <span>
+              <h4>Dividimos em até 10x</h4>
+              <p>em cartões</p>
+            </span>
+          </div>
+          <div>
+            <FaClock size={48} color="#171d4b" />
+            <span>
+              <h4>Atendimento</h4>
+              <p>Seg. a Sex. das 8h às 18h</p>
+              <p>Sáb. das 8h às 12h</p>
+            </span>
+          </div>
+        </ContainerDetailsVip>
 
-          <div className="two-images">
-            <Link to="/home">
-              <img src="https://via.placeholder.com/250x140" alt="" />
-            </Link>
-            <Link to="/home">
-              <img src="https://via.placeholder.com/250x140" alt="" />
-            </Link>
-          </div>
-        </ImgPropaganda>
         <EffectText className="effect-text">
           <h1>As melhores ofertas</h1>
         </EffectText>

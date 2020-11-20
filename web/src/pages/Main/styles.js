@@ -50,20 +50,52 @@ export const ContainerBody = styled.div`
   width: 90%;
   margin: 20px auto;
   display: grid;
+
+  .img-flex {
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
 `;
 
-export const ImgPropaganda = styled.div`
-  display: grid;
-  grid-template-columns: 3fr 1fr;
-  gap: 20px;
-  margin-top: 15px;
-  img {
-    width: 100%;
-  }
+export const ContainerDetailsVip = styled.div`
+  height: 120px;
+  width: 100%;
+  margin: 20px auto;
+  border-radius: 8px;
+  background-color: white;
 
-  .two-images {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid black;
+    svg {
+      margin-right: 8px;
+    }
+    span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      h4 {
+        font-size: 18px;
+        margin-top: 14.5px;
+        margin-bottom: 0px;
+      }
+      h4:nth-child(3) {
+        margin-top: 12px;
+      }
+      p {
+        color: #666;
+        font-weight: 500;
+        margin-bottom: 0px;
+        font-size: 18px;
+      }
+    }
   }
 `;

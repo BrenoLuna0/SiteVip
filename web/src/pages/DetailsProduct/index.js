@@ -27,6 +27,7 @@ function Detail() {
   const { data, error } = useAxios(`/products/${prodCodigo}?filial=${2}`, {
     revalidateOnFocus: false,
   });
+
   if (error) {
     return (
       <>
@@ -36,6 +37,7 @@ function Detail() {
       </>
     );
   }
+
   if (!data) {
     return (
       <>
