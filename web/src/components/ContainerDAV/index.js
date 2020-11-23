@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { AiOutlineArrowDown } from "react-icons/ai";
+import { AiOutlineArrowDown, AiOutlineArrowUp } from "react-icons/ai";
 
 import { ContainerProduct, ContainerDetails } from "./styles";
 import SlideDown from "../../components/SlideDown";
@@ -21,8 +21,17 @@ function ContainerDAV({ id, subtotal }) {
             setActive(!active);
           }}
         >
-          <h4>Ver detalhes</h4>
-          <AiOutlineArrowDown size={20} className={active ? "active" : ""} />
+          {active === false ? (
+            <>
+              <h4>Ver detalhes</h4>
+              <AiOutlineArrowDown size={20} />
+            </>
+          ) : (
+            <>
+              <h4>Esconder Detalhes</h4>
+              <AiOutlineArrowUp size={20} x />
+            </>
+          )}
         </span>
       </ContainerProduct>
       <SlideDown isVisible={isVisible}>

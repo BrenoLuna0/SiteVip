@@ -43,7 +43,7 @@ export const ContainerProduct = styled.div`
   }
 
   .active {
-    animation: ${rotate} 0.2s linear;
+    animation: ${rotate} 1s linear;
   }
 `;
 
