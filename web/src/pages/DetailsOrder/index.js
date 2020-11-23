@@ -27,7 +27,7 @@ function DetailsOrder(props) {
   const { data: paymentMethod } = useAxios(
     `/methodPaymentDav?davCode=${idDav}`
   );
-  const { data: itens } = useAxios(`/getProductsDav?davCode=${idDav}`);
+  const { data: itens, error } = useAxios(`/getProductsDav?davCode=${idDav}`);
 
   const methodPaymentFiltred = paymentMethod?.methodPaymentDav.map((item) => {
     if (item.FORM_PAGT_CODIGO === 18) {
