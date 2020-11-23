@@ -31,10 +31,21 @@ function ModalDetails({ produtos }) {
             return (
               <ContainerProducts>
                 <div>
-                  <img
-                    src={process.env.PUBLIC_URL + "/images/no-image.png"}
-                    alt={product.PROD_DESCRICAO.slice(0, 18)}
-                  />
+                  {product.PROD_IMAG_NOME ? (
+                    <img
+                      id="img"
+                      src={`${process.env.REACT_APP_URL_IMG}/${product.PROD_IMAG_NOME}`}
+                      alt="produto"
+                      className="image"
+                    />
+                  ) : (
+                    <img
+                      id="img"
+                      src={process.env.PUBLIC_URL + "/images/no-image.png"}
+                      alt="produto"
+                      className="image"
+                    />
+                  )}
                 </div>
                 <div>{product.PROD_DESCRICAO}</div>
                 <div>{product.PROD_QTD}</div>

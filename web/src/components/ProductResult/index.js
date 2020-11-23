@@ -18,7 +18,7 @@ function ProductResult({ name, picture, quantity, id, price }) {
             {picture ? (
               <img
                 id="img"
-                src={`http://192.168.15.10/imagens//${picture}`}
+                src={`${process.env.REACT_APP_URL_IMG}/${picture}`}
                 alt="produto"
                 className="image"
               />

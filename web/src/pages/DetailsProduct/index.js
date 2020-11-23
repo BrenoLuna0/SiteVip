@@ -109,7 +109,7 @@ function Detail() {
             {data?.product?.PROD_IMAG[0].PROD_IMAG_NOME ? (
               <img
                 id="img"
-                src={`http://192.168.15.10/imagens//${data?.product?.PROD_IMAG[0].PROD_IMAG_NOME}`}
+                src={`${process.env.REACT_APP_URL_IMG}/${data?.product?.PROD_IMAG[0].PROD_IMAG_NOME}`}
                 alt="produto"
                 className="image"
               />

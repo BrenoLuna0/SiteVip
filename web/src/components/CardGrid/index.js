@@ -14,7 +14,7 @@ function CardGrid({ name, price, image, id, quantity }) {
           {image ? (
             <img
               id="img"
-              src={`http://192.168.15.10/imagens//${image}`}
+              src={`${process.env.REACT_APP_URL_IMG}/${image}`}
               alt="produto"
               className="image"
             />

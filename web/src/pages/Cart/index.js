@@ -167,11 +167,23 @@ function Cart() {
                   <ContainerProducts>
                     <td width="50%" className="product-container">
                       <Link to={`/products/${data.PROD_CODIGO}`}>
-                        <img
-                          src={process.env.PUBLIC_URL + "/images/no-image.png"}
-                          alt={data.PROD_DESCRICAO.slice(0, 18)}
-                        />
-
+                        {data.PROD_IMAG_NOME ? (
+                          <img
+                            id="img"
+                            src={`${process.env.REACT_APP_URL_IMG}/${data.PROD_IMAG_NOME}`}
+                            alt="produto"
+                            className="image"
+                          />
+                        ) : (
+                          <img
+                            id="img"
+                            src={
+                              process.env.PUBLIC_URL + "/images/no-image.png"
+                            }
+                            alt="produto"
+                            className="image"
+                          />
+                        )}
                         <p className="name-product">{data.PROD_DESCRICAO}</p>
                       </Link>
                       <Link to={`/products/${data.PROD_CODIGO}`}></Link>
@@ -253,7 +265,7 @@ function Cart() {
                       {data.PROD_IMAG_NOME ? (
                         <img
                           id="img"
-                          src={`http://192.168.15.10/imagens//${data.PROD_IMAG_NOME}`}
+                          src={`${process.env.REACT_APP_URL_IMG}/${data.PROD_IMAG_NOME}`}
                           alt="produto"
                           className="image"
                         />
