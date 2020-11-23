@@ -16,6 +16,7 @@ import NumberOrder from "./pages/NumberOrder";
 import MyAccount from "./pages/MyAccount";
 import NotFound from "./pages/NotFound";
 import DetailsOrder from "./pages/DetailsOrder";
+import PasswordForgot from "./pages/PasswordForgot";
 
 const Routes = () => {
   return (
@@ -75,6 +76,13 @@ const Routes = () => {
           path="/pesquisar"
           render={(props) => <SearchResult {...props} />}
         />
+
+        <Route
+          exact
+          path="/esqueci-minha-senha"
+          render={(props) => <PasswordForgot {...props} />}
+        />
+
         <Route component={NotFound} />
       </Switch>
     </BrowserRouter>
