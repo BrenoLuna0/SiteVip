@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { useAxios } from "../../hooks/useAxios";
-import { numberFormat } from "../../utils/currency";
 
 import {
   Container,
@@ -16,6 +15,12 @@ import { ReactComponent as Error404 } from "./40402.svg";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { Link } from "react-router-dom";
+
+const numberFormat = (value) =>
+  new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(value);
 
 function DetailsOrder(props) {
   const idDav = props.match.params.id;
@@ -32,7 +37,8 @@ function DetailsOrder(props) {
     }
     return "Método não identificado";
   });
-  let verify;
+
+  let verify = false;
   for (var i = 0; i < itens?.products.length; i++) {
     if (itens.products[i] === 404) {
       verify = true;
@@ -40,7 +46,7 @@ function DetailsOrder(props) {
     }
   }
 
-  if (verify && !itens) {
+  while (isNaN(paymentMethod?.currency[0].DAV_SUB_TOTAL)) {
     return (
       <>
         <Header />
@@ -58,25 +64,9 @@ function DetailsOrder(props) {
             </div>
             <div className="payment-total">
               <h4>Total pago: </h4>
-              <h5>
-                Subtotal:{" "}
-                <Skeleton
-                  variant="text"
-                  width={"50%"}
-                  height={30}
-                  animation="wave"
-                />
-              </h5>
+              <h5>Subtotal: R$ 0,00</h5>
               <div className="last-field">
-                <h5>
-                  Desconto:{" "}
-                  <Skeleton
-                    variant="text"
-                    width={"50%"}
-                    height={30}
-                    animation="wave"
-                  />
-                </h5>
+                <h5>Desconto: R$ 0,00</h5>
               </div>
               <h5 style={{ marginTop: "6px" }}>
                 Total:{" "}
@@ -89,28 +79,52 @@ function DetailsOrder(props) {
               </h5>
             </div>
           </DetailsPayment>
-          <ErrorContainer>
-            <div>
-              <Error404 />
-            </div>
-            <div className="flex">
-              <p>Opss, aconteceu algo de errado.</p>
-              <p>
-                Verifique sua conexão com a internet e/ou tente novamente mais
-                tarde
-              </p>
-            </div>
-          </ErrorContainer>
-          <Button>
-            <Link to="/meus-pedidos">Voltar para o início</Link>
-          </Button>
         </Container>
         <Footer />
       </>
     );
   }
 
-  if (verify && itens) {
+  if (!itens) {
+    return (
+      <>
+        <Header />
+        <Container>
+          <h3>Detalhamento do pedido {idDav}</h3>
+          <DetailsPayment>
+            <div className="payment-method">
+              <h4>Método de pagamento</h4>
+              <Skeleton
+                variant="text"
+                width={"50%"}
+                height={30}
+                animation="wave"
+              />
+            </div>
+            <div className="payment-total">
+              <h4>Total pago: </h4>
+              <h5>Subtotal: R$ 0,00</h5>
+              <div className="last-field">
+                <h5>Desconto: R$ 0,00</h5>
+              </div>
+              <h5 style={{ marginTop: "6px" }}>
+                Total:{" "}
+                <Skeleton
+                  variant="text"
+                  width={"50%"}
+                  height={30}
+                  animation="wave"
+                />
+              </h5>
+            </div>
+          </DetailsPayment>
+        </Container>
+        <Footer />
+      </>
+    );
+  }
+
+  if (verify) {
     return (
       <>
         <Header />
@@ -135,75 +149,6 @@ function DetailsOrder(props) {
               </div>
               <h5 style={{ marginTop: "6px" }}>
                 Total: {numberFormat(paymentMethod?.currency[0].DAV_TOTAL)}
-              </h5>
-            </div>
-          </DetailsPayment>
-          <ErrorContainer>
-            <div>
-              <Error404 />
-            </div>
-            <div className="flex">
-              <p>Opss, aconteceu algo de errado.</p>
-              <p>
-                Verifique sua conexão com a internet e/ou tente novamente mais
-                tarde
-              </p>
-            </div>
-          </ErrorContainer>
-          <Button>
-            <Link to="/meus-pedidos">Voltar para o início</Link>
-          </Button>
-        </Container>
-        <Footer />
-      </>
-    );
-  }
-  if (!itens) {
-    return (
-      <>
-        <Header />
-        <Container>
-          <h3>Detalhamento do pedido {idDav}</h3>
-          <DetailsPayment>
-            <div className="payment-method">
-              <h4>Método de pagamento</h4>
-              <Skeleton
-                variant="text"
-                width={"50%"}
-                height={30}
-                animation="wave"
-              />
-            </div>
-            <div className="payment-total">
-              <h4>Total pago: </h4>
-              <h5>
-                Subtotal:{" "}
-                <Skeleton
-                  variant="text"
-                  width={"50%"}
-                  height={30}
-                  animation="wave"
-                />
-              </h5>
-              <div className="last-field">
-                <h5>
-                  Desconto:{" "}
-                  <Skeleton
-                    variant="text"
-                    width={"50%"}
-                    height={30}
-                    animation="wave"
-                  />
-                </h5>
-              </div>
-              <h5 style={{ marginTop: "6px" }}>
-                Total:{" "}
-                <Skeleton
-                  variant="text"
-                  width={"50%"}
-                  height={30}
-                  animation="wave"
-                />
               </h5>
             </div>
           </DetailsPayment>
@@ -254,7 +199,7 @@ function DetailsOrder(props) {
           </div>
         </DetailsPayment>
         <DetailsProducts>
-          {itens?.products.map((product) => {
+          {itens?.products?.map((product) => {
             return (
               <Card>
                 <div className="title">
@@ -288,7 +233,7 @@ function DetailsOrder(props) {
                     </div>
                     <div>
                       <h5>Total:</h5>
-                      {numberFormat(product.TOTAL)}
+                      {numberFormat(product.PRECO_DAV_UN)}
                     </div>
                   </div>
                 </div>
