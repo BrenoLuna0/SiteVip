@@ -27,7 +27,11 @@ const Routes = () => {
 
         <Route exact path="/" render={(props) => <Main />} />
 
-        <Route exact path="/meus-pedidos" render={(props) => <MyAccount />} />
+        <Route
+          exact
+          path="/meus-pedidos"
+          render={(props) => <MyAccount {...props} />}
+        />
         <Route
           exact
           path="/meus-pedidos/:id"

@@ -9,11 +9,12 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import ContainerDAV from "../../components/ContainerDAV";
 
-function MyAccount() {
-  const [page, setPage] = useState(1);
-  const [active, setActive] = useState(false);
+function MyAccount(props) {
+  const params = new URLSearchParams(props.location.search);
+  let pages = params.get("page");
+  const [page, setPage] = useState(pages === null ? 1 : pages);
 
-  const { data: dav, error } = useAxios(
+  const { data: dav } = useAxios(
     `/allDavs?clieCod=${sessionStorage.getItem("codigo")}&page=${page}`
   );
 
@@ -86,6 +87,8 @@ function MyAccount() {
             disableInitialCallback={true}
             onPageChange={(value, event) => {
               const pageValue = value.selected + 1;
+              pages = pageValue;
+              window.location.href = `/meus-pedidos?page=${pages}`;
               setPage(pageValue);
             }}
           />
