@@ -98,4 +98,58 @@ export const ContainerDetailsVip = styled.div`
       }
     }
   }
+
+  @media (max-width: 900px) {
+    div {
+      svg {
+        width: 36px;
+        height: 36px;
+      }
+      span {
+        h4 {
+          font-size: 15px;
+        }
+
+        p {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  @media (max-width: 700px) {
+    div {
+      flex-direction: column;
+      svg {
+        width: 28px;
+        height: 28px;
+      }
+      span {
+        h4 {
+          font-size: 13px;
+        }
+
+        p {
+          font-size: 11px;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 500px) {
+    div {
+      svg {
+        width: 22px;
+        height: 22px;
+      }
+      span {
+        h4 {
+          font-size: 11px;
+        }
+
+        p {
+          font-size: 10px;
+        }
+      }
+    }
+  }
 `;
