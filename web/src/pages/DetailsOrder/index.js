@@ -8,6 +8,7 @@ import {
   DetailsProducts,
   Card,
   ErrorContainer,
+  ContainerError,
   Button,
 } from "./styles";
 
@@ -15,6 +16,7 @@ import { ReactComponent as Error404 } from "./40402.svg";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { Link } from "react-router-dom";
+import { BiErrorCircle } from "react-icons/bi";
 
 const numberFormat = (value) =>
   new Intl.NumberFormat("pt-BR", {
@@ -24,12 +26,17 @@ const numberFormat = (value) =>
 
 function DetailsOrder(props) {
   const idDav = props.match.params.id;
+  const { data, error } = useAxios(
+    `/verifyDav?davCode=${idDav}&clieCod=${sessionStorage.getItem("codigo")}`
+  );
+
   const { data: paymentMethod } = useAxios(
     `/methodPaymentDav?davCode=${idDav}`
   );
-  const { data: itens, error } = useAxios(`/getProductsDav?davCode=${idDav}`);
 
-  const methodPaymentFiltred = paymentMethod?.methodPaymentDav.map((item) => {
+  const { data: itens } = useAxios(`/getProductsDav?davCode=${idDav}`);
+
+  const methodPaymentFiltred = paymentMethod?.methodPaymentDav?.map((item) => {
     if (item.FORM_PAGT_CODIGO === 18) {
       return "Duplicata";
     } else if (item.FORM_PAGT_CODIGO === 11) {
@@ -44,6 +51,29 @@ function DetailsOrder(props) {
       verify = true;
       break;
     }
+  }
+
+  if (error) {
+    return (
+      <>
+        <Header />
+        <ContainerError>
+          <div className="span">
+            <span>
+              <BiErrorCircle size={72} color="red" />
+            </span>
+          </div>
+          <div className="text">
+            <h1>Oops!</h1>
+            <h3>
+              Não conseguimos carregar seu pedido. Por favor, tente novamente
+              mais tarde.
+            </h3>
+          </div>
+        </ContainerError>
+        <Footer />
+      </>
+    );
   }
 
   while (isNaN(paymentMethod?.currency[0].DAV_SUB_TOTAL)) {
