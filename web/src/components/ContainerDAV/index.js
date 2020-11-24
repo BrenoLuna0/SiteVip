@@ -11,6 +11,7 @@ function ContainerDAV({ id, subtotal }) {
   const [isVisible, setIsVisible] = useState(false);
   const [active, setActive] = useState(false);
   const { data: products } = useAxios(`/getProductsDav?davCode=${id}`);
+
   return (
     <>
       <ContainerProduct>
