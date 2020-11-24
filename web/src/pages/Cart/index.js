@@ -98,7 +98,6 @@ function Cart() {
     sub += product.PROD_PRECO_VENDA * product.PROD_QTD;
     return sub;
   });
-
   if (error) {
     return <CartEmpty />;
   }
@@ -165,12 +164,13 @@ function Cart() {
               {data?.products?.map((data, index) => {
                 return (
                   <ContainerProducts>
+                    {console.log(data)}
                     <td width="50%" className="product-container">
                       <Link to={`/products/${data.PROD_CODIGO}`}>
-                        {data.PROD_IMAG_NOME ? (
+                        {data.PROD_IMAG.length > 0 ? (
                           <img
                             id="img"
-                            src={`${process.env.REACT_APP_URL_IMG}/${data.PROD_IMAG_NOME}`}
+                            src={`${process.env.REACT_APP_URL_IMG}/${data.PROD_IMAG[0].PROD_IMAG_NOME}`}
                             alt="produto"
                             className="image"
                           />

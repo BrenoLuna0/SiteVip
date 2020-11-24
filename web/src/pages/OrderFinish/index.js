@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { toast } from "react-toastify";
-import CurrencyTextField from "@unicef/material-ui-currency-textfield";
 import IntlCurrencyInput from "react-intl-currency-input";
 
 //estilos

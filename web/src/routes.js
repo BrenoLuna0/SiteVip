@@ -17,6 +17,7 @@ import MyAccount from "./pages/MyAccount";
 import NotFound from "./pages/NotFound";
 import DetailsOrder from "./pages/DetailsOrder";
 import PasswordForgot from "./pages/PasswordForgot";
+import NewAccount from "./pages/NewAccount";
 
 const Routes = () => {
   return (
@@ -56,6 +57,9 @@ const Routes = () => {
             isSignedIn() ? <OrderFinish /> : <Redirect to={{ pathname: "/" }} />
           }
         />
+
+        <Route exact path="/nova-conta" component={NewAccount} />
+
         <Route
           exact
           path="/cart"
