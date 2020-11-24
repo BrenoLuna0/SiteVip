@@ -37,7 +37,7 @@ function Detail() {
       </>
     );
   }
-  console.log(data);
+
   if (!data) {
     return (
       <>

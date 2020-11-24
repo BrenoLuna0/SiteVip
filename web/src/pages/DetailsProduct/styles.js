@@ -169,27 +169,32 @@ export const RelatedProducts = styled.div`
 
   .layout-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 20px;
     margin-bottom: 20px;
   }
 
-  @media (max-width: 955px) {
-    div {
-      grid-template-columns: 1fr !important;
+  @media (max-width: 900px) {
+    .layout-grid {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+  @media (max-width: 650px) {
+    .layout-grid {
+      grid-template-columns: 1fr 1fr;
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 500px) {
+    h1 {
+      font-size: 16px;
+    }
     div {
       grid-template-columns: 1fr !important;
     }
   }
 
   @media (max-width: 420px) {
-    h1 {
-      font-size: 16px;
-    }
   }
 `;
 
