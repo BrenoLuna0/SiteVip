@@ -126,6 +126,7 @@ export const DetailsProducts = styled.div`
     color: white;
     text-align: center;
     font-size: 22px;
+    width: 100%;
   }
 
   div {

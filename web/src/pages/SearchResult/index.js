@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 
 import { Container, NoResult, FormSelect, Wrapper } from "./styles";

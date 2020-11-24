@@ -37,7 +37,7 @@ function Detail() {
       </>
     );
   }
-
+  console.log(data);
   if (!data) {
     return (
       <>
@@ -58,7 +58,7 @@ function Detail() {
               <h1>
                 <Skeleton
                   variant="text"
-                  width={300}
+                  width={"80%"}
                   height={80}
                   animation="wave"
                 />
@@ -106,7 +106,7 @@ function Detail() {
       <Container>
         <ContainerProduct>
           <div className="img-container">
-            {data?.product?.PROD_IMAG[0].PROD_IMAG_NOME ? (
+            {data?.product?.PROD_IMAG[0] ? (
               <img
                 id="img"
                 src={`${process.env.REACT_APP_URL_IMG}/${data?.product?.PROD_IMAG[0].PROD_IMAG_NOME}`}

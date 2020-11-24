@@ -35,4 +35,29 @@ export const Container = styled.div`
       margin-right: 40px;
     }
   }
+
+  @media (max-width: 750px) {
+    height: 60vh;
+    .back {
+      font-size: 16px;
+    }
+
+    .content {
+      margin-top: 14vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      div {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        width: 80%;
+      }
+      div p {
+        font-size: 20px;
+      }
+    }
+  }
 `;

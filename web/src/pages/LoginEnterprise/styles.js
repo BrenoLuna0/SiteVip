@@ -9,6 +9,7 @@ export const Container = styled.div`
   width: 100%;
   overflow: auto;
   height: 100vh;
+  overflow-y: hidden;
   .copy {
     color: #666 !important;
     position: absolute;
@@ -20,7 +21,7 @@ export const ContainerBody = styled.div`
   width: 40%;
   background-color: white;
   margin: 18vh auto;
-  height: 60vh;
+  height: 68vh;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -56,6 +57,25 @@ export const ContainerBody = styled.div`
     color: #364f6b;
     transition: 0.3s ease-in-out;
   }
+
+  @media (max-width: 900px) {
+    width: 50%;
+    .return {
+      span {
+        font-size: 15px;
+        margin-left: 5px;
+        font-weight: 500;
+      }
+    }
+  }
+
+  @media (max-width: 700px) {
+    width: 60%;
+  }
+
+  @media (max-width: 470px) {
+    width: 70%;
+  }
 `;
 
 export const Inputs = styled.div`
@@ -78,6 +98,12 @@ export const InputCnpj = styled.div`
     width: 100%;
     font-size: 18px;
   }
+
+  @media (max-width: 500px) {
+    label {
+      font-size: 14px;
+    }
+  }
 `;
 
 export const InputPassword = styled.div`
@@ -99,26 +125,11 @@ export const InputPassword = styled.div`
   .w-filial {
     margin-bottom: 10px;
   }
-`;
 
-export const SelectTypeUser = styled.div`
-  width: 60%;
-  margin: 20px auto;
-  display: flex;
-  justify-content: center;
-  div {
-    background-color: white;
-    border: 1px solid #efefef;
-    padding: 1em;
-    text-align: center;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-  }
-
-  .active {
-    background-color: #364f6b;
-    color: white;
+  @media (max-width: 500px) {
+    label {
+      font-size: 14px;
+    }
   }
 `;
 
@@ -136,11 +147,18 @@ export const FilialOption = styled.div`
     padding: 2px;
     border: 1px solid #d3d3d3;
   }
+
+  @media (max-width: 730px) {
+    select {
+      width: 80%;
+    }
+  }
 `;
 
 export const LoginButton = styled.button`
   border: none;
-  padding: 16px 50px;
+  width: 50px;
+  height: 50px;
   font-size: 18px;
   font-weight: 500;
   border-radius: 8px;
@@ -148,6 +166,7 @@ export const LoginButton = styled.button`
   background-color: #364f6b;
   width: 40%;
   margin: 0 auto;
+  text-align: center;
   &:hover {
     transition: 0.2s ease-out;
     background-color: #263c54;
