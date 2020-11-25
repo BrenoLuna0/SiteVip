@@ -20,8 +20,9 @@ export const Container = styled.div`
 export const ContainerBody = styled.div`
   width: 40%;
   background-color: white;
-  margin: 18vh auto;
-  height: 68vh;
+  padding-bottom: 10px;
+  margin: 16vh auto;
+  min-height: 68vh;
   border-radius: 8px;
   display: flex;
   flex-direction: column;

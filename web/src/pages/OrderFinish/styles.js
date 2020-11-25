@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
   width: 80%;
   min-height: 70vh;
+  padding-bottom: 80px;
   height: 100%;
   background-color: white;
   margin: 15px auto;
@@ -177,7 +178,7 @@ export const OnePayment = styled.div`
   display: flex;
   justify-content: space-between;
 
-  @media (max-width: 1000px) {
+  @media (max-width: 1225px) {
     flex-direction: column;
     select {
       margin-bottom: 10px;

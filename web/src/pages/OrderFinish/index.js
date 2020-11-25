@@ -83,6 +83,8 @@ function OrderFinish() {
       setDuplicata(false);
       setDinheiroValor(sub);
       setDuplicataValor(0);
+      setPaymentInstallments(1);
+      setCodDayPaymentInstallment("0");
     } else if (data.firstPayment === "DUPLICATA") {
       setDuplicata(true);
       setDinheiro(false);
@@ -98,6 +100,32 @@ function OrderFinish() {
   async function handleSendOrder(e) {
     e.preventDefault();
     let formPagtCodigo, quantidadeParcelas, pagoEmCadaParcela;
+    if (duplicata) {
+      if (isNaN(paymentInstallments)) {
+        toast.error("Confira as parcelas antes de continuar.", {
+          position: "top-center",
+          autoClose: 5000,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+        });
+        return;
+      }
+      if (
+        codDayPaymentInstallment === undefined ||
+        codDayPaymentInstallment.length === 0
+      ) {
+        toast.error("Confira os dias das parcelas antes de continuar.", {
+          position: "top-center",
+          autoClose: 5000,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+        });
+        return;
+      }
+    }
+
     if (
       dinheiroValor + duplicataValor !== sub ||
       dinheiroValor !== sub ||
@@ -378,6 +406,7 @@ function OrderFinish() {
                   <select
                     name="duplicataParcelas"
                     ref={register}
+                    required
                     onChange={handleSubmit(onSubmit)}
                   >
                     <option value="" selected disabled>
@@ -391,6 +420,7 @@ function OrderFinish() {
                     name="intarvaloDiasParcelas"
                     ref={register}
                     onChange={handleSubmit(onSubmit)}
+                    required
                   >
                     <option value="" selected disabled>
                       Intervalo dias
@@ -427,7 +457,7 @@ function OrderFinish() {
         </Payments>
         <div className="button-buy-footer">
           <Link to="/finalizar-pedido">
-            <Finish onClick={(e) => handleSendOrder(e)}>
+            <Finish type="submit" onClick={(e) => handleSendOrder(e)}>
               <p>Finalizar Pedido</p>
               <span>
                 <FaShoppingCart />
