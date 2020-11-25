@@ -8,6 +8,7 @@ import {
   BuyContainer,
 } from "./styles";
 import ButtonBuy from "../ButtonBuy";
+import ButtonUnavailable from "../ButtonUnavailable";
 
 function ProductResult({ name, picture, quantity, id, price }) {
   return (
@@ -41,7 +42,11 @@ function ProductResult({ name, picture, quantity, id, price }) {
 
         <BuyContainer>
           <p>{price}</p>
-          <ButtonBuy id={id} title="Adicionar ao carrinho" />
+          {quantity > 0 ? (
+            <ButtonBuy id={id} title="Adicionar ao carrinho" />
+          ) : (
+            <ButtonUnavailable />
+          )}
         </BuyContainer>
       </Container>
     </ContainerBody>

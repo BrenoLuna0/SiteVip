@@ -164,7 +164,6 @@ function Cart() {
               {data?.products?.map((data, index) => {
                 return (
                   <ContainerProducts>
-                    {console.log(data)}
                     <td width="50%" className="product-container">
                       <Link to={`/products/${data.PROD_CODIGO}`}>
                         {data.PROD_IMAG.length > 0 ? (

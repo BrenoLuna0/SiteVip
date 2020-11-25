@@ -12,6 +12,11 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .error {
+    color: red;
+  }
+
   .copy {
     color: #666 !important;
     position: absolute;
@@ -61,7 +66,10 @@ export const ContainerFields = styled.div`
   margin: 12px auto;
 
   input {
-    width: 70%;
+    width: 100%;
+    border-radius: 8px;
+    border: 1px solid #666;
+    padding: 2px;
   }
 
   div {

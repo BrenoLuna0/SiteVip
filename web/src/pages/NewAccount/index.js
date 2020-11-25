@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import CpfCnpj from "@react-br-forms/cpf-cnpj-mask";
 import { RiArrowDropRightLine } from "react-icons/ri";
+import InputMask from "react-input-mask";
 
 import {
   Container,
@@ -12,8 +14,11 @@ import {
 function NewAccount() {
   const [pj, setPJ] = useState(false);
   const [pf, setPF] = useState(true);
-  const [cpfCnpj, setCpfCnpj] = useState("");
-  const [mask, setMask] = useState("");
+  const [cpfCnpjError, setCpfCnpjError] = useState(false);
+  const [passwordEquals, setPasswordEquals] = useState(false);
+  const { register, handleSubmit, errors } = useForm();
+
+  const onSubmit = (data) => console.log(data);
 
   return (
     <Container>
@@ -57,7 +62,12 @@ function NewAccount() {
               <p>
                 Nome completo: <span>*</span>
               </p>
-              <input type="text" name="name" />
+              <input
+                type="text"
+                name="name"
+                ref={register({ required: true })}
+              />
+              {errors.name && <p className="error">Campo obrigatório.</p>}
             </div>
 
             {pf && (
@@ -65,20 +75,32 @@ function NewAccount() {
                 <p>
                   CPF: <span>*</span>
                 </p>
-                <CpfCnpj
-                  value={cpfCnpj}
-                  onChange={(event, type) => {
-                    setCpfCnpj(event.target.value);
-                    setMask(type === "CPF");
-                  }}
+                <InputMask
+                  mask={"999.999.999-99"}
+                  name="CPF"
+                  maskChar={null}
+                  inputRef={register({ required: true })}
                 />
+                {errors.CPF && <p className="error">Campo obrigatório.</p>}
               </div>
             )}
             <div>
               <p>
                 Email: <span>*</span>
               </p>
-              <input type="email" name="" id="" />
+              <input
+                type="email"
+                name="email"
+                ref={register({
+                  required: "E-mail obrigatório.",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: "Entre com um e-mail válido.",
+                  },
+                })}
+              />
+
+              {errors.email && <p className="error">{errors.email.message}</p>}
             </div>
 
             <div className="double-fields">
@@ -86,19 +108,45 @@ function NewAccount() {
                 <p>
                   Senha: <span>*</span>
                 </p>
-                <input type="password" name="" id="" />
+                <input
+                  type="password"
+                  name="passwordFirst"
+                  placeholder="*********"
+                  ref={register({
+                    required: true,
+                    minLength: {
+                      value: 5,
+                      message: "A senha deve conter no mínimo 5 caracteres.",
+                    },
+                  })}
+                />
+                {errors.passwordFirst && <p>{errors.passwordFirst.message}</p>}
               </div>
               <div>
                 <p>
                   Confirme a senha: <span>*</span>
                 </p>
-                <input type="password" name="" id="" />
+                <input
+                  type="password"
+                  name="passwordSecond"
+                  placeholder="*********"
+                  ref={register({
+                    required: true,
+                    minLength: {
+                      value: 5,
+                      message: "A senha deve conter no mínimo 5 caracteres.",
+                    },
+                  })}
+                />
+                {errors.passwordSecond && (
+                  <p>{errors.passwordSecond.message}</p>
+                )}
               </div>
             </div>
           </form>
         </ContainerFields>
         <ButtonContainer>
-          <button>
+          <button type="submit" onClick={handleSubmit(onSubmit)}>
             Cadastrar <RiArrowDropRightLine size={18} />
           </button>
         </ButtonContainer>
