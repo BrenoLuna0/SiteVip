@@ -31,8 +31,6 @@ function Detail() {
     revalidateOnFocus: false,
   });
 
-  let qtddCart;
-
   api
     .get(
       `/cart/product?filial=1&clieCod=${sessionStorage.getItem(
