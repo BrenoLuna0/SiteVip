@@ -17,7 +17,13 @@ function CardGrid({ name, price, image, id, quantity }) {
         "codigo"
       )}&prodCodigo=${id}`
     )
-    .then((response) => setQuantityCart(response.data.shift().PROD_QTD));
+    .then((response) => {
+      if (response.data.error === true) {
+        setQuantityCart(0);
+      } else {
+        setQuantityCart(response.data.shift().PROD_QTD);
+      }
+    });
   const verificar = data?.product?.PROD_QTD_ATUAL - quantityCart;
 
   return (
@@ -49,7 +55,7 @@ function CardGrid({ name, price, image, id, quantity }) {
       <Link to={`/products/${id}`} className="details">
         Ver detalhes do produto
       </Link>
-      {quantity > 0 && verificar > 0 ? (
+      {quantity > 0 ? (
         <ButtonBuy id={id} title="Adicionar ao carrinho" />
       ) : (
         <ButtonUnavailable />

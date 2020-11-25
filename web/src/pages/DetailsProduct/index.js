@@ -37,10 +37,16 @@ function Detail() {
         "codigo"
       )}&prodCodigo=${prodCodigo}`
     )
-    .then((response) => setQuantityCart(response.data.shift().PROD_QTD));
+    .then((response) => {
+      if (response.data.error === true) {
+        setQuantityCart(0);
+      } else {
+        setQuantityCart(response.data.shift().PROD_QTD);
+      }
+    });
 
   const verificar = data?.product?.PROD_QTD_ATUAL - quantityCart;
-  console.log(verificar);
+
   if (error) {
     return (
       <>
