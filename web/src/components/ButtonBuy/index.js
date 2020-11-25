@@ -32,6 +32,7 @@ function ButtonBuy({ id, title }) {
           }
         })
         .catch((err) => {
+          console.log(err);
           alert("Erro ao carregar carrinho");
         });
     } else {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { useParams } from "react-router-dom";
 import {
@@ -21,13 +21,28 @@ import CardGrid from "../../components/CardGrid";
 
 import { useAxios } from "../../hooks/useAxios";
 
+import api from "../../services/api";
+
 function Detail() {
+  const [quantityCart, setQuantityCart] = useState(0);
   const { prodCodigo } = useParams();
 
   const { data, error } = useAxios(`/products/${prodCodigo}?filial=${2}`, {
     revalidateOnFocus: false,
   });
 
+  let qtddCart;
+
+  api
+    .get(
+      `/cart/product?filial=1&clieCod=${sessionStorage.getItem(
+        "codigo"
+      )}&prodCodigo=${prodCodigo}`
+    )
+    .then((response) => setQuantityCart(response.data.shift().PROD_QTD));
+
+  const verificar = data?.product?.PROD_QTD_ATUAL - quantityCart;
+  console.log(verificar);
   if (error) {
     return (
       <>
@@ -151,14 +166,14 @@ function Detail() {
               </div>
 
               <div className="buy-button">
-                {data?.product?.PROD_QTD_ATUAL > 0 && (
+                {data?.product?.PROD_QTD_ATUAL > 0 && verificar > 1 ? (
                   <ButtonBuy
-                    id={data?.PROD_CODIGO}
+                    id={data?.product.PROD_CODIGO}
                     title="Adicionar ao carrinho"
                   />
+                ) : (
+                  <ButtonUnavailable />
                 )}
-
-                {data?.product?.PROD_QTD_ATUAL === 0 && <ButtonUnavailable />}
               </div>
             </div>
           </DetailsProducts>
