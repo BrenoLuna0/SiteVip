@@ -101,6 +101,17 @@ function OrderFinish() {
   async function handleSendOrder(e) {
     e.preventDefault();
     let formPagtCodigo, quantidadeParcelas, pagoEmCadaParcela;
+    console.log(dinheiroValor, duplicataValor);
+    if (!duplicata && !dinheiro) {
+      toast.error("Selecione uma forma de pagamento antes de continuar.", {
+        position: "top-center",
+        autoClose: 5000,
+        closeOnClick: true,
+        draggable: true,
+        progress: undefined,
+      });
+      return;
+    }
     if (duplicata) {
       if (isNaN(paymentInstallments)) {
         toast.error("Confira as parcelas antes de continuar.", {
@@ -169,8 +180,8 @@ function OrderFinish() {
       codIntervaloDias: codDayPaymentInstallment, //adicionar ao backend depois
     };
 
-    const returning = await api.post("/checkout", object);
-    window.location.href = `/order/${returning.data.davCode}`;
+    //    const returning = await api.post("/checkout", object);
+    //  window.location.href = `/order/${returning.data.davCode}`;
   }
 
   if (!data) {
@@ -320,11 +331,9 @@ function OrderFinish() {
                     <IntlCurrencyInput
                       currency="BRL"
                       config={currencyConfig}
-                      ref={inputEl}
+                      value={sub}
                       max={sub}
-                      onChange={(event, value, maskedValue) => {
-                        setDuplicata(value);
-                      }}
+                      disabled
                     />
                   </>
                 )}
@@ -334,9 +343,8 @@ function OrderFinish() {
                     config={currencyConfig}
                     ref={inputEl}
                     max={sub}
-                    onChange={(event, value, maskedValue) => {
-                      setDinheiroValor(value);
-                    }}
+                    value={sub}
+                    disabled
                   />
                 )}
               </OnePayment>
@@ -380,6 +388,7 @@ function OrderFinish() {
                     onClick={() => {
                       let array = quantityPayment;
                       array.splice(quantityPayment.length - 1, 1);
+                      setDuplicata(false);
                       setDinheiro(false);
                       setQuantityPayment(array);
                     }}
@@ -446,6 +455,7 @@ function OrderFinish() {
                       let array = quantityPayment;
                       array.splice(quantityPayment.length - 1, 1);
                       setDuplicata(false);
+                      setDinheiro(false);
                       setQuantityPayment(array);
                     }}
                   />

@@ -31,10 +31,10 @@ function ModalDetails({ produtos }) {
             return (
               <ContainerProducts>
                 <div>
-                  {product.PROD_IMAG_NOME ? (
+                  {product.PROD_IMAG[0].PROD_IMAG_NOME ? (
                     <img
                       id="img"
-                      src={`${process.env.REACT_APP_URL_IMG}/${product.PROD_IMAG_NOME}`}
+                      src={`${process.env.REACT_APP_URL_IMG}/${product.PROD_IMAG[0].PROD_IMAG_NOME}`}
                       alt="produto"
                       className="image"
                     />

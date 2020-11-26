@@ -93,6 +93,10 @@ function Detail() {
               <CardLoading></CardLoading>
               <CardLoading></CardLoading>
               <CardLoading></CardLoading>
+              <CardLoading></CardLoading>
+              <CardLoading></CardLoading>
+              <CardLoading></CardLoading>
+              <CardLoading></CardLoading>
             </div>
           </RelatedProducts>
         </Container>
@@ -107,10 +111,10 @@ function Detail() {
       <Container>
         <ContainerProduct>
           <div className="img-container">
-            {data?.product?.PROD_IMAG[0] ? (
+            {data?.product?.PROD_IMAG_NOME ? (
               <img
                 id="img"
-                src={`${process.env.REACT_APP_URL_IMG}/${data?.product?.PROD_IMAG[0].PROD_IMAG_NOME}`}
+                src={`${process.env.REACT_APP_URL_IMG}/${data?.product?.PROD_IMAG_NOME}`}
                 alt="produto"
                 className="image"
               />
@@ -136,19 +140,6 @@ function Detail() {
                   style: "currency",
                   currency: "BRL",
                 })}
-                {data?.product?.PROD_PRECO_VENDA >= 100 && (
-                  <p>
-                    Ou até em 10x de
-                    {(data?.product?.PROD_PRECO_VENDA / 10).toLocaleString(
-                      "pt-br",
-                      {
-                        style: "currency",
-                        currency: "BRL",
-                      }
-                    )}{" "}
-                    no cartão
-                  </p>
-                )}
               </div>
 
               <div className="buy-button">
