@@ -12,20 +12,13 @@ import ButtonUnavailable from "../ButtonUnavailable";
 
 import { useAxios } from "../../hooks/useAxios";
 
-import api from "../../services/api";
-
 function ProductResult({ name, picture, quantity, id, price }) {
-  const [quantityCart, setQuantityCart] = useState(0);
-  const { data } = useAxios(`/products/${id}?filial=${2}`);
-  api
-    .get(
-      `/cart/product?filial=1&clieCod=${sessionStorage.getItem(
-        "codigo"
-      )}&prodCodigo=${id}`
-    )
-    .then((response) => setQuantityCart(response.data.shift().PROD_QTD));
-  const verificar = data?.product?.PROD_QTD_ATUAL - quantityCart;
-  console.log(verificar);
+  const filial = sessionStorage.getItem("filial");
+
+  const { data } = useAxios(
+    `/products/${id}?filial=${filial === null ? 2 : filial}`
+  );
+
   return (
     <ContainerBody>
       <Container>

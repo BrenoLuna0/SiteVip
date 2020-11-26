@@ -21,31 +21,13 @@ import CardGrid from "../../components/CardGrid";
 
 import { useAxios } from "../../hooks/useAxios";
 
-import api from "../../services/api";
-
 function Detail() {
-  const [quantityCart, setQuantityCart] = useState(0);
   const { prodCodigo } = useParams();
+  const filial = sessionStorage.getItem("filial");
 
-  const { data, error } = useAxios(`/products/${prodCodigo}?filial=${2}`, {
-    revalidateOnFocus: false,
-  });
-
-  api
-    .get(
-      `/cart/product?filial=1&clieCod=${sessionStorage.getItem(
-        "codigo"
-      )}&prodCodigo=${prodCodigo}`
-    )
-    .then((response) => {
-      if (response.data.error === true) {
-        setQuantityCart(0);
-      } else {
-        setQuantityCart(response.data.shift().PROD_QTD);
-      }
-    });
-
-  const verificar = data?.product?.PROD_QTD_ATUAL - quantityCart;
+  const { data, error } = useAxios(
+    `/products/${prodCodigo}?filial=${filial === null ? 2 : filial}`
+  );
 
   if (error) {
     return (
@@ -170,7 +152,7 @@ function Detail() {
               </div>
 
               <div className="buy-button">
-                {data?.product?.PROD_QTD_ATUAL > 0 && verificar > 1 ? (
+                {data?.product?.PROD_QTD_ATUAL > 0 ? (
                   <ButtonBuy
                     id={data?.product.PROD_CODIGO}
                     title="Adicionar ao carrinho"

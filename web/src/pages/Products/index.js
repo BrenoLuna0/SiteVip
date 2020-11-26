@@ -21,6 +21,8 @@ function Products(props) {
   const [orderType, setOrderType] = useState("asc");
   const { register, handleSubmit } = useForm();
 
+  const filial = sessionStorage.getItem("filial");
+
   const onSubmit = (data) => {
     let test = data.orderProducts.split(" ");
     if (test[0] === "valor") {
@@ -33,7 +35,9 @@ function Products(props) {
   };
 
   const { data } = useAxios(
-    `/products/category?filial=${2}&category=${categories}&page=${page}&order=${orderBy}&type=${orderType}`
+    `/products/category?filial=${
+      filial === null ? 2 : filial
+    }&category=${categories}&page=${page}&order=${orderBy}&type=${orderType}`
   );
 
   if (!data) {

@@ -31,8 +31,12 @@ function SearchResult(props) {
     }
   };
 
+  const filial = sessionStorage.getItem("filial");
+
   const { data } = useAxios(
-    `/search?filial=${2}&name=${name.toUpperCase()}&page=${page}&order=${orderBy}&type=${orderType}`
+    `/search?filial=${
+      filial === null ? 2 : filial
+    }&name=${name.toUpperCase()}&page=${page}&order=${orderBy}&type=${orderType}`
   );
 
   if (!data) {

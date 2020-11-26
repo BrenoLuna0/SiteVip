@@ -9,7 +9,8 @@ import Footer from "../../components/Footer";
 import CardGrid from "../../components/CardGrid";
 
 function NotFound() {
-  const { data } = useAxios(`/rand?filial=2`);
+  const filial = sessionStorage.getItem("filial");
+  const { data } = useAxios(`/rand?filial=${filial === null ? 2 : filial}`);
 
   if (!data) {
     return (
