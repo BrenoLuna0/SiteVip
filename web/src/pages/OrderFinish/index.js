@@ -65,6 +65,7 @@ function OrderFinish() {
     return sub;
   });
 
+  sub = parseFloat(sub.toFixed(2));
   let totalParcelasDuplicata = [];
   for (let i = 0; i < data?.parcelas[1].FORM_PAGT_NUM_PARCELA; i++) {
     totalParcelasDuplicata.push(i + 1);
@@ -126,11 +127,7 @@ function OrderFinish() {
       }
     }
 
-    if (
-      dinheiroValor + duplicataValor !== sub ||
-      dinheiroValor !== sub ||
-      duplicataValor !== sub
-    ) {
+    if (dinheiroValor + duplicataValor !== sub) {
       toast.error("Confira os valores antes de continuar.", {
         position: "top-center",
         autoClose: 5000,
@@ -172,8 +169,8 @@ function OrderFinish() {
       codIntervaloDias: codDayPaymentInstallment, //adicionar ao backend depois
     };
 
-    //const returning = await api.post("/checkout", object);
-    //window.location.href = `/order/${returning.data.davCode}`;
+    const returning = await api.post("/checkout", object);
+    window.location.href = `/order/${returning.data.davCode}`;
   }
 
   if (!data) {
@@ -265,6 +262,8 @@ function OrderFinish() {
                 if (quantityPayment < 2) {
                   setDinheiro(true);
                   setDuplicata(true);
+                  setDinheiroValor(0);
+                  setDuplicataValor(0);
                   setQuantityPayment(
                     quantityPayment.concat([...quantityPayment].pop() + 1)
                   );
