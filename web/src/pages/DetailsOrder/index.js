@@ -26,6 +26,8 @@ const numberFormat = (value) =>
 
 function DetailsOrder(props) {
   const idDav = props.match.params.id;
+  const filial = sessionStorage.getItem("filial");
+
   const { data, error } = useAxios(
     `/verifyDav?davCode=${idDav}&clieCod=${sessionStorage.getItem("codigo")}`
   );
@@ -34,7 +36,9 @@ function DetailsOrder(props) {
     `/methodPaymentDav?davCode=${idDav}`
   );
 
-  const { data: itens } = useAxios(`/getProductsDav?davCode=${idDav}`);
+  const { data: itens } = useAxios(
+    `/getProductsDav?davCode=${idDav}&filial=${filial === null ? 2 : filial}`
+  );
 
   const methodPaymentFiltred = paymentMethod?.methodPaymentDav?.map((item) => {
     if (item.FORM_PAGT_CODIGO === 18) {

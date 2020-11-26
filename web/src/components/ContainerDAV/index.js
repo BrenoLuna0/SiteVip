@@ -8,9 +8,12 @@ import { useAxios } from "../../hooks/useAxios";
 import { numberFormat } from "../../utils/currency";
 
 function ContainerDAV({ id, subtotal }) {
+  const filial = sessionStorage.getItem("filial");
   const [isVisible, setIsVisible] = useState(false);
   const [active, setActive] = useState(false);
-  const { data: products } = useAxios(`/getProductsDav?davCode=${id}`);
+  const { data: products } = useAxios(
+    `/getProductsDav?davCode=${id}&filial=${filial === null ? 2 : filial}`
+  );
 
   return (
     <>
