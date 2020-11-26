@@ -101,7 +101,6 @@ function OrderFinish() {
   async function handleSendOrder(e) {
     e.preventDefault();
     let formPagtCodigo, quantidadeParcelas, pagoEmCadaParcela;
-    console.log(dinheiroValor, duplicataValor);
     if (!duplicata && !dinheiro) {
       toast.error("Selecione uma forma de pagamento antes de continuar.", {
         position: "top-center",
@@ -181,6 +180,14 @@ function OrderFinish() {
     };
 
     //    const returning = await api.post("/checkout", object);
+
+    const sucessDeleting = await api.delete(
+      `/deleteCart?clieCod=${sessionStorage.getItem(
+        "codigo"
+      )}&filial=${sessionStorage.getItem("filial")}`
+    );
+
+    window.location.href = "/";
     //  window.location.href = `/order/${returning.data.davCode}`;
   }
 

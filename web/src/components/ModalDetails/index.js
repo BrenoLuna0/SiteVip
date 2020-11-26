@@ -31,7 +31,7 @@ function ModalDetails({ produtos }) {
             return (
               <ContainerProducts>
                 <div>
-                  {product.PROD_IMAG[0].PROD_IMAG_NOME ? (
+                  {product?.PROD_IMAG.length !== 0 ? (
                     <img
                       id="img"
                       src={`${process.env.REACT_APP_URL_IMG}/${product.PROD_IMAG[0].PROD_IMAG_NOME}`}

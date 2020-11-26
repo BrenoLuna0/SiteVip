@@ -187,7 +187,7 @@ function DetailsOrder(props) {
             </div>
           </DetailsPayment>
           <ErrorContainer>
-            <div>
+            <div className="img">
               <Error404 />
             </div>
             <div className="flex">

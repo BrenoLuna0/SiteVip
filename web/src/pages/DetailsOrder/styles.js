@@ -5,6 +5,7 @@ export const Container = styled.div`
   min-height: 80vh;
   background-color: white;
   margin: 5px auto;
+  padding-bottom: 10px;
   h3 {
     padding-top: 16px;
     text-align: center;
@@ -29,6 +30,22 @@ export const DetailsPayment = styled.div`
   .last-field {
     width: 100%;
     border-bottom: 1.2px solid black;
+  }
+
+  @media (max-width: 800px) {
+    h4 {
+      font-size: 21px;
+    }
+    h5 {
+      font-size: 17px;
+    }
+  }
+  @media (max-width: 650px) {
+    grid-template-columns: 1fr;
+
+    div:nth-child(1) {
+      border-right: none;
+    }
   }
 `;
 
@@ -59,6 +76,17 @@ export const Card = styled.div`
     display: flex;
     justify-content: space-between;
   }
+
+  @media (max-width: 800px) {
+    h1 {
+      font-size: 16px;
+    }
+
+    .grid-template {
+      display: flex;
+      flex-direction: column;
+    }
+  }
 `;
 
 export const ErrorContainer = styled.div`
@@ -82,6 +110,12 @@ export const ErrorContainer = styled.div`
     p {
       font-size: 26px;
       font-weight: 400;
+    }
+  }
+
+  @media (max-width: 950px) {
+    .img {
+      display: none;
     }
   }
 
