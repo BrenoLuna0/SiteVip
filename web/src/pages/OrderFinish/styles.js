@@ -185,3 +185,5 @@ export const OnePayment = styled.div`
     }
   }
 `;
+
+export const Note = styled.div``;

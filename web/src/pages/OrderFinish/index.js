@@ -14,12 +14,14 @@ import {
   SelectPayment,
   TwoPayment,
   OnePayment,
+  Note,
 } from "./styles";
 
 //componentes
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import ModalDetails from "../../components/ModalDetails";
+import CartEmpty from "../../components/CartEmpty";
 
 import { useAxios } from "../../hooks/useAxios";
 import api from "../../services/api";
@@ -47,9 +49,11 @@ function OrderFinish() {
   const [paymentInstallments, setPaymentInstallments] = useState(1);
   const [quantityPayment, setQuantityPayment] = useState([1]);
   const [codDayPaymentInstallment, setCodDayPaymentInstallment] = useState();
+  const [observation, setObservation] = useState("TESTE NÃO FATURAR!");
+  const [note, setNote] = useState(false);
   const inputEl = useRef(0);
 
-  const { data } = useAxios(
+  const { data, error } = useAxios(
     `/cart?filial=${sessionStorage.getItem(
       "filial"
     )}&codigo=${sessionStorage.getItem("codigo")}`
@@ -58,6 +62,8 @@ function OrderFinish() {
   const { data: allInstallments } = useAxios(
     `/showparcelas?diaParcelas=${paymentInstallments}`
   );
+
+  console.log(allInstallments);
 
   let sub = 0;
   const aux = data?.products?.map((product) => {
@@ -73,12 +79,15 @@ function OrderFinish() {
 
   let stringParcelas = [];
   let codParcelasDias = [];
+
   for (let i = 0; i < allInstallments?.length; i++) {
     stringParcelas.push(Object.values(allInstallments[i].dias).toString());
     codParcelasDias.push(allInstallments[i].parcelas.PARC_DIA_CODIGO);
   }
 
   const onSubmit = (data) => {
+    console.log(data);
+
     if (data.firstPayment === "DINHEIRO") {
       setDinheiro(true);
       setDuplicata(false);
@@ -179,8 +188,9 @@ function OrderFinish() {
       codIntervaloDias: codDayPaymentInstallment, //adicionar ao backend depois
     };
 
-    //    const returning = await api.post("/checkout", object);
+    console.log(object);
 
+    const returning = await api.post("/checkout", object);
     const sucessDeleting = await api.delete(
       `/deleteCart?clieCod=${sessionStorage.getItem(
         "codigo"
@@ -188,7 +198,15 @@ function OrderFinish() {
     );
 
     window.location.href = "/";
-    //  window.location.href = `/order/${returning.data.davCode}`;
+    window.location.href = `/order/${returning.data.davCode}`;
+  }
+
+  if (error) {
+    return (
+      <>
+        <CartEmpty />
+      </>
+    );
   }
 
   if (!data) {
@@ -230,6 +248,8 @@ function OrderFinish() {
               </OnePayment>
             </SelectPayment>
           </Payments>
+          <Note></Note>
+
           <div className="button-buy-footer">
             <Link to="/finalizar-pedido">
               <Finish>

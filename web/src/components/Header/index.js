@@ -62,7 +62,7 @@ function Component() {
             ) : (
               <div
                 style={{ cursor: "pointer" }}
-                onClick={() => (window.location.href = "/login")}
+                onClick={() => (window.location.href = "/login-empresa")}
                 id="login"
               >
                 <FaUserAlt />
