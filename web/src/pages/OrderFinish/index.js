@@ -185,10 +185,8 @@ function OrderFinish() {
       parcelas: quantidadeParcelas, // ok
       total: pagoEmCadaParcela, //ok
       itens: data.products, //ok
-      codIntervaloDias: codDayPaymentInstallment, //adicionar ao backend depois
+      codIntervaloDias: codDayPaymentInstallment, //ok
     };
-
-    console.log(object);
 
     const returning = await api.post("/checkout", object);
     const sucessDeleting = await api.delete(
