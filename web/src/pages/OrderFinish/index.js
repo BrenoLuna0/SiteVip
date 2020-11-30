@@ -4,9 +4,10 @@ import { useForm } from "react-hook-form";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { toast } from "react-toastify";
 import IntlCurrencyInput from "react-intl-currency-input";
+import { numberFormat } from "../../utils/currency";
 
 //estilos
-import { FaShoppingCart, FaWindowClose } from "react-icons/fa";
+import { FaShoppingCart, FaWindowClose, FaPlus } from "react-icons/fa";
 import {
   Container,
   Finish,
@@ -49,9 +50,7 @@ function OrderFinish() {
   const [paymentInstallments, setPaymentInstallments] = useState(1);
   const [quantityPayment, setQuantityPayment] = useState([1]);
   const [codDayPaymentInstallment, setCodDayPaymentInstallment] = useState();
-  const [observation, setObservation] = useState("TESTE NÃO FATURAR!");
-  const [note, setNote] = useState(false);
-  const inputEl = useRef(0);
+  const [remaining, setRemaining] = useState(0);
 
   const { data, error } = useAxios(
     `/cart?filial=${sessionStorage.getItem(
@@ -62,8 +61,6 @@ function OrderFinish() {
   const { data: allInstallments } = useAxios(
     `/showparcelas?diaParcelas=${paymentInstallments}`
   );
-
-  console.log(allInstallments);
 
   let sub = 0;
   const aux = data?.products?.map((product) => {
@@ -86,8 +83,6 @@ function OrderFinish() {
   }
 
   const onSubmit = (data) => {
-    console.log(data);
-
     if (data.firstPayment === "DINHEIRO") {
       setDinheiro(true);
       setDuplicata(false);
@@ -213,7 +208,7 @@ function OrderFinish() {
         <Header />
         <Container>
           <div className="all-products">
-            <h3>Resumo dos produtos</h3>
+            <h3 style={{ fontSize: "28px" }}>RESUMO DOS PRODUTOS</h3>
             <div>
               <p>
                 <Skeleton width={350} height={50} />
@@ -225,10 +220,7 @@ function OrderFinish() {
           </div>
           <Payments>
             <div className="formas-de-pagamento">
-              <h2>Formas de Pagamento</h2>
-              <button className="add-payment">
-                Adicionar outra forma de pagamento
-              </button>
+              <h2>FORMAS DE PAGAMENTO</h2>
             </div>
             <SelectPayment>
               <OnePayment>
@@ -269,7 +261,7 @@ function OrderFinish() {
       <Header />
       <Container>
         <div className="all-products">
-          <h3>Resumo dos produtos</h3>
+          <h3 style={{ fontSize: "28px" }}>RESUMO DOS PRODUTOS</h3>
           <div>
             <div>
               {data?.products?.length > 1 ? (
@@ -291,23 +283,7 @@ function OrderFinish() {
         </div>
         <Payments>
           <div className="formas-de-pagamento">
-            <h2>Formas de Pagamento</h2>
-            <button
-              className="add-payment"
-              onClick={() => {
-                if (quantityPayment < 2) {
-                  setDinheiro(true);
-                  setDuplicata(true);
-                  setDinheiroValor(0);
-                  setDuplicataValor(0);
-                  setQuantityPayment(
-                    quantityPayment.concat([...quantityPayment].pop() + 1)
-                  );
-                }
-              }}
-            >
-              Adicionar outra forma de pagamento
-            </button>
+            <h2 style={{ fontSize: "28px" }}>FORMAS DE PAGAMENTO</h2>
           </div>
 
           {quantityPayment.length === 1 && (
@@ -358,19 +334,62 @@ function OrderFinish() {
                       config={currencyConfig}
                       value={sub}
                       max={sub}
-                      disabled
+                      onBlur={(event, value) => {
+                        setDinheiroValor(value);
+                        setRemaining(sub - value);
+                      }}
                     />
+                    <div
+                      className="adicionar-pagamento"
+                      onClick={() => {
+                        if (quantityPayment < 2) {
+                          setDinheiro(true);
+                          setDuplicata(true);
+                          setDinheiroValor(0);
+                          setDuplicataValor(0);
+                          setQuantityPayment(
+                            quantityPayment.concat(
+                              [...quantityPayment].pop() + 1
+                            )
+                          );
+                        }
+                      }}
+                    >
+                      <FaPlus color="white" size={14} />
+                    </div>
                   </>
                 )}
                 {dinheiro && (
-                  <IntlCurrencyInput
-                    currency="BRL"
-                    config={currencyConfig}
-                    ref={inputEl}
-                    max={sub}
-                    value={sub}
-                    disabled
-                  />
+                  <>
+                    <IntlCurrencyInput
+                      currency="BRL"
+                      config={currencyConfig}
+                      max={sub}
+                      value={sub}
+                      onBlur={(event, value) => {
+                        setDinheiroValor(value);
+                        setRemaining(sub - value);
+                      }}
+                    />
+                    <div
+                      className="adicionar-pagamento"
+                      onClick={() => {
+                        if (quantityPayment < 2) {
+                          setDinheiro(true);
+                          setDuplicata(true);
+                          setDinheiroValor(0);
+                          setDuplicataValor(0);
+                          setQuantityPayment(
+                            quantityPayment.concat(
+                              [...quantityPayment].pop() + 1
+                            )
+                          );
+                        }
+                      }}
+                    >
+                      <FaPlus size={14} color="white" />
+                    </div>
+                  </>
                 )}
               </OnePayment>
             </SelectPayment>
@@ -378,8 +397,7 @@ function OrderFinish() {
           {quantityPayment.length === 2 && (
             <>
               <TwoPayment>
-                <h5>Primeira forma de pagamento</h5>
-                <SelectPayment>
+                <SelectPayment className="duas-formas">
                   <select
                     name="secondPaymet"
                     ref={register}
@@ -400,10 +418,14 @@ function OrderFinish() {
                   <IntlCurrencyInput
                     currency="BRL"
                     config={currencyConfig}
-                    ref={inputEl}
                     max={sub}
-                    onChange={(event, value, maskedValue) => {
+                    onBlur={(event, value, maskedValue) => {
                       setDinheiroValor(value);
+                      if (remaining === 0) {
+                        setRemaining(sub - value);
+                      } else {
+                        setRemaining(sub - (dinheiroValor + duplicataValor));
+                      }
                     }}
                   />
                   <FaWindowClose
@@ -419,8 +441,7 @@ function OrderFinish() {
                     }}
                   />
                 </SelectPayment>
-                <h5>Segunda forma de pagamento</h5>
-                <SelectPayment>
+                <SelectPayment className="duas-formas">
                   <select
                     name="secondPaymet"
                     ref={register}
@@ -467,10 +488,14 @@ function OrderFinish() {
                   <IntlCurrencyInput
                     currency="BRL"
                     config={currencyConfig}
-                    ref={inputEl}
                     max={sub}
-                    onChange={(event, value, maskedValue) => {
+                    onBlur={(event, value, maskedValue) => {
                       setDuplicataValor(value);
+                      if (remaining === 0) {
+                        setRemaining(sub - value);
+                      } else {
+                        setRemaining(sub - (dinheiroValor + duplicataValor));
+                      }
                     }}
                   />
                   <FaWindowClose
@@ -489,6 +514,15 @@ function OrderFinish() {
             </>
           )}
         </Payments>
+        <div className="remaining">
+          <h2>
+            RESTANDO:
+            {duplicataValor === 0 && dinheiroValor === 0
+              ? numberFormat(sub)
+              : numberFormat(remaining)}
+          </h2>
+          <h2>SUBTOTAL: {numberFormat(sub)}</h2>
+        </div>
         <div className="button-buy-footer">
           <Link to="/finalizar-pedido">
             <Finish type="submit" onClick={(e) => handleSendOrder(e)}>

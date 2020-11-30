@@ -49,6 +49,15 @@ export const Container = styled.div`
   .button-buy-footer {
     padding-bottom: 10px;
   }
+
+  .remaining {
+    position: absolute;
+    bottom: 160px;
+    right: 50px;
+    h2 {
+      font-size: 24px;
+    }
+  }
 `;
 
 export const Finish = styled.button`
@@ -130,11 +139,7 @@ export const Payments = styled.div`
 
 export const SelectPayment = styled.div`
   font-size: 18px;
-  width: 80%;
-  margin: 0 auto;
   margin-top: 24px;
-  display: flex;
-  justify-content: space-between;
 
   option {
     padding: 12px 12px;
@@ -155,6 +160,11 @@ export const TwoPayment = styled.div`
     margin-top: 6px;
   }
 
+  .duas-formas {
+    display: flex;
+    justify-content: space-between;
+  }
+
   @media (max-width: 1300px) {
     div {
       display: flex;
@@ -173,10 +183,21 @@ export const TwoPayment = styled.div`
 `;
 
 export const OnePayment = styled.div`
-  width: 90%;
-  margin: 20px auto;
   display: flex;
   justify-content: space-between;
+
+  .adicionar-pagamento {
+    cursor: pointer;
+    padding: 4px 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: red;
+    border-radius: 8px;
+    svg {
+      margin: 0;
+    }
+  }
 
   @media (max-width: 1225px) {
     flex-direction: column;
