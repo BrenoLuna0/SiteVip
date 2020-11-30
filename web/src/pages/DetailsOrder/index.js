@@ -206,6 +206,7 @@ function DetailsOrder(props) {
       </>
     );
   }
+
   return (
     <>
       <Header />
@@ -214,7 +215,13 @@ function DetailsOrder(props) {
         <DetailsPayment>
           <div className="payment-method">
             <h4>Método de pagamento</h4>
-            <h5>{methodPaymentFiltred}</h5>
+            {methodPaymentFiltred.map((payment) => {
+              return (
+                <ul>
+                  <li>{payment}</li>
+                </ul>
+              );
+            })}
           </div>
           <div className="payment-total">
             <h4>Total pago: </h4>

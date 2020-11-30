@@ -154,7 +154,7 @@ function OrderFinish() {
 
     if (quantityPayment.length === 2) {
       formPagtCodigo = { duplicata: 18, dinheiro: 11 };
-      quantidadeParcelas = { diplicata: paymentInstallments, dinheiro: 1 };
+      quantidadeParcelas = { duplicata: paymentInstallments, dinheiro: 1 };
       pagoEmCadaParcela = {
         duplicata: parseFloat(duplicataValor),
         dinheiro: parseFloat(dinheiroValor),
