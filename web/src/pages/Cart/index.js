@@ -355,7 +355,7 @@ function Cart() {
             </ContainerSub>
             <Link to="/finalizar-pedido">
               <Finish>
-                <p>Continuar Pedido</p>
+                <p>FINALIZAR PEDIDO</p>
                 <span>
                   <FaShoppingCart />
                 </span>
