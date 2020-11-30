@@ -418,7 +418,7 @@ function OrderFinish() {
                   <IntlCurrencyInput
                     currency="BRL"
                     config={currencyConfig}
-                    max={sub}
+                    max={remaining === 0 ? sub : remaining}
                     onBlur={(event, value, maskedValue) => {
                       setDinheiroValor(value);
                       if (remaining === 0) {
@@ -488,7 +488,7 @@ function OrderFinish() {
                   <IntlCurrencyInput
                     currency="BRL"
                     config={currencyConfig}
-                    max={sub}
+                    max={remaining === 0 ? sub : remaining}
                     onBlur={(event, value, maskedValue) => {
                       setDuplicataValor(value);
                       if (remaining === 0) {
