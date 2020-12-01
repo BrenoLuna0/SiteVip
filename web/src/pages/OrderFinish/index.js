@@ -404,7 +404,7 @@ function OrderFinish() {
                     onSubmit={handleSubmit(onSubmit)}
                   >
                     <option value="" selected disabled>
-                      Selecione uma forma de pagamento
+                      SELECIONE UMA FORMA DE PAGAMENTO
                     </option>
                     <option value="DINHEIRO" selected>
                       DINHEIRO
@@ -418,7 +418,7 @@ function OrderFinish() {
                   <IntlCurrencyInput
                     currency="BRL"
                     config={currencyConfig}
-                    max={remaining === 0 ? sub : remaining}
+                    max={remaining === 0 ? sub : sub - duplicataValor}
                     onBlur={(event, value, maskedValue) => {
                       setDinheiroValor(value);
                       if (remaining === 0) {
@@ -448,7 +448,7 @@ function OrderFinish() {
                     onChange={handleSubmit(onSubmit)}
                   >
                     <option value="" selected disabled>
-                      Selecione uma forma de pagamento
+                      SELECIONE UMA FORMA DE PAGAMENTO
                     </option>
                     <option value="DINHEIRO" disabled>
                       DINHEIRO
@@ -488,10 +488,13 @@ function OrderFinish() {
                   <IntlCurrencyInput
                     currency="BRL"
                     config={currencyConfig}
-                    max={remaining === 0 ? sub : remaining}
-                    onBlur={(event, value, maskedValue) => {
+                    max={remaining === 0 ? sub : sub - dinheiroValor}
+                    onChange={(event, value, maskedValue) => {
                       setDuplicataValor(value);
-                      if (remaining === 0) {
+                      if (
+                        remaining === 0 &&
+                        sub - (dinheiroValor + duplicataValor) !== 0
+                      ) {
                         setRemaining(sub - value);
                       } else {
                         setRemaining(sub - (dinheiroValor + duplicataValor));

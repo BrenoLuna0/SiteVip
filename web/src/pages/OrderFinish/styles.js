@@ -52,7 +52,7 @@ export const Container = styled.div`
 
   .remaining {
     position: absolute;
-    bottom: 160px;
+    bottom: 120px;
     right: 50px;
     h2 {
       font-size: 24px;
@@ -203,6 +203,10 @@ export const OnePayment = styled.div`
     flex-direction: column;
     select {
       margin-bottom: 10px;
+    }
+    .adicionar-pagamento {
+      width: 50%;
+      margin: 10px auto;
     }
   }
 `;
