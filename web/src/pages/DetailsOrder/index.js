@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { useAxios } from "../../hooks/useAxios";
-import { Redirect } from "react-router-dom";
 import {
   Container,
   DetailsPayment,
@@ -12,14 +11,13 @@ import {
   Button,
   Printer,
 } from "./styles";
-
+import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
 import { ReactComponent as Error404 } from "./40402.svg";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { Link } from "react-router-dom";
 import { BiErrorCircle } from "react-icons/bi";
 import { FiPrinter } from "react-icons/fi";
-
 const numberFormat = (value) =>
   new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -27,8 +25,17 @@ const numberFormat = (value) =>
   }).format(value);
 
 function DetailsOrder(props) {
+  const refPrint = React.createRef();
   const idDav = props.match.params.id;
   const filial = sessionStorage.getItem("filial");
+
+  const exportPDFWithMethod = () => {
+    savePDF(refPrint.current, {
+      paperSize: "auto",
+      margin: 40,
+      fileName: `${idDav}`,
+    });
+  };
 
   const { data, error } = useAxios(
     `/verifyDav?davCode=${idDav}&clieCod=${sessionStorage.getItem("codigo")}`
@@ -225,7 +232,7 @@ function DetailsOrder(props) {
   return (
     <>
       <Header />
-      <Container>
+      <Container ref={refPrint}>
         <h3>DETALHAMENTO DO PEDIDO {idDav}</h3>
         <DetailsPayment>
           <div className="payment-method">
@@ -308,23 +315,9 @@ function DetailsOrder(props) {
           })}
         </DetailsProducts>
 
-        <Printer>
-          <Link
-            to={{
-              state: {
-                paymentMethod,
-                numParcelas,
-                methodPaymentFiltred,
-                parcelasString,
-                itens,
-                idDav,
-              },
-              pathname: `/meus-pedidos/${idDav}/impressao`,
-            }}
-          >
-            <FiPrinter />
-            IMPRIMIR PEDIDO
-          </Link>
+        <Printer onClick={exportPDFWithMethod}>
+          <FiPrinter />
+          IMPRIMIR PEDIDO
         </Printer>
       </Container>
       <Footer />
