@@ -40,15 +40,28 @@ function DetailsOrder(props) {
     `/getProductsDav?davCode=${idDav}&filial=${filial === null ? 2 : filial}`
   );
 
+  let valorDinheiro;
+  let valorDuplicata;
+
   const methodPaymentFiltred = paymentMethod?.methodPaymentDav?.map((item) => {
     if (item.FORM_PAGT_CODIGO === 18) {
-      return "Duplicata";
+      valorDuplicata = item.DAV_FORM_PAGT_TOTAL;
+      return "DUPLICATA";
     } else if (item.FORM_PAGT_CODIGO === 11) {
-      return "Dinheiro";
+      valorDinheiro = item.DAV_FORM_PAGT_TOTAL;
+      return "DINHEIRO";
     }
     return "Método não identificado";
   });
 
+  const numParcelas = paymentMethod?.methodPaymentDav?.map((item) => {
+    console.log(item);
+    if (item.FORM_PAGT_CODIGO === 18) {
+      return item.PARC_CODIGO;
+    }
+  });
+
+  const parcelasString = paymentMethod?.parcelasString[0];
   let verify = false;
   for (var i = 0; i < itens?.products.length; i++) {
     if (itens.products[i] === 404) {
@@ -85,10 +98,10 @@ function DetailsOrder(props) {
       <>
         <Header />
         <Container>
-          <h3>Detalhamento do pedido {idDav}</h3>
+          <h3>DETALHAMENTO DO PEDIDO {idDav}</h3>
           <DetailsPayment>
             <div className="payment-method">
-              <h4>Método de pagamento</h4>
+              <h4>MÉTODO DE PAGAMENTO</h4>
               <Skeleton
                 variant="text"
                 width={"50%"}
@@ -97,13 +110,13 @@ function DetailsOrder(props) {
               />
             </div>
             <div className="payment-total">
-              <h4>Total pago: </h4>
-              <h5>Subtotal: R$ 0,00</h5>
+              <h4>TOTAL PAGO: </h4>
+              <h5>SUBTOTAL: R$ 0,00</h5>
               <div className="last-field">
-                <h5>Desconto: R$ 0,00</h5>
+                <h5>DESCONTO: R$ 0,00</h5>
               </div>
               <h5 style={{ marginTop: "6px" }}>
-                Total:{" "}
+                TOTAL:{" "}
                 <Skeleton
                   variant="text"
                   width={"50%"}
@@ -124,10 +137,10 @@ function DetailsOrder(props) {
       <>
         <Header />
         <Container>
-          <h3>Detalhamento do pedido {idDav}</h3>
+          <h3>DETALHAMENTO DO PEDIDO {idDav}</h3>
           <DetailsPayment>
             <div className="payment-method">
-              <h4>Método de pagamento</h4>
+              <h4>MÉTODO DE PAGAMENTO</h4>
               <Skeleton
                 variant="text"
                 width={"50%"}
@@ -136,13 +149,13 @@ function DetailsOrder(props) {
               />
             </div>
             <div className="payment-total">
-              <h4>Total pago: </h4>
-              <h5>Subtotal: R$ 0,00</h5>
+              <h4>TOTAL PAGO: </h4>
+              <h5>SUBTOTAL: R$ 0,00</h5>
               <div className="last-field">
-                <h5>Desconto: R$ 0,00</h5>
+                <h5>DESCONTO: R$ 0,00</h5>
               </div>
               <h5 style={{ marginTop: "6px" }}>
-                Total:{" "}
+                TOTAL:{" "}
                 <Skeleton
                   variant="text"
                   width={"50%"}
@@ -163,26 +176,26 @@ function DetailsOrder(props) {
       <>
         <Header />
         <Container>
-          <h3>Detalhamento do pedido {idDav}</h3>
+          <h3>DETALHAMENTO DO PEDIDO {idDav}</h3>
           <DetailsPayment>
             <div className="payment-method">
-              <h4>Método de pagamento</h4>
+              <h4>MÉTODO DE PAGAMENTO</h4>
               <h5>{methodPaymentFiltred}</h5>
             </div>
             <div className="payment-total">
-              <h4>Total pago: </h4>
+              <h4>TOTAL PAGO: </h4>
               <h5>
-                Subtotal:{" "}
+                SUBTOTAL:{" "}
                 {numberFormat(paymentMethod?.currency[0].DAV_SUB_TOTAL)}{" "}
               </h5>
               <div className="last-field">
                 <h5>
-                  Desconto:{" "}
+                  DESCONTO:{" "}
                   {numberFormat(paymentMethod?.currency[0].DAV_VALOR_DESCONTO)}
                 </h5>
               </div>
               <h5 style={{ marginTop: "6px" }}>
-                Total: {numberFormat(paymentMethod?.currency[0].DAV_TOTAL)}
+                TOTAL: {numberFormat(paymentMethod?.currency[0].DAV_TOTAL)}
               </h5>
             </div>
           </DetailsPayment>
@@ -211,31 +224,41 @@ function DetailsOrder(props) {
     <>
       <Header />
       <Container>
-        <h3>Detalhamento do pedido {idDav}</h3>
+        <h3>DETALHAMENTO DO PEDIDO {idDav}</h3>
         <DetailsPayment>
           <div className="payment-method">
-            <h4>Método de pagamento</h4>
+            <h4>MÉTODO DE PAGAMENTO</h4>
             {methodPaymentFiltred.map((payment) => {
               return (
-                <ul>
-                  <li>{payment}</li>
-                </ul>
+                <dl>
+                  <dt>{payment}</dt>
+                  {payment === "DUPLICATA" && (
+                    <>
+                      <dd>INTERVALO DOS DIAS: {parcelasString}</dd>
+                      <dd>NÚMERO DE PARCELAS: {numParcelas}</dd>
+                      <dd>VALOR PAGO: {numberFormat(valorDuplicata)}</dd>
+                    </>
+                  )}
+                  {payment === "DINHEIRO" && (
+                    <dd>VALOR PAGO: {numberFormat(valorDinheiro)}</dd>
+                  )}
+                </dl>
               );
             })}
           </div>
           <div className="payment-total">
-            <h4>Total pago: </h4>
+            <h4>TOTAL PAGO: </h4>
             <h5>
-              Subtotal: {numberFormat(paymentMethod?.currency[0].DAV_SUB_TOTAL)}{" "}
+              SUBTOTAL: {numberFormat(paymentMethod?.currency[0].DAV_SUB_TOTAL)}{" "}
             </h5>
             <div className="last-field">
               <h5>
-                Desconto:{" "}
+                DESCONTO:{" "}
                 {numberFormat(paymentMethod?.currency[0].DAV_VALOR_DESCONTO)}
               </h5>
             </div>
             <h5 style={{ marginTop: "6px" }}>
-              Total: {numberFormat(paymentMethod?.currency[0].DAV_TOTAL)}
+              TOTAL: {numberFormat(paymentMethod?.currency[0].DAV_TOTAL)}
             </h5>
           </div>
         </DetailsPayment>
@@ -265,15 +288,15 @@ function DetailsOrder(props) {
 
                   <div className="grid-template">
                     <div>
-                      <h5>Quantidade:</h5>
+                      <h5>QUANTIDADE:</h5>
                       <p>{product.QTD_ITEM}</p>
                     </div>
                     <div>
-                      <h5>Preço unitário:</h5>
+                      <h5>PREÇO UNITÁRIO:</h5>
                       <p>{numberFormat(product.PRECO_DAV_UN)}</p>
                     </div>
                     <div>
-                      <h5>Total:</h5>
+                      <h5>TOTAL:</h5>
                       {numberFormat(product.PRECO_DAV_UN)}
                     </div>
                   </div>

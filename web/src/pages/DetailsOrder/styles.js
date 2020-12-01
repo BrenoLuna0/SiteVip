@@ -10,6 +10,14 @@ export const Container = styled.div`
     padding-top: 16px;
     text-align: center;
   }
+
+  .payment-method {
+    dd {
+      color: #666;
+      font-weight: bold;
+      font-size: 16px;
+    }
+  }
 `;
 
 export const DetailsPayment = styled.div`
@@ -19,6 +27,7 @@ export const DetailsPayment = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   h5 {
+    font-size: 18px;
     font-weight: 400;
     color: #666;
   }
@@ -76,7 +85,9 @@ export const Card = styled.div`
     display: flex;
     justify-content: space-between;
   }
-
+  h5 {
+    font-size: 16px;
+  }
   @media (max-width: 800px) {
     h1 {
       font-size: 16px;
