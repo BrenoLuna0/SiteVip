@@ -187,3 +187,23 @@ export const ContainerError = styled.div`
     text-align: center;
   }
 `;
+
+export const Printer = styled.div`
+  width: 30%;
+  margin: 20px auto;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  background-color: #171d4b;
+  color: white;
+  border-radius: 8px;
+  justify-content: center;
+  svg {
+    margin-right: 12px;
+  }
+  a {
+    color: white !important;
+    text-decoration: none;
+  }
+`;

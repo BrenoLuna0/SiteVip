@@ -18,6 +18,7 @@ import NotFound from "./pages/NotFound";
 import DetailsOrder from "./pages/DetailsOrder";
 import PasswordForgot from "./pages/PasswordForgot";
 import NewAccount from "./pages/NewAccount";
+import PagePrint from "./pages/PagePrint";
 
 const Routes = () => {
   return (
@@ -78,7 +79,17 @@ const Routes = () => {
             )
           }
         />
-
+        <Route
+          exact
+          path="/meus-pedidos/:idPedido/impressao"
+          render={(props) =>
+            isSignedIn() ? (
+              <PagePrint {...props} />
+            ) : (
+              <Redirect to={{ pathname: "/" }} />
+            )
+          }
+        />
         <Route
           exact
           path="/pesquisar"

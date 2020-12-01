@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { useAxios } from "../../hooks/useAxios";
-
+import { Redirect } from "react-router-dom";
 import {
   Container,
   DetailsPayment,
@@ -10,6 +10,7 @@ import {
   ErrorContainer,
   ContainerError,
   Button,
+  Printer,
 } from "./styles";
 
 import { ReactComponent as Error404 } from "./40402.svg";
@@ -17,6 +18,7 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import { Link } from "react-router-dom";
 import { BiErrorCircle } from "react-icons/bi";
+import { FiPrinter } from "react-icons/fi";
 
 const numberFormat = (value) =>
   new Intl.NumberFormat("pt-BR", {
@@ -305,6 +307,25 @@ function DetailsOrder(props) {
             );
           })}
         </DetailsProducts>
+
+        <Printer>
+          <Link
+            to={{
+              state: {
+                paymentMethod,
+                numParcelas,
+                methodPaymentFiltred,
+                parcelasString,
+                itens,
+                idDav,
+              },
+              pathname: `/meus-pedidos/${idDav}/impressao`,
+            }}
+          >
+            <FiPrinter />
+            IMPRIMIR PEDIDO
+          </Link>
+        </Printer>
       </Container>
       <Footer />
     </>
