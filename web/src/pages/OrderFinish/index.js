@@ -518,12 +518,6 @@ function OrderFinish() {
           )}
         </Payments>
         <div className="remaining">
-          <h2>
-            RESTANDO:
-            {duplicataValor === 0 && dinheiroValor === 0
-              ? numberFormat(sub)
-              : numberFormat(remaining)}
-          </h2>
           <h2>SUBTOTAL: {numberFormat(sub)}</h2>
         </div>
         <div className="button-buy-footer">
