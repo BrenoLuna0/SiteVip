@@ -24,7 +24,7 @@ export const DetailsPayment = styled.div`
   width: 80%;
   margin: 32px auto;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 20px;
   h5 {
     font-size: 18px;
@@ -32,12 +32,13 @@ export const DetailsPayment = styled.div`
     color: #666;
   }
 
-  div:nth-child(1) {
+  div:nth-child(1),
+  div:nth-child(2) {
     border-right: 1px solid #666;
   }
 
   .last-field {
-    width: 100%;
+    width: 80%;
     border-bottom: 1.2px solid black;
   }
 

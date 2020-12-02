@@ -1,6 +1,5 @@
 import React from "react";
 
-import { Container } from "./styles";
 import { PDFViewer } from "@react-pdf/renderer";
 import ContentPrint from "../../components/ContentPrint";
 

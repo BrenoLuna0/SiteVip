@@ -15,6 +15,7 @@ import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
 import { ReactComponent as Error404 } from "./40402.svg";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import ContentPrint from "../../components/ContentPrint";
 import { Link } from "react-router-dom";
 import { BiErrorCircle } from "react-icons/bi";
 import { FiPrinter } from "react-icons/fi";
@@ -31,7 +32,7 @@ function DetailsOrder(props) {
 
   const exportPDFWithMethod = () => {
     savePDF(refPrint.current, {
-      paperSize: "auto",
+      paperSize: "A4",
       margin: 40,
       fileName: `${idDav}`,
     });
@@ -52,6 +53,14 @@ function DetailsOrder(props) {
   let valorDinheiro;
   let valorDuplicata;
 
+  const date = paymentMethod?.currency[0].DAV_DATA_ABERTURA;
+  const dataDav = new Date(date);
+  const formatedDate = `${
+    dataDav.getDay() >= 10 ? dataDav.getDay() : `0${dataDav.getDay()}`
+  }/${
+    dataDav.getMonth() >= 10 ? dataDav.getMonth() : `0${dataDav.getMonth()}`
+  }/${dataDav.getFullYear()}`;
+
   const methodPaymentFiltred = paymentMethod?.methodPaymentDav?.map((item) => {
     if (item.FORM_PAGT_CODIGO === 18) {
       valorDuplicata = item.DAV_FORM_PAGT_TOTAL;
@@ -64,7 +73,6 @@ function DetailsOrder(props) {
   });
 
   const numParcelas = paymentMethod?.methodPaymentDav?.map((item) => {
-    console.log(item);
     if (item.FORM_PAGT_CODIGO === 18) {
       return item.PARC_CODIGO;
     }
@@ -232,7 +240,7 @@ function DetailsOrder(props) {
   return (
     <>
       <Header />
-      <Container ref={refPrint}>
+      <Container>
         <h3>DETALHAMENTO DO PEDIDO {idDav}</h3>
         <DetailsPayment>
           <div className="payment-method">
@@ -269,6 +277,10 @@ function DetailsOrder(props) {
             <h5 style={{ marginTop: "6px" }}>
               TOTAL: {numberFormat(paymentMethod?.currency[0].DAV_TOTAL)}
             </h5>
+          </div>
+          <div className="payment-total">
+            <h4>DATA DO PEDIDO: </h4>
+            <h5>{formatedDate}</h5>
           </div>
         </DetailsPayment>
         <DetailsProducts>
@@ -315,10 +327,26 @@ function DetailsOrder(props) {
           })}
         </DetailsProducts>
 
-        <Printer onClick={exportPDFWithMethod}>
-          <FiPrinter />
-          IMPRIMIR PEDIDO
-        </Printer>
+        <Link
+          to={{
+            pathname: `/meus-pedidos/${idDav}/impressao`,
+            state: {
+              idDav,
+              parcelasString,
+              methodPaymentFiltred,
+              numParcelas,
+              valorDuplicata,
+              valorDinheiro,
+              paymentMethod,
+              itens,
+            },
+          }}
+        >
+          <Printer onClick={exportPDFWithMethod}>
+            <FiPrinter />
+            IMPRIMIR PEDIDO
+          </Printer>
+        </Link>
       </Container>
       <Footer />
     </>
