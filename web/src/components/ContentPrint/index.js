@@ -42,12 +42,18 @@ const ContentPrint = ({
   valorDinheiro,
   paymentMethod,
   itens,
+  formatedDate,
 }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
         <View>
           <Text style={styles.idDavStyle}>DETALHAMENTO DO PEDIDO {idDav}</Text>
+        </View>
+        <View>
+          <Text style={{ fontSize: 16, marginLeft: 20, marginTop: 12 }}>
+            DATA DO PEDIDO: {formatedDate}
+          </Text>
         </View>
         <View style={styles.metodosDePagamento}>
           <View>

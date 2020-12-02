@@ -339,6 +339,7 @@ function DetailsOrder(props) {
               valorDinheiro,
               paymentMethod,
               itens,
+              formatedDate,
             },
           }}
         >
