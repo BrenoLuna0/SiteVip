@@ -17,14 +17,14 @@ const styles = StyleSheet.create({
   },
   idDavStyle: {
     marginTop: "30px",
-    fontSize: 16,
+    fontSize: 14,
     textAlign: "center",
   },
   text: {
     color: "#353839",
     marginBottom: "8px",
     marginLeft: "4px",
-    fontSize: 14,
+    fontSize: 12,
   },
   metodosDePagamento: {
     width: "80%",
@@ -51,13 +51,13 @@ const ContentPrint = ({
           <Text style={styles.idDavStyle}>DETALHAMENTO DO PEDIDO {idDav}</Text>
         </View>
         <View>
-          <Text style={{ fontSize: 16, marginLeft: 20, marginTop: 12 }}>
+          <Text style={{ fontSize: 14, marginLeft: 20, marginTop: 12 }}>
             DATA DO PEDIDO: {formatedDate}
           </Text>
         </View>
         <View style={styles.metodosDePagamento}>
           <View>
-            <Text style={{ fontSize: 16 }}>MÉTODO DE PAGAMENTO</Text>
+            <Text style={{ fontSize: 14 }}>MÉTODO DE PAGAMENTO</Text>
             {methodPaymentFiltred.map((item) => {
               return (
                 <>
@@ -95,7 +95,7 @@ const ContentPrint = ({
           <View style={{ marginLeft: 30, borderLeft: "3px solid #666" }}>
             <Text
               style={{
-                fontSize: 16,
+                fontSize: 14,
                 marginBottom: 10,
               }}
             >
@@ -114,7 +114,7 @@ const ContentPrint = ({
           </View>
         </View>
 
-        <Text style={{ textAlign: "center", fontSize: 16 }}>PRODUTOS</Text>
+        <Text style={{ textAlign: "center", fontSize: 14 }}>PRODUTOS</Text>
         <View style={{ width: "80%", margin: "20px auto" }}>
           {itens.products.map((product) => {
             return (
@@ -124,29 +124,29 @@ const ContentPrint = ({
                 >
                   {product.PROD_IMAG_NOME ? (
                     <Image
-                      style={{ height: 80, width: 80 }}
+                      style={{ height: 50, width: 50 }}
                       src={`${process.env.REACT_APP_URL_IMG}/${product.PROD_IMAG_NOME}`}
                     />
                   ) : (
                     <Image
-                      style={{ height: 80, width: 80 }}
+                      style={{ height: 50, width: 50 }}
                       src={process.env.PUBLIC_URL + "/images/no-image.png"}
                     />
                   )}
                 </View>
 
                 <View>
-                  <Text style={{ fontSize: 14, marginBottom: 8 }}>
+                  <Text style={{ fontSize: 12, marginBottom: 8 }}>
                     {product.PROD_DESCRICAO}
                   </Text>
                   <View>
-                    <Text style={{ fontSize: 12, marginBottom: 4 }}>
+                    <Text style={{ fontSize: 10, marginBottom: 4 }}>
                       QUANTIDADE: {product.QTD_ITEM}
                     </Text>
-                    <Text style={{ fontSize: 12, marginBottom: 4 }}>
+                    <Text style={{ fontSize: 10, marginBottom: 4 }}>
                       PREÇO UNITÁRIO: {numberFormat(product.PRECO_DAV_UN)}
                     </Text>
-                    <Text style={{ fontSize: 12, marginBottom: 4 }}>
+                    <Text style={{ fontSize: 10, marginBottom: 4 }}>
                       TOTAL: {numberFormat(product.PRECO_DAV_UN)}{" "}
                     </Text>
                   </View>
