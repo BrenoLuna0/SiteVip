@@ -119,22 +119,6 @@ const ContentPrint = ({
           {itens.products.map((product) => {
             return (
               <View style={{ flexDirection: "row", marginBottom: 24 }}>
-                <View
-                  style={{ alignItems: "center", justifyContent: "center" }}
-                >
-                  {product.PROD_IMAG_NOME ? (
-                    <Image
-                      style={{ height: 50, width: 50 }}
-                      src={`${process.env.REACT_APP_URL_IMG}/${product.PROD_IMAG_NOME}`}
-                    />
-                  ) : (
-                    <Image
-                      style={{ height: 50, width: 50 }}
-                      src={process.env.PUBLIC_URL + "/images/no-image.png"}
-                    />
-                  )}
-                </View>
-
                 <View>
                   <Text style={{ fontSize: 12, marginBottom: 8 }}>
                     {product.PROD_DESCRICAO}

@@ -115,6 +115,18 @@ function OrderFinish() {
       });
       return;
     }
+    if (duplicata && dinheiro) {
+      if (dinheiroValor === 0 || duplicataValor === 0) {
+        toast.error("O valor de uma forma de pagamento não pode ser R$ 0,00.", {
+          position: "top-center",
+          autoClose: 5000,
+          closeOnClick: true,
+          draggable: true,
+          progress: undefined,
+        });
+        return;
+      }
+    }
     if (duplicata) {
       if (isNaN(paymentInstallments)) {
         toast.error("Confira as parcelas antes de continuar.", {
@@ -182,7 +194,7 @@ function OrderFinish() {
       itens: data.products, //ok
       codIntervaloDias: codDayPaymentInstallment, //ok
     };
-
+    console.log(object);
     //const returning = await api.post("/checkout", object);
     // const sucessDeleting = await api.delete(
     //   `/deleteCart?clieCod=${sessionStorage.getItem(
@@ -284,7 +296,14 @@ function OrderFinish() {
           <div className="formas-de-pagamento">
             <h2 style={{ fontSize: "28px" }}>FORMAS DE PAGAMENTO</h2>
           </div>
-
+          <div className="resta">
+            <h4>
+              RESTA A PAGAR:{" "}
+              {sub - dinheiroValor - duplicataValor >= 0
+                ? numberFormat(sub - dinheiroValor - duplicataValor)
+                : numberFormat(0)}
+            </h4>
+          </div>
           {quantityPayment.length === 1 && (
             <SelectPayment>
               <OnePayment>
@@ -296,12 +315,25 @@ function OrderFinish() {
                   <option value="" selected disabled>
                     Selecione uma forma de pagamento
                   </option>
-                  <option value="DINHEIRO">DINHEIRO</option>
-                  <option value="DUPLICATA">DUPLICATA</option>
+                  <option value="DINHEIRO" selected={dinheiro ? true : false}>
+                    DINHEIRO
+                  </option>
+                  <option value="DUPLICATA" selected={duplicata ? true : false}>
+                    DUPLICATA
+                  </option>
                 </select>
 
                 {duplicata && (
                   <>
+                    <IntlCurrencyInput
+                      currency="BRL"
+                      config={currencyConfig}
+                      value={duplicataValor}
+                      max={sub}
+                      onChange={(event, value) => {
+                        setDuplicataValor(value);
+                      }}
+                    />
                     <select
                       name="duplicataParcelas"
                       ref={register}
@@ -323,28 +355,31 @@ function OrderFinish() {
                         Intervalo dias
                       </option>
                       {stringParcelas?.map((intervaloDias, index) => (
-                        <option value={codParcelasDias[index]}>
+                        <option
+                          value={codParcelasDias[index]}
+                          selected={
+                            parseInt(codDayPaymentInstallment) ===
+                            parseInt(codParcelasDias[index])
+                              ? true
+                              : false
+                          }
+                        >
                           {intervaloDias}
                         </option>
                       ))}
                     </select>
-                    <IntlCurrencyInput
-                      currency="BRL"
-                      config={currencyConfig}
-                      value={sub}
-                      max={sub}
-                      onChange={(event, value) => {
-                        setDinheiroValor(value);
-                      }}
-                    />
                     <div
                       className="adicionar-pagamento"
                       onClick={() => {
-                        if (quantityPayment < 2) {
-                          setDinheiro(true);
-                          setDuplicata(true);
-                          setDinheiroValor(0);
-                          setDuplicataValor(0);
+                        if (
+                          quantityPayment < 2 &&
+                          (dinheiroValor !== sub || duplicataValor !== sub)
+                        ) {
+                          if (dinheiro) {
+                            setDuplicata(true);
+                          } else {
+                            setDinheiro(true);
+                          }
                           setQuantityPayment(
                             quantityPayment.concat(
                               [...quantityPayment].pop() + 1
@@ -363,7 +398,7 @@ function OrderFinish() {
                       currency="BRL"
                       config={currencyConfig}
                       max={sub}
-                      value={sub}
+                      value={dinheiroValor}
                       onChange={(event, value) => {
                         setDinheiroValor(value);
                       }}
@@ -371,11 +406,15 @@ function OrderFinish() {
                     <div
                       className="adicionar-pagamento"
                       onClick={() => {
-                        if (quantityPayment < 2) {
-                          setDinheiro(true);
-                          setDuplicata(true);
-                          setDinheiroValor(0);
-                          setDuplicataValor(0);
+                        if (
+                          quantityPayment < 2 &&
+                          (dinheiroValor !== sub || duplicataValor !== sub)
+                        ) {
+                          if (dinheiro) {
+                            setDuplicata(true);
+                          } else {
+                            setDinheiro(true);
+                          }
                           setQuantityPayment(
                             quantityPayment.concat(
                               [...quantityPayment].pop() + 1
@@ -400,7 +439,7 @@ function OrderFinish() {
                     ref={register}
                     onSubmit={handleSubmit(onSubmit)}
                   >
-                    <option value="" selected disabled>
+                    <option value="" disabled>
                       SELECIONE UMA FORMA DE PAGAMENTO
                     </option>
                     <option value="DINHEIRO" selected>
@@ -410,23 +449,24 @@ function OrderFinish() {
                       DUPLICATA
                     </option>
                   </select>
-                  <div style={{ width: `88px` }} />
-                  <div style={{ width: `133px` }} />
                   <IntlCurrencyInput
                     currency="BRL"
                     config={currencyConfig}
-                    max={sub - duplicataValor}
+                    value={dinheiroValor}
+                    max={duplicataValor === sub ? 0 : sub - duplicataValor}
                     onBlur={(event, value, maskedValue) => {
                       setDinheiroValor(value);
                     }}
                   />
+                  <div style={{ width: `88px` }} />
+                  <div style={{ width: `133px` }} />
                   <div
                     className="adicionar-pagamento"
                     onClick={() => {
                       let array = quantityPayment;
                       array.splice(quantityPayment.length - 1, 1);
-                      setDuplicata(false);
                       setDinheiro(false);
+                      setDinheiroValor(0);
                       setQuantityPayment(array);
                     }}
                   >
@@ -449,6 +489,15 @@ function OrderFinish() {
                       DUPLICATA
                     </option>
                   </select>
+                  <IntlCurrencyInput
+                    currency="BRL"
+                    config={currencyConfig}
+                    max={dinheiroValor === sub ? 0 : sub - dinheiroValor}
+                    value={duplicataValor}
+                    onChange={(event, value, maskedValue) => {
+                      setDuplicataValor(value);
+                    }}
+                  />
                   <select
                     name="duplicataParcelas"
                     ref={register}
@@ -459,7 +508,14 @@ function OrderFinish() {
                       Parcelas
                     </option>
                     {totalParcelasDuplicata.map((parcela) => (
-                      <option value={parcela}>{parcela}</option>
+                      <option
+                        value={parcela}
+                        selected={
+                          parcela === paymentInstallments ? true : false
+                        }
+                      >
+                        {parcela}
+                      </option>
                     ))}
                   </select>
                   <select
@@ -472,26 +528,27 @@ function OrderFinish() {
                       Intervalo dias
                     </option>
                     {stringParcelas?.map((intervaloDias, index) => (
-                      <option value={codParcelasDias[index]}>
+                      <option
+                        value={codParcelasDias[index]}
+                        selected={
+                          parseInt(codDayPaymentInstallment) ===
+                          parseInt(codParcelasDias[index])
+                            ? true
+                            : false
+                        }
+                      >
                         {intervaloDias}
                       </option>
                     ))}
                   </select>
-                  <IntlCurrencyInput
-                    currency="BRL"
-                    config={currencyConfig}
-                    max={sub - dinheiroValor}
-                    onChange={(event, value, maskedValue) => {
-                      setDuplicataValor(value);
-                    }}
-                  />
+
                   <div
                     className="adicionar-pagamento"
                     onClick={() => {
                       let array = quantityPayment;
                       array.splice(quantityPayment.length - 1, 1);
                       setDuplicata(false);
-                      setDinheiro(false);
+                      setDuplicataValor(0);
                       setQuantityPayment(array);
                     }}
                   >
