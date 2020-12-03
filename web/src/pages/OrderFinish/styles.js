@@ -104,27 +104,8 @@ export const Finish = styled.button`
 `;
 
 export const Payments = styled.div`
-  width: 90%;
-  margin: 0 auto;
-  .formas-de-pagamento {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    button {
-      border: none;
-      padding: 8px 16px;
-      font-size: 18px;
-      font-weight: 400;
-      border-radius: 8px;
-      color: white;
-      background-color: #364f6b;
-      margin: 0 auto;
-    }
-    button:hover {
-      transition: 0.2s ease-out;
-      background-color: #263c54;
-    }
-  }
+  width: 66%;
+  margin: 0 auto 0 60px;
 
   @media (max-width: 1000px) {
     h2 {
@@ -164,7 +145,18 @@ export const TwoPayment = styled.div`
     display: flex;
     justify-content: space-between;
   }
-
+  .adicionar-pagamento {
+    cursor: pointer;
+    padding: 10px 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: red;
+    border-radius: 8px;
+    svg {
+      margin: 0;
+    }
+  }
   @media (max-width: 1300px) {
     div {
       display: flex;
@@ -188,7 +180,7 @@ export const OnePayment = styled.div`
 
   .adicionar-pagamento {
     cursor: pointer;
-    padding: 4px 12px;
+    padding: 10px 8px;
     display: flex;
     justify-content: center;
     align-items: center;

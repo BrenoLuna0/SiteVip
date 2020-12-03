@@ -7,7 +7,8 @@ import IntlCurrencyInput from "react-intl-currency-input";
 import { numberFormat } from "../../utils/currency";
 
 //estilos
-import { FaShoppingCart, FaWindowClose, FaPlus } from "react-icons/fa";
+import { FaShoppingCart, FaPlus } from "react-icons/fa";
+import { AiOutlineClose } from "react-icons/ai";
 import {
   Container,
   Finish,
@@ -50,7 +51,6 @@ function OrderFinish() {
   const [paymentInstallments, setPaymentInstallments] = useState(1);
   const [quantityPayment, setQuantityPayment] = useState([1]);
   const [codDayPaymentInstallment, setCodDayPaymentInstallment] = useState();
-  const [remaining, setRemaining] = useState(0);
 
   const { data, error } = useAxios(
     `/cart?filial=${sessionStorage.getItem(
@@ -183,15 +183,14 @@ function OrderFinish() {
       codIntervaloDias: codDayPaymentInstallment, //ok
     };
 
-    const returning = await api.post("/checkout", object);
-    const sucessDeleting = await api.delete(
-      `/deleteCart?clieCod=${sessionStorage.getItem(
-        "codigo"
-      )}&filial=${sessionStorage.getItem("filial")}`
-    );
-
-    window.location.href = "/";
-    window.location.href = `/order/${returning.data.davCode}`;
+    //const returning = await api.post("/checkout", object);
+    // const sucessDeleting = await api.delete(
+    //   `/deleteCart?clieCod=${sessionStorage.getItem(
+    //     "codigo"
+    //   )}&filial=${sessionStorage.getItem("filial")}`
+    // );
+    // window.location.href = "/";
+    // window.location.href = `/order/${returning.data.davCode}`;
   }
 
   if (error) {
@@ -334,9 +333,8 @@ function OrderFinish() {
                       config={currencyConfig}
                       value={sub}
                       max={sub}
-                      onBlur={(event, value) => {
+                      onChange={(event, value) => {
                         setDinheiroValor(value);
-                        setRemaining(sub - value);
                       }}
                     />
                     <div
@@ -355,7 +353,7 @@ function OrderFinish() {
                         }
                       }}
                     >
-                      <FaPlus color="white" size={14} />
+                      <FaPlus color="white" size={10} />
                     </div>
                   </>
                 )}
@@ -366,9 +364,8 @@ function OrderFinish() {
                       config={currencyConfig}
                       max={sub}
                       value={sub}
-                      onBlur={(event, value) => {
+                      onChange={(event, value) => {
                         setDinheiroValor(value);
-                        setRemaining(sub - value);
                       }}
                     />
                     <div
@@ -418,20 +415,13 @@ function OrderFinish() {
                   <IntlCurrencyInput
                     currency="BRL"
                     config={currencyConfig}
-                    max={remaining === 0 ? sub : sub - duplicataValor}
+                    max={sub - duplicataValor}
                     onBlur={(event, value, maskedValue) => {
                       setDinheiroValor(value);
-                      if (remaining === 0) {
-                        setRemaining(sub - value);
-                      } else {
-                        setRemaining(sub - (dinheiroValor + duplicataValor));
-                      }
                     }}
                   />
-                  <FaWindowClose
-                    className="display-flex"
-                    size={18}
-                    color="red"
+                  <div
+                    className="adicionar-pagamento"
                     onClick={() => {
                       let array = quantityPayment;
                       array.splice(quantityPayment.length - 1, 1);
@@ -439,7 +429,9 @@ function OrderFinish() {
                       setDinheiro(false);
                       setQuantityPayment(array);
                     }}
-                  />
+                  >
+                    <AiOutlineClose size={18} color="white" />
+                  </div>
                 </SelectPayment>
                 <SelectPayment className="duas-formas">
                   <select
@@ -488,22 +480,13 @@ function OrderFinish() {
                   <IntlCurrencyInput
                     currency="BRL"
                     config={currencyConfig}
-                    max={remaining === 0 ? sub : sub - dinheiroValor}
+                    max={sub - dinheiroValor}
                     onChange={(event, value, maskedValue) => {
                       setDuplicataValor(value);
-                      if (
-                        remaining === 0 &&
-                        sub - (dinheiroValor + duplicataValor) !== 0
-                      ) {
-                        setRemaining(sub - value);
-                      } else {
-                        setRemaining(sub - (dinheiroValor + duplicataValor));
-                      }
                     }}
                   />
-                  <FaWindowClose
-                    size={18}
-                    color="red"
+                  <div
+                    className="adicionar-pagamento"
                     onClick={() => {
                       let array = quantityPayment;
                       array.splice(quantityPayment.length - 1, 1);
@@ -511,7 +494,9 @@ function OrderFinish() {
                       setDinheiro(false);
                       setQuantityPayment(array);
                     }}
-                  />
+                  >
+                    <AiOutlineClose size={18} color="white" />
+                  </div>
                 </SelectPayment>
               </TwoPayment>
             </>
