@@ -106,7 +106,13 @@ export const Finish = styled.button`
 export const Payments = styled.div`
   width: 66%;
   margin: 0 auto 0 60px;
-
+  .resta {
+    margin-top: 12px;
+    display: flex;
+    h4 {
+      margin-right: 10px;
+    }
+  }
   @media (max-width: 1000px) {
     h2 {
       font-size: 22px;

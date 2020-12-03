@@ -297,12 +297,16 @@ function OrderFinish() {
             <h2 style={{ fontSize: "28px" }}>FORMAS DE PAGAMENTO</h2>
           </div>
           <div className="resta">
-            <h4>
-              RESTA A PAGAR:{" "}
-              {sub - dinheiroValor - duplicataValor >= 0
-                ? numberFormat(sub - dinheiroValor - duplicataValor)
-                : numberFormat(0)}
-            </h4>
+            {sub - dinheiroValor - duplicataValor < 0 && (
+              <h4>VERIFIQUE OS VALORES A SEREM PAGOS</h4>
+            )}
+            {sub - dinheiroValor - duplicataValor >= 0 && (
+              <h4>
+                RESTA A PAGAR:{" "}
+                {numberFormat(sub - dinheiroValor - duplicataValor)}
+              </h4>
+            )}
+            <h4>| SUBTOTAL: {numberFormat(sub)}</h4>
           </div>
           {quantityPayment.length === 1 && (
             <SelectPayment>
@@ -559,9 +563,7 @@ function OrderFinish() {
             </>
           )}
         </Payments>
-        <div className="remaining">
-          <h2>SUBTOTAL: {numberFormat(sub)}</h2>
-        </div>
+
         <div className="button-buy-footer">
           <Link to="/finalizar-pedido">
             <Finish type="submit" onClick={(e) => handleSendOrder(e)}>
