@@ -9,7 +9,7 @@ function ProductNotFound() {
   return (
     <Container>
       <div className="back">
-        <Link to="/">
+        <Link to="/home">
           <FaArrowLeft />
           <span>Voltar para a home</span>
         </Link>

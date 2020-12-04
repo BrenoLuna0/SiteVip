@@ -74,7 +74,7 @@ function Component() {
 
         <Header>
           <div className="logo">
-            <Link to="/">
+            <Link to="/home">
               <img
                 className="logo"
                 src={`${process.env.PUBLIC_URL}/images/vip_logo.png`}

@@ -24,7 +24,7 @@ function LoginEnterprise() {
 
     if (result) {
       sessionStorage.setItem("filial", selectOption);
-      window.location.href = "/";
+      window.location.href = "/home";
     } else {
       toast.error("Login ou senha inválidos. Tente novamente.", {
         position: "top-center",
@@ -58,10 +58,6 @@ function LoginEnterprise() {
   return (
     <Container>
       <ContainerBody>
-        <div className="return" onClick={() => (window.location.href = "/")}>
-          <FaArrowLeft size={18} color="black" />
-          <span>Voltar para o inicio</span>
-        </div>
         <div className="img-container">
           <img src="/images/vip_logo.png" alt="Logo VIP" />
         </div>

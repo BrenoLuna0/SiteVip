@@ -17,7 +17,7 @@ function CartEmpty() {
         <div>
           <p>O carrinho está vazio :(</p>
           <p> Deseja olhar outros produtos?</p>
-          <Link to="/">
+          <Link to="/home">
             <span>
               <FaCartPlus size={20} color="#666" /> Continuar comprando
             </span>

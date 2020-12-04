@@ -17,12 +17,6 @@ function Footer() {
             <h2>Categorias</h2>
             <ul>
               <li>
-                <Link to="/">Todas as categorias</Link>
-              </li>
-              <li>
-                <Link to="/">Perifericos</Link>
-              </li>
-              <li>
                 <Link to="/products?category=ACESSORIOS">Acessórios</Link>
               </li>
               <li>

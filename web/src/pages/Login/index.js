@@ -80,7 +80,7 @@ function Login() {
                 {errors.senha && <span>Senha obrigatória.</span>}
               </InputPassword>
               <div className="remember-password">
-                <Link to="/">
+                <Link to="/home">
                   <span>
                     <GiPadlock size={18} />
                   </span>

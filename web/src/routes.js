@@ -24,31 +24,42 @@ const Routes = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/login-empresa" component={LoginEnterprise} />
+        <Route exact path="/" component={LoginEnterprise} />
 
-        <Route exact path="/" render={(props) => <Main />} />
+        <Route
+          exact
+          path="/home"
+          render={(props) => (isSignedIn() ? <Main /> : <Redirect to="/" />)}
+        />
 
         <Route
           exact
           path="/meus-pedidos"
-          render={(props) => <MyAccount {...props} />}
+          render={(props) =>
+            isSignedIn() ? <MyAccount {...props} /> : <Redirect to="/" />
+          }
         />
         <Route
           exact
           path="/meus-pedidos/:id"
-          render={(props) => <DetailsOrder {...props} />}
+          render={(props) =>
+            isSignedIn() ? <DetailsOrder {...props} /> : <Redirect to="/" />
+          }
         />
         <Route
           exact
           path="/products"
-          render={(props) => <Products {...props} />}
+          render={(props) =>
+            isSignedIn() ? <Products {...props} /> : <Redirect to="/" />
+          }
         />
 
         <Route
           exact
           path="/products/:prodCodigo"
-          render={(props) => <DetailsProduct />}
+          render={(props) =>
+            isSignedIn() ? <DetailsProduct /> : <Redirect to="/" />
+          }
         />
 
         <Route
@@ -58,8 +69,6 @@ const Routes = () => {
             isSignedIn() ? <OrderFinish /> : <Redirect to={{ pathname: "/" }} />
           }
         />
-
-        <Route exact path="/nova-conta" component={NewAccount} />
 
         <Route
           exact
@@ -79,6 +88,7 @@ const Routes = () => {
             )
           }
         />
+
         <Route
           exact
           path="/meus-pedidos/:idPedido/impressao"
@@ -90,16 +100,17 @@ const Routes = () => {
             )
           }
         />
-        <Route
-          exact
-          path="/pesquisar"
-          render={(props) => <SearchResult {...props} />}
-        />
 
         <Route
           exact
-          path="/esqueci-minha-senha"
-          render={(props) => <PasswordForgot {...props} />}
+          path="/pesquisar"
+          render={(props) =>
+            isSignedIn() ? (
+              <SearchResult {...props} />
+            ) : (
+              <Redirect to={{ pathname: "/" }} />
+            )
+          }
         />
 
         <Route component={NotFound} />
