@@ -137,9 +137,13 @@ function Detail() {
           <DetailsProducts>
             <h1>{data?.product?.PROD_DESCRICAO}</h1>
             <div>
-              {data?.product?.PROD_QTD_ATUAL > 0 && <ProductDisp />}
-
-              {data?.product?.PROD_QTD_ATUAL === 0 && <ProductUnavailable />}
+              {data?.product?.PROD_QTD_ATUAL === 0 ||
+              verificacao?.produto?.PROD_QTD_ATUAL ===
+                verificacao?.results[0]?.PROD_QTD ? (
+                <ProductUnavailable />
+              ) : (
+                <ProductDisp />
+              )}
 
               <div className="price">
                 {data?.product?.PROD_PRECO_VENDA?.toLocaleString("pt-br", {
@@ -149,12 +153,6 @@ function Detail() {
               </div>
 
               <div className="buy-button">
-                {console.log(
-                  "Produto quantidade: " +
-                    verificacao?.produto?.PROD_QTD_ATUAL +
-                    "Carrinho quantidade: " +
-                    verificacao?.results[0]?.PROD_QTD
-                )}
                 {data?.product?.PROD_QTD_ATUAL === 0 ||
                 verificacao?.produto?.PROD_QTD_ATUAL ===
                   verificacao?.results[0]?.PROD_QTD ? (

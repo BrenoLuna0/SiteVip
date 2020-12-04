@@ -18,7 +18,7 @@ function ProductResult({ name, picture, quantity, id, price }) {
       "filial"
     )}&codigo=${sessionStorage.getItem("codigo")}&prodCodigo=${id}`
   );
-  console.log(data.results[0].PROD_QTD, data.produto.PROD_QTD_ATUAL);
+
   return (
     <ContainerBody>
       <Container>
@@ -50,11 +50,11 @@ function ProductResult({ name, picture, quantity, id, price }) {
 
         <BuyContainer>
           <p>{price}</p>
-          {quantity > 0 ||
-          data.results[0].PROD_QTD < data.produto.PROD_QTD_ATUAL ? (
-            <ButtonBuy id={id} title="Adicionar ao carrinho" />
-          ) : (
+          {quantity === 0 ||
+          data.results[0].PROD_QTD === data.produto.PROD_QTD_ATUAL ? (
             <ButtonUnavailable />
+          ) : (
+            <ButtonBuy id={id} title="Adicionar ao carrinho" />
           )}
         </BuyContainer>
       </Container>
