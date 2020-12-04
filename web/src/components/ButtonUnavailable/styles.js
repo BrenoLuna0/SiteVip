@@ -10,8 +10,9 @@ export const Container = styled.div`
     width: 100%;
     height: 50px;
     justify-content: space-between;
-
+    color: white !important;
     p {
+      font-weight: bold;
       margin-top: 10px;
       margin-left: 16px;
       text-align: center;

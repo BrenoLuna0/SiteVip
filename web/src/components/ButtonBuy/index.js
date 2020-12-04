@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { isSignedIn } from "../../services/auth";
 import "react-toastify/dist/ReactToastify.css";
 
+import { useAxios } from "../../hooks/useAxios";
 import api from "../../services/api";
 
 function ButtonBuy({ id, title }) {
@@ -12,6 +13,22 @@ function ButtonBuy({ id, title }) {
 
   async function insertItems(prodCodigo, value) {
     if (isSignedIn()) {
+      const { data } = await api.get(
+        `/cartItem?filial=${sessionStorage.getItem(
+          "filial"
+        )}&codigo=${sessionStorage.getItem("codigo")}&prodCodigo=${id}`
+      );
+      if (data.results[0].PROD_QTD >= data.produto.PROD_QTD_ATUAL) {
+        toast.error("Erro ao carregar produto, tente novamente mais tarde.", {
+          position: "top-center",
+          autoClose: 5000,
+          closeOnClick: true,
+          hideProgressBar: true,
+          draggable: true,
+          progress: undefined,
+        });
+        return;
+      }
       await api
         .post("/cart", {
           prodQtd: value,

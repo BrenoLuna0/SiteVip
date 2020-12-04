@@ -7,7 +7,7 @@ function ButtonUnavailable() {
   return (
     <Container>
       <button>
-        <p>Produto Indisponível </p>
+        <p>PRODUTO INDISPONÍVEL </p>
         <span>
           <FaTimes size={24} />
         </span>

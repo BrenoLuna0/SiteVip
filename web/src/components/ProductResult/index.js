@@ -13,12 +13,12 @@ import ButtonUnavailable from "../ButtonUnavailable";
 import { useAxios } from "../../hooks/useAxios";
 
 function ProductResult({ name, picture, quantity, id, price }) {
-  const filial = sessionStorage.getItem("filial");
-
   const { data } = useAxios(
-    `/products/${id}?filial=${filial === null ? 2 : filial}`
+    `/cartItem?filial=${sessionStorage.getItem(
+      "filial"
+    )}&codigo=${sessionStorage.getItem("codigo")}&prodCodigo=${id}`
   );
-
+  console.log(data.results[0].PROD_QTD, data.produto.PROD_QTD_ATUAL);
   return (
     <ContainerBody>
       <Container>
@@ -50,7 +50,8 @@ function ProductResult({ name, picture, quantity, id, price }) {
 
         <BuyContainer>
           <p>{price}</p>
-          {quantity > 0 ? (
+          {quantity > 0 ||
+          data.results[0].PROD_QTD < data.produto.PROD_QTD_ATUAL ? (
             <ButtonBuy id={id} title="Adicionar ao carrinho" />
           ) : (
             <ButtonUnavailable />

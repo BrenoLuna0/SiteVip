@@ -29,6 +29,12 @@ function Detail() {
     `/products/${prodCodigo}?filial=${filial === null ? 2 : filial}`
   );
 
+  const { data: verificacao } = useAxios(
+    `/cartItem?filial=${sessionStorage.getItem(
+      "filial"
+    )}&codigo=${sessionStorage.getItem("codigo")}&prodCodigo=${prodCodigo}`
+  );
+
   if (error) {
     return (
       <>
@@ -143,13 +149,21 @@ function Detail() {
               </div>
 
               <div className="buy-button">
-                {data?.product?.PROD_QTD_ATUAL > 0 ? (
+                {console.log(
+                  "Produto quantidade: " +
+                    verificacao?.produto?.PROD_QTD_ATUAL +
+                    "Carrinho quantidade: " +
+                    verificacao?.results[0]?.PROD_QTD
+                )}
+                {data?.product?.PROD_QTD_ATUAL === 0 ||
+                verificacao?.produto?.PROD_QTD_ATUAL ===
+                  verificacao?.results[0]?.PROD_QTD ? (
+                  <ButtonUnavailable />
+                ) : (
                   <ButtonBuy
                     id={data?.product.PROD_CODIGO}
                     title="Adicionar ao carrinho"
                   />
-                ) : (
-                  <ButtonUnavailable />
                 )}
               </div>
             </div>
