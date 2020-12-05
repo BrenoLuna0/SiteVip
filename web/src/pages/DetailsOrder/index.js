@@ -53,13 +53,10 @@ function DetailsOrder(props) {
   let valorDinheiro;
   let valorDuplicata;
 
-  const date = paymentMethod?.currency[0].DAV_DATA_ABERTURA;
-  const dataDav = new Date(date);
-  const formatedDate = `${
-    dataDav.getDay() >= 10 ? dataDav.getDay() : `0${dataDav.getDay()}`
-  }/${
-    dataDav.getMonth() >= 10 ? dataDav.getMonth() : `0${dataDav.getMonth()}`
-  }/${dataDav.getFullYear()}`;
+  const date = paymentMethod?.currency[0].DAV_DATA_ABERTURA.slice(0, 10);
+  let dataDav = date?.split('-');
+  dataDav = dataDav?.reverse();
+  let formatedDate = dataDav?.join('/');
 
   const methodPaymentFiltred = paymentMethod?.methodPaymentDav?.map((item) => {
     if (item.FORM_PAGT_CODIGO === 18) {
@@ -339,7 +336,7 @@ function DetailsOrder(props) {
               valorDinheiro,
               paymentMethod,
               itens,
-              formatedDate,
+              formatedDate
             },
           }}
         >
