@@ -67,7 +67,6 @@ function OrderFinish() {
     sub += product.PROD_PRECO_VENDA * product.PROD_QTD;
     return sub;
   });
-
   sub = parseFloat(sub.toFixed(2));
   let totalParcelasDuplicata = [];
   for (let i = 0; i < data?.parcelas[1].FORM_PAGT_NUM_PARCELA; i++) {
@@ -194,15 +193,14 @@ function OrderFinish() {
       itens: data.products, //ok
       codIntervaloDias: codDayPaymentInstallment, //ok
     };
-    console.log(object);
-    //const returning = await api.post("/checkout", object);
-    // const sucessDeleting = await api.delete(
-    //   `/deleteCart?clieCod=${sessionStorage.getItem(
-    //     "codigo"
-    //   )}&filial=${sessionStorage.getItem("filial")}`
-    // );
-    // window.location.href = "/";
-    // window.location.href = `/order/${returning.data.davCode}`;
+    const returning = await api.post("/checkout", object);
+    const sucessDeleting = await api.delete(
+      `/deleteCart?clieCod=${sessionStorage.getItem(
+        "codigo"
+      )}&filial=${sessionStorage.getItem("filial")}`
+    );
+    window.location.href = "/";
+    window.location.href = `/order/${returning.data.davCode}`;
   }
 
   if (error) {
@@ -266,7 +264,6 @@ function OrderFinish() {
       </>
     );
   }
-
   return (
     <>
       <Header />
@@ -297,13 +294,15 @@ function OrderFinish() {
             <h2 style={{ fontSize: "28px" }}>FORMAS DE PAGAMENTO</h2>
           </div>
           <div className="resta">
-            {sub - dinheiroValor - duplicataValor < 0 && (
+            {sub - (dinheiroValor + duplicataValor).toFixed(2) < 0 && (
               <h4>VERIFIQUE OS VALORES A SEREM PAGOS</h4>
             )}
-            {sub - dinheiroValor - duplicataValor >= 0 && (
+            {sub - (dinheiroValor + duplicataValor).toFixed(2) >= 0 && (
               <h4>
                 RESTA A PAGAR:{" "}
-                {numberFormat(sub - dinheiroValor - duplicataValor)}
+                {numberFormat(
+                  sub - (dinheiroValor + duplicataValor).toFixed(2)
+                )}
               </h4>
             )}
             <h4>| SUBTOTAL: {numberFormat(sub)}</h4>
@@ -347,7 +346,17 @@ function OrderFinish() {
                         Parcelas
                       </option>
                       {totalParcelasDuplicata.map((parcela) => (
-                        <option value={parcela}>{parcela}</option>
+                        <option
+                          value={parcela}
+                          selected={
+                            paymentInstallments === parcela &&
+                            codDayPaymentInstallment !== undefined
+                              ? true
+                              : false
+                          }
+                        >
+                          {parcela}
+                        </option>
                       ))}
                     </select>
                     <select
@@ -457,8 +466,12 @@ function OrderFinish() {
                     currency="BRL"
                     config={currencyConfig}
                     value={dinheiroValor}
-                    max={duplicataValor === sub ? 0 : sub - duplicataValor}
-                    onBlur={(event, value, maskedValue) => {
+                    max={
+                      duplicataValor === sub
+                        ? 0
+                        : (sub - duplicataValor).toFixed(2)
+                    }
+                    onChange={(event, value, maskedValue) => {
                       setDinheiroValor(value);
                     }}
                   />
@@ -496,7 +509,11 @@ function OrderFinish() {
                   <IntlCurrencyInput
                     currency="BRL"
                     config={currencyConfig}
-                    max={dinheiroValor === sub ? 0 : sub - dinheiroValor}
+                    max={
+                      dinheiroValor === sub
+                        ? 0
+                        : (sub - dinheiroValor).toFixed(2)
+                    }
                     value={duplicataValor}
                     onChange={(event, value, maskedValue) => {
                       setDuplicataValor(value);
@@ -553,6 +570,8 @@ function OrderFinish() {
                       array.splice(quantityPayment.length - 1, 1);
                       setDuplicata(false);
                       setDuplicataValor(0);
+                      setCodDayPaymentInstallment(undefined);
+                      setPaymentInstallments(1);
                       setQuantityPayment(array);
                     }}
                   >

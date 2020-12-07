@@ -30,21 +30,13 @@ function Main() {
           <Container>
             <Carousel>
               <Carousel.Item>
-                <Link to="/products/22957">
+                <Link to="/home">
                   <img src="/images/headset-fortrek.png" alt="" />
                 </Link>
               </Carousel.Item>
               <Carousel.Item>
-                <Link to="/products/22932">
+                <Link to="/home">
                   <img src="/images/banner-cadeiras.png" alt="" />
-                </Link>
-              </Carousel.Item>
-              <Carousel.Item>
-                <Link
-                  to="/pesquisar?name=IMPRESSORA%20EPSON"
-                  className="img-flex"
-                >
-                  <img src="/images/impressora-epson.png" alt="" />
                 </Link>
               </Carousel.Item>
             </Carousel>
@@ -100,21 +92,13 @@ function Main() {
         <Container>
           <Carousel>
             <Carousel.Item>
-              <Link to="/products/22957" className="img-flex">
+              <Link to="/home" className="img-flex">
                 <img src="/images/headset-fortrek.png" alt="" />
               </Link>
             </Carousel.Item>
             <Carousel.Item>
-              <Link to="/products/22932" className="img-flex">
+              <Link to="/home" className="img-flex">
                 <img src="/images/banner-cadeiras.png" alt="" />
-              </Link>
-            </Carousel.Item>
-            <Carousel.Item>
-              <Link
-                to="/pesquisar?name=IMPRESSORA%20EPSON"
-                className="img-flex"
-              >
-                <img src="/images/impressora-epson.png" alt="" />
               </Link>
             </Carousel.Item>
           </Carousel>

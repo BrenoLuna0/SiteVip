@@ -14,9 +14,9 @@ import { numberFormat } from "../../utils/currency";
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
+    margin: "30px 0",
   },
   idDavStyle: {
-    marginTop: "30px",
     fontSize: 14,
     textAlign: "center",
   },
@@ -131,7 +131,8 @@ const ContentPrint = ({
                       PREÇO UNITÁRIO: {numberFormat(product.PRECO_DAV_UN)}
                     </Text>
                     <Text style={{ fontSize: 10, marginBottom: 4 }}>
-                      TOTAL: {numberFormat(product.PRECO_DAV_UN)}{" "}
+                      TOTAL:{" "}
+                      {numberFormat(product.PRECO_DAV_UN * product.QTD_ITEM)}{" "}
                     </Text>
                   </View>
                 </View>

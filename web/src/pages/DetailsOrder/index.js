@@ -53,10 +53,15 @@ function DetailsOrder(props) {
   let valorDinheiro;
   let valorDuplicata;
 
-  const date = paymentMethod?.currency[0].DAV_DATA_ABERTURA.slice(0, 10);
-  let dataDav = date?.split('-');
-  dataDav = dataDav?.reverse();
-  let formatedDate = dataDav?.join('/');
+  let date, dataDav, formatedDate;
+  if (paymentMethod?.currency[0].DAV_DATA_ABERTURA === null) {
+    formatedDate = "DATA NÃO INFORMADA";
+  } else {
+    date = paymentMethod?.currency[0].DAV_DATA_ABERTURA.slice(0, 10);
+    dataDav = date?.split("-");
+    dataDav = dataDav?.reverse();
+    formatedDate = dataDav?.join("/");
+  }
 
   const methodPaymentFiltred = paymentMethod?.methodPaymentDav?.map((item) => {
     if (item.FORM_PAGT_CODIGO === 18) {
@@ -178,6 +183,18 @@ function DetailsOrder(props) {
                 />
               </h5>
             </div>
+            <div className="payment-total">
+              <h4>DATA DO PEDIDO: </h4>
+              <h5>
+                {" "}
+                <Skeleton
+                  variant="text"
+                  width={"50%"}
+                  height={30}
+                  animation="wave"
+                />
+              </h5>
+            </div>
           </DetailsPayment>
         </Container>
         <Footer />
@@ -211,6 +228,10 @@ function DetailsOrder(props) {
               <h5 style={{ marginTop: "6px" }}>
                 TOTAL: {numberFormat(paymentMethod?.currency[0].DAV_TOTAL)}
               </h5>
+            </div>
+            <div className="payment-total">
+              <h4>DATA DO PEDIDO: </h4>
+              <h5>{formatedDate}</h5>
             </div>
           </DetailsPayment>
           <ErrorContainer>
@@ -248,8 +269,16 @@ function DetailsOrder(props) {
                   <dt>{payment}</dt>
                   {payment === "DUPLICATA" && (
                     <>
-                      <dd>INTERVALO DOS DIAS: {parcelasString}</dd>
-                      <dd>NÚMERO DE PARCELAS: {numParcelas}</dd>
+                      <dd>
+                        INTERVALO DOS DIAS:{" "}
+                        {parcelasString ? parcelasString : "NÃO INFORMADO"}
+                      </dd>
+                      <dd>
+                        NÚMERO DE PARCELAS:{" "}
+                        {numParcelas[0] !== null
+                          ? numParcelas
+                          : "NÃO INFORMADO"}
+                      </dd>
                       <dd>VALOR PAGO: {numberFormat(valorDuplicata)}</dd>
                     </>
                   )}
@@ -315,7 +344,7 @@ function DetailsOrder(props) {
                     </div>
                     <div>
                       <h5>TOTAL:</h5>
-                      {numberFormat(product.PRECO_DAV_UN)}
+                      {numberFormat(product.PRECO_DAV_UN * product.QTD_ITEM)}
                     </div>
                   </div>
                 </div>
@@ -336,7 +365,7 @@ function DetailsOrder(props) {
               valorDinheiro,
               paymentMethod,
               itens,
-              formatedDate
+              formatedDate,
             },
           }}
         >

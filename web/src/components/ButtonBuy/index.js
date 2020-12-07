@@ -18,7 +18,7 @@ function ButtonBuy({ id, title }) {
           "filial"
         )}&codigo=${sessionStorage.getItem("codigo")}&prodCodigo=${id}`
       );
-      if (data.results[0].PROD_QTD >= data.produto.PROD_QTD_ATUAL) {
+      if (data?.results[0]?.PROD_QTD >= data?.produto?.PROD_QTD_ATUAL) {
         toast.error("Erro ao carregar produto, tente novamente mais tarde.", {
           position: "top-center",
           autoClose: 5000,
@@ -49,7 +49,6 @@ function ButtonBuy({ id, title }) {
           }
         })
         .catch((err) => {
-          console.log(err);
           alert("Erro ao carregar carrinho");
         });
     } else {
