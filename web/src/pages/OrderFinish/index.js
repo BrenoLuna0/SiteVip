@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Skeleton from "@material-ui/lab/Skeleton";
@@ -471,7 +471,7 @@ function OrderFinish() {
                         ? 0
                         : (sub - duplicataValor).toFixed(2)
                     }
-                    onChange={(event, value, maskedValue) => {
+                    onBlur={(event, value, maskedValue) => {
                       setDinheiroValor(value);
                     }}
                   />
@@ -515,7 +515,7 @@ function OrderFinish() {
                         : (sub - dinheiroValor).toFixed(2)
                     }
                     value={duplicataValor}
-                    onChange={(event, value, maskedValue) => {
+                    onBlur={(event, value, maskedValue) => {
                       setDuplicataValor(value);
                     }}
                   />

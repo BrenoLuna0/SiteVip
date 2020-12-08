@@ -4,7 +4,6 @@ import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 import { isSignedIn } from "./services/auth";
 
-import Login from "./pages/Login";
 import LoginEnterprise from "./pages/LoginEnterprise";
 import Main from "./pages/Main";
 import Products from "./pages/Products";
@@ -16,8 +15,6 @@ import NumberOrder from "./pages/NumberOrder";
 import MyAccount from "./pages/MyAccount";
 import NotFound from "./pages/NotFound";
 import DetailsOrder from "./pages/DetailsOrder";
-import PasswordForgot from "./pages/PasswordForgot";
-import NewAccount from "./pages/NewAccount";
 import PagePrint from "./pages/PagePrint";
 
 const Routes = () => {
