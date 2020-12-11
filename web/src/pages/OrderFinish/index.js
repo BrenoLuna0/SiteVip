@@ -185,7 +185,7 @@ function OrderFinish() {
       codigo: sessionStorage.getItem("codigo"), //ok
       filial: sessionStorage.getItem("filial"), //ok
       formPagtCodigo, //ok
-      intervalo: "TESTE NAO FATURAR!", //ok
+      intervalo: "", //ok
       quantidadeDePagamentos: quantityPayment.length, //ok
       qtdMetodoPagamento: quantityPayment.length, //ok duplicado
       parcelas: quantidadeParcelas, // ok
